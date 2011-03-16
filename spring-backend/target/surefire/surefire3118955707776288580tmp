@@ -1,0 +1,5 @@
+#surefire
+#Wed Mar 16 20:13:10 CET 2011
+user.dir=/Users/ben/Documents/projects/mixnmatch/backend/spring-backend
+localRepository=/Users/ben/.m2/repository
+basedir=/Users/ben/Documents/projects/mixnmatch/backend/spring-backend
