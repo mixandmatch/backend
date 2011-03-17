@@ -3,6 +3,8 @@ package de.metafinanz.mixnmatch.backend.rest;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +16,7 @@ import de.metafinanz.mixnmatch.backend.model.Location;
 @Controller
 @RequestMapping("/locations")
 public class LocationController {
+   private Logger logger = LoggerFactory.getLogger(getClass());
    
    private List<Location> locations = new LinkedList<Location>();
    
@@ -26,13 +29,13 @@ public class LocationController {
    
    @RequestMapping(method = RequestMethod.GET)
    public @ResponseBody List<Location> listLocations(){
-      System.out.println("LocationController.listLocations()");
+      logger.debug( " > entering listLocations()" );
       return locations;
    }
    
    @RequestMapping(value="/nearby",method = RequestMethod.GET)
    public @ResponseBody List<Location> listNearbyLocations(@RequestParam String lat, @RequestParam String lon){
-      System.out.println("LocationController.listNearbyLocations()");
+      logger.debug(" > entering listNearbyLocations({})", lat, lon);
       return locations.subList(0, 2);
    }
 
