@@ -4,14 +4,34 @@
 
 <web-app>
 	<display-name>Archetype Created Web Application</display-name>
+
+
+	<filter>
+		<!-- http://jpgmr.wordpress.com/2010/07/28/tutorial-implementing-a-servlet-filter-for-jsonp-callback-with-springs-delegatingfilterproxy/ -->
+		<filter-name>jsonpCallbackFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>jsonpCallbackFilter</filter-name>
+		<url-pattern>*</url-pattern>
+	</filter-mapping>
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
 	<servlet>
 		<servlet-name>mixnmatch</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
+		<load-on-startup>0</load-on-startup>
 	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>mixnmatch</servlet-name>
-		<url-pattern>mixnmatch/*</url-pattern>
+		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
+
+
+
 </web-app>
