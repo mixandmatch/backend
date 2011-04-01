@@ -2,8 +2,10 @@ package de.metafinanz.mixnmatch.backend.model;
 
 public class Location {
    private String label;
+   
+   private String key;
 
-   public Location(String label) {
+   public Location(String label, String key) {
       super();
       this.label = label;
    }
@@ -15,4 +17,12 @@ public class Location {
    public String getLabel() {
       return label;
    }
+
+public void setKey(String key) {
+	this.key = key;
+}
+
+public String getKey() {
+	return key;
+}
 }

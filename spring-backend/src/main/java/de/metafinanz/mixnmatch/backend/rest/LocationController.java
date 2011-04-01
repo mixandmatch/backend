@@ -21,10 +21,10 @@ public class LocationController {
    private List<Location> locations = new LinkedList<Location>();
    
    public LocationController() {
-      locations.add(new Location("HVU Mitarbeiterrestaurant"));
-      locations.add(new Location("VGU Mitarbeiterrestaurant"));
-      locations.add(new Location("MACE"));
-      locations.add(new Location("Kistenpfennig"));
+      locations.add(new Location("HVU Mitarbeiterrestaurant","HVU"));
+      locations.add(new Location("VGU Mitarbeiterrestaurant","VGU"));
+      locations.add(new Location("MACE","Mace"));
+      locations.add(new Location("Kistenpfennig","Kistenpfennig"));
    }
    
    @RequestMapping(method = RequestMethod.GET)
