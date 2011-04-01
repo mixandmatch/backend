@@ -8,6 +8,7 @@ public class Location {
    public Location(String label, String key) {
       super();
       this.label = label;
+      this.key = key;
    }
 
    public void setLabel(String label) {

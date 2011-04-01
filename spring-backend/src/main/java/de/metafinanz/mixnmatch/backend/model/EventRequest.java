@@ -12,6 +12,7 @@ public class EventRequest {
 	private String locationKey;
 	private Date date;
 	private String userid;
+	private String url;
 
 	public String getLocationKey() {
 		return locationKey;
@@ -37,6 +38,14 @@ public class EventRequest {
 
 	public void setUserid(String userid) {
 		this.userid = userid;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public String getUrl() {
+		return url;
 	}
 
 }

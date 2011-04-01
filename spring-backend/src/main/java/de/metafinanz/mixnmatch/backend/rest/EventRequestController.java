@@ -1,6 +1,7 @@
 package de.metafinanz.mixnmatch.backend.rest;
 
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,8 +32,15 @@ public class EventRequestController {
 		String date = simpleDateFormat.format(request.getDate());
 		String userid = request.getUserid();
 		String key = createUrl(locationKey, date, userid);
+		request.setUrl(key);
 		requests.put(key, request);
 		return "redirect:" + key;
+	}
+
+	@RequestMapping(method = { RequestMethod.GET })
+	public @ResponseBody
+	Collection<EventRequest> listAllRequests() {
+		return requests.values();
 	}
 
 	private String createUrl(String locationKey, String date, String userid) {
@@ -45,20 +53,21 @@ public class EventRequestController {
 		String key = keyBuilder.toString();
 		return key;
 	}
-	
+
 	@ExceptionHandler(EventNotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public void handleEventNotFound(EventNotFoundException e){
-		
+	public void handleEventNotFound(EventNotFoundException e) {
+
 	}
 
 	@RequestMapping(value = "/{location}/{date}/lunch/{user}", method = { RequestMethod.GET })
 	public @ResponseBody
 	EventRequest getRequest(@PathVariable String location,
-			@PathVariable String date, @PathVariable String user) throws EventNotFoundException {
+			@PathVariable String date, @PathVariable String user)
+			throws EventNotFoundException {
 		String url = createUrl(location, date, user);
 		EventRequest eventRequest = requests.get(url);
-		if(eventRequest == null){
+		if (eventRequest == null) {
 			throw new EventNotFoundException(url);
 		}
 		return eventRequest;
