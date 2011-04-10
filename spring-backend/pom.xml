@@ -71,6 +71,23 @@
 			<version>4.8.2</version>
 			<scope>test</scope>
 		</dependency>
+	    <!-- SimpleJPA Dependencies -->
+        <dependency>
+            <groupId>net.sf.scannotation</groupId>
+            <artifactId>scannotation</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.openjpa</groupId>
+            <artifactId>openjpa</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>persistence-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <!-- End SimpleJPA Dependencies -->
 	</dependencies>
 	<build>
 		<finalName>spring-backend</finalName>

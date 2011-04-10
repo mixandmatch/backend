@@ -3,8 +3,10 @@ package de.metafinanz.mixnmatch.backend.rest;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 
+import de.metafinanz.mixnmatch.backend.dao.MixandmatchDao;
 import de.metafinanz.mixnmatch.backend.model.EventRequest;
 
 @Controller
@@ -23,8 +26,19 @@ import de.metafinanz.mixnmatch.backend.model.EventRequest;
 public class EventRequestController {
 	private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
 
+	
 	private Map<String, EventRequest> requests = new HashMap<String, EventRequest>();
+	private MixandmatchDao dao;
+	
+	public MixandmatchDao getDao() {
+		return dao;
+	}
 
+	@Autowired
+	public void setDao(MixandmatchDao dao) {
+		this.dao = dao;
+	}
+	
 	@RequestMapping(method = { RequestMethod.POST })
 	public String createRequest(@RequestBody EventRequest request,
 			WebRequest webRequest) {
@@ -34,12 +48,18 @@ public class EventRequestController {
 		String key = createUrl(locationKey, date, userid);
 		request.setUrl(key);
 		requests.put(key, request);
+		dao.saveLunchRequest(request);
 		return "redirect:" + key;
 	}
 
 	@RequestMapping(method = { RequestMethod.GET })
 	public @ResponseBody
 	Collection<EventRequest> listAllRequests() {
+		List<EventRequest> list = dao.getAllRequests();
+		if (list != null)
+		{
+			return list;
+		}
 		return requests.values();
 	}
 
