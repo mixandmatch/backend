@@ -10,6 +10,7 @@ import javax.persistence.Query;
 import org.apache.openjpa.persistence.EntityManagerFactoryImpl;
 
 import de.metafinanz.mixnmatch.backend.model.EventRequest;
+import de.metafinanz.mixnmatch.backend.model.Location;
 
 public class MixandmatchDaoSimpleDBImpl implements MixandmatchDao {
 	
@@ -19,15 +20,15 @@ public class MixandmatchDaoSimpleDBImpl implements MixandmatchDao {
 	}
 	private static EntityManagerFactoryImpl factory = new EntityManagerFactoryImpl();
 	
-	public void saveLunchRequest(EventRequest eventRequest) {
+	public void saveLunchRequest(EventRequest pEventRequest) {
         EntityManager em = null;
 //      Storage fails if id is an empty string, so nullify it
-        if (eventRequest.getId()!=null && eventRequest.getId().equals("")) {
-            eventRequest.setId(null);
+        if (pEventRequest.getId()!=null && pEventRequest.getId().equals("")) {
+            pEventRequest.setId(null);
         }
         try {
             em = factory.createEntityManager();
-            em.persist(eventRequest);
+            em.persist(pEventRequest);
 
         }
         finally {
@@ -45,6 +46,40 @@ public class MixandmatchDaoSimpleDBImpl implements MixandmatchDao {
             em = factory.createEntityManager();
             Query query = em.createQuery("select eventRequest from de.metafinanz.mixnmatch.backend.model.EventRequest eventRequest");
             return (List<EventRequest>)query.getResultList();
+        }
+        finally {
+            if (em!=null) {
+                em.close();
+            }
+        }
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Location> getAllLocations() {
+		EntityManager em = null;
+
+        try {
+            em = factory.createEntityManager();
+            Query query = em.createQuery("select location from de.metafinanz.mixnmatch.backend.model.Location location");
+            return (List<Location>)query.getResultList();
+        }
+        finally {
+            if (em!=null) {
+                em.close();
+            }
+        }
+	}
+
+	public void addLocation(Location pLocation) {
+		EntityManager em = null;
+//      Storage fails if id is an empty string, so nullify it
+        if (pLocation.getId()!=null && pLocation.getId().equals("")) {
+            pLocation.setId(null);
+        }
+        try {
+            em = factory.createEntityManager();
+            em.persist(pLocation);
+
         }
         finally {
             if (em!=null) {

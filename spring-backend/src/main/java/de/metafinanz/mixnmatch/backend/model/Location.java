@@ -1,29 +1,47 @@
 package de.metafinanz.mixnmatch.backend.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Location {
-   private String label;
-   
-   private String key;
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private String id;
 
-   public Location(String label, String key) {
-      super();
-      this.label = label;
-      this.key = key;
-   }
+	public String getId() {
+		return id;
+	}
 
-   public void setLabel(String label) {
-      this.label = label;
-   }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-   public String getLabel() {
-      return label;
-   }
+	private String label;
 
-public void setKey(String key) {
-	this.key = key;
-}
+	private String key;
 
-public String getKey() {
-	return key;
-}
+	public Location(String label, String key) {
+		super();
+		this.label = label;
+		this.key = key;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
+	public String getLabel() {
+		return label;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+	public String getKey() {
+		return key;
+	}
 }
