@@ -2,9 +2,11 @@ package de.metafinanz.mixnmatch.backend.rest;
 
 import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.WebRequest;
 
 import de.metafinanz.mixnmatch.backend.dao.MixandmatchDao;
@@ -48,7 +51,14 @@ public class EventRequestController {
 		String key = createUrl(locationKey, date, userid);
 		request.setUrl(key);
 		requests.put(key, request);
-		dao.saveLunchRequest(request);
+		RestTemplate restTemplate = new RestTemplate();
+		Map<String, String> vars = new HashMap<String, String>();
+		vars.put("locationKey", locationKey);
+		vars.put("date", date);
+		vars.put("userid", userid);
+		UUID uuid = java.util.UUID.randomUUID();
+		String url = "http://localhost:5984/requests/" + uuid + "/" + locationKey + "/" + date + "/" + userid;
+		restTemplate.put(url, request);
 		return "redirect:" + key;
 	}
 
