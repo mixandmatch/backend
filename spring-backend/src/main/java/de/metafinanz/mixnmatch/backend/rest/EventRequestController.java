@@ -1,5 +1,6 @@
 package de.metafinanz.mixnmatch.backend.rest;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Collections;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.client.RestTemplate;
@@ -29,10 +31,9 @@ import de.metafinanz.mixnmatch.backend.model.EventRequest;
 public class EventRequestController {
 	private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
 
-	
 	private Map<String, EventRequest> requests = new HashMap<String, EventRequest>();
 	private MixandmatchDao dao;
-	
+
 	public MixandmatchDao getDao() {
 		return dao;
 	}
@@ -41,10 +42,20 @@ public class EventRequestController {
 	public void setDao(MixandmatchDao dao) {
 		this.dao = dao;
 	}
-	
+
+	@RequestMapping(value = "/dirty", method = { RequestMethod.GET })
+	public String createRequestGET(@RequestParam String locationKey,
+			@RequestParam String date, @RequestParam String userid)
+			throws ParseException {
+		EventRequest eventRequest = new EventRequest();
+		eventRequest.setDate(simpleDateFormat.parse(date));
+		eventRequest.setLocationKey(locationKey);
+		eventRequest.setUserid(userid);
+		return createRequest(eventRequest);
+	}
+
 	@RequestMapping(method = { RequestMethod.POST })
-	public String createRequest(@RequestBody EventRequest request,
-			WebRequest webRequest) {
+	public String createRequest(@RequestBody EventRequest request) {
 		String locationKey = request.getLocationKey();
 		String date = simpleDateFormat.format(request.getDate());
 		String userid = request.getUserid();
@@ -57,18 +68,29 @@ public class EventRequestController {
 		vars.put("date", date);
 		vars.put("userid", userid);
 		UUID uuid = java.util.UUID.randomUUID();
-		String url = "http://localhost:5984/requests/" + uuid + "/" + locationKey + "/" + date + "/" + userid;
-		restTemplate.put(url, request);
+		String url = "http://localhost:5984/requests/" + uuid + "/"
+				+ locationKey + "/" + date + "/" + userid;
+		try {
+			restTemplate.put(url, request);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+
 		return "redirect:" + key;
 	}
 
 	@RequestMapping(method = { RequestMethod.GET })
 	public @ResponseBody
 	Collection<EventRequest> listAllRequests() {
-		List<EventRequest> list = dao.getAllRequests();
-		if (list != null)
-		{
-			return list;
+		try {
+			List<EventRequest> list = dao.getAllRequests();
+			if (list != null) {
+				return list;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			// TODO remove this ugly hack
 		}
 		return requests.values();
 	}
