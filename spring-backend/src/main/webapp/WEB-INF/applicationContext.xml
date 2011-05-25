@@ -13,5 +13,6 @@
 			<bean class="org.springframework.web.client.RestTemplate" />
 		</property>
 		<property name="baseUri" value="http://localhost:5984" />
+		<property name="database" value="requests"/>
 	</bean>
 </beans>

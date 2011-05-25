@@ -12,10 +12,11 @@ public class CouchDBImpl implements MixandmatchDao {
 
 	private RestTemplate restTemplate;
 	private String baseUri;
+	private String database;
 
 	public void saveRequest(EventRequest pEventRequest) {
 		UUID uuid = java.util.UUID.randomUUID();
-		String url = baseUri+"/requests/" + uuid;
+		String url = baseUri + "/" + database + "/" + uuid;
 		restTemplate.put(url, pEventRequest);
 	}
 
@@ -48,6 +49,14 @@ public class CouchDBImpl implements MixandmatchDao {
 
 	public String getBaseUri() {
 		return baseUri;
+	}
+
+	public void setDatabase(String database) {
+		this.database = database;
+	}
+
+	public String getDatabase() {
+		return database;
 	}
 
 }
