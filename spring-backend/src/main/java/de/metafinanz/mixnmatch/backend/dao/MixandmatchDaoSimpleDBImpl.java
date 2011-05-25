@@ -20,7 +20,7 @@ public class MixandmatchDaoSimpleDBImpl implements MixandmatchDao {
 	}
 	private static EntityManagerFactoryImpl factory = new EntityManagerFactoryImpl();
 	
-	public void saveLunchRequest(EventRequest pEventRequest) {
+	public void saveRequest(EventRequest pEventRequest) {
         EntityManager em = null;
 //      Storage fails if id is an empty string, so nullify it
         if (pEventRequest.getId()!=null && pEventRequest.getId().equals("")) {

@@ -12,7 +12,7 @@ public interface MixandmatchDao {
 	 * @param pEventRequest
 	 * 		Event request object
 	 */
-	public void saveLunchRequest(EventRequest pEventRequest);
+	public void saveRequest(EventRequest pEventRequest);
 	
 	/**
 	 * Returns all available lunch requests.

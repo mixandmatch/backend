@@ -62,21 +62,7 @@ public class EventRequestController {
 		String key = createUrl(locationKey, date, userid);
 		request.setUrl(key);
 		requests.put(key, request);
-		RestTemplate restTemplate = new RestTemplate();
-		Map<String, String> vars = new HashMap<String, String>();
-		vars.put("locationKey", locationKey);
-		vars.put("date", date);
-		vars.put("userid", userid);
-		UUID uuid = java.util.UUID.randomUUID();
-		String url = "http://localhost:5984/requests/" + uuid + "/"
-				+ locationKey + "/" + date + "/" + userid;
-		try {
-			restTemplate.put(url, request);
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-
+		dao.saveRequest(request);
 		return "redirect:" + key;
 	}
 
