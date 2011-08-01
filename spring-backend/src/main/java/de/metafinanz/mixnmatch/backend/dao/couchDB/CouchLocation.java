@@ -1,13 +1,19 @@
 package de.metafinanz.mixnmatch.backend.dao.couchDB;
 
-import de.metafinanz.mixnmatch.backend.model.EventRequest;
+import de.metafinanz.mixnmatch.backend.model.Coords;
+import de.metafinanz.mixnmatch.backend.model.Location;
 
-public class CouchEventRequest extends EventRequest {
+public class CouchLocation extends Location {
+
+	public CouchLocation(String label, String key, Coords location) {
+		super(label, key, location);
+	}
+
 	private String _id;
 	
 	private String _rev;
 	
-	private String type = "request";
+	private String type = "location";
 
 	public String get_id() {
 		return _id;
