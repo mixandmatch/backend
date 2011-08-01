@@ -71,23 +71,23 @@
 			<version>4.8.2</version>
 			<scope>test</scope>
 		</dependency>
-	    <!-- SimpleJPA Dependencies -->
-        <dependency>
-            <groupId>net.sf.scannotation</groupId>
-            <artifactId>scannotation</artifactId>
-            <version>1.0.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.openjpa</groupId>
-            <artifactId>openjpa</artifactId>
-            <version>1.1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.persistence</groupId>
-            <artifactId>persistence-api</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <!-- End SimpleJPA Dependencies -->
+		<!-- SimpleJPA Dependencies -->
+		<dependency>
+			<groupId>net.sf.scannotation</groupId>
+			<artifactId>scannotation</artifactId>
+			<version>1.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.openjpa</groupId>
+			<artifactId>openjpa</artifactId>
+			<version>1.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<!-- End SimpleJPA Dependencies -->
 	</dependencies>
 	<build>
 		<finalName>api</finalName>
@@ -103,6 +103,44 @@
 				<configuration>
 					<source>1.5</source>
 					<target>1.5</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.cargo</groupId>
+				<artifactId>cargo-maven2-plugin</artifactId>
+				<configuration>
+					<container>
+						<containerId>tomcat7x</containerId>
+						<type>remote</type>
+					</container>
+					<configuration>
+						<type>runtime</type>
+						<properties>
+							<cargo.tomcat.manager.url>
+								http://ec2-46-137-12-115.eu-west-1.compute.amazonaws.com/manager
+							</cargo.tomcat.manager.url>
+							<cargo.remote.username>
+								manager
+							</cargo.remote.username>
+							<cargo.remote.password>
+								manager1234
+							</cargo.remote.password>
+						</properties>
+					</configuration>
+					<deployer>
+						<type>remote</type>
+						<deployables>
+							<deployable>
+								<groupId>
+									de.metafinanz.mixnmatch
+								</groupId>
+								<artifactId>
+									spring-backend
+								</artifactId>
+								<type>war</type>
+							</deployable>
+						</deployables>
+					</deployer>
 				</configuration>
 			</plugin>
 		</plugins>

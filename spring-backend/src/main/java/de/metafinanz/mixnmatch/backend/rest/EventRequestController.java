@@ -2,8 +2,10 @@ package de.metafinanz.mixnmatch.backend.rest;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,6 +59,9 @@ public class EventRequestController {
 	@RequestMapping(method = { RequestMethod.POST })
 	public String createRequest(@RequestBody EventRequest request) {
 		String locationKey = request.getLocationKey();
+		if (request.getDate() == null) {
+			request.setDate(new Date());
+		}
 		String date = simpleDateFormat.format(request.getDate());
 		String userid = request.getUserid();
 		String key = createUrl(locationKey, date, userid);
@@ -68,17 +73,8 @@ public class EventRequestController {
 
 	@RequestMapping(method = { RequestMethod.GET })
 	public @ResponseBody
-	Collection<EventRequest> listAllRequests() {
-		try {
-			List<EventRequest> list = dao.getAllRequests();
-			if (list != null) {
-				return list;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			// TODO remove this ugly hack
-		}
-		return requests.values();
+	Collection<EventRequest> listAllRequests() throws Exception {
+		return dao.getAllRequests();
 	}
 
 	private String createUrl(String locationKey, String date, String userid) {
