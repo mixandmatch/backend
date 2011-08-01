@@ -1,0 +1,10 @@
+{
+   "_id": "_design/requests",
+   "_rev": "1-be0224dfab1818e02ab94aba438ef38a",
+   "language": "javascript",
+   "views": {
+       "by_location": {
+           "map": "function(doc) {emit(doc.locationKey, doc._id);}"
+       }
+   }
+}

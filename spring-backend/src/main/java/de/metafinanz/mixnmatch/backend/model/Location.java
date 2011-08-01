@@ -11,22 +11,33 @@ public class Location {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private String id;
 
+	private String label;
+
+	private String key;
+	
+	private Coords coordinates;
+
+	public Coords getCoordinates() {
+		return coordinates;
+	}
+
+	public void setCoordinates(Coords location) {
+		this.coordinates = location;
+	}
+
+	public Location(String label, String key, Coords location) {
+		super();
+		this.label = label;
+		this.key = key;
+		this.coordinates = location;
+	}
+	
 	public String getId() {
 		return id;
 	}
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	private String label;
-
-	private String key;
-
-	public Location(String label, String key) {
-		super();
-		this.label = label;
-		this.key = key;
 	}
 
 	public void setLabel(String label) {
