@@ -44,5 +44,7 @@ public interface MixandmatchDao {
 
 	public Collection<EventRequest> getRequestsByUser(String user);
 	
+	public Collection<EventRequest> getRequestsByLocation(String location);
+	
 	public Collection<EventRequest> getRequestsByLocationAndDate(String location, String date);
 }

@@ -22,8 +22,8 @@
 			class="de.metafinanz.mixnmatch.backend.rest.RequestFactoryFactory">
 			<property name="host" value="mixandmatch.cloudant.com" />
 			<property name="port" value="443"/>
-			<property name="user" value="mixandmatch" />
-			<property name="password" value="mixandmatch" />
+			<property name="user" value="ectendshossallyindiester" />
+			<property name="password" value="EAis0b2otKFXp8scXoeN75mg" />
 		</bean>
 		<bean class="org.springframework.web.client.RestTemplate" id="restTemplate">
 			<constructor-arg>

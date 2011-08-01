@@ -1,7 +1,13 @@
 package de.metafinanz.mixnmatch.backend.dao.couchDB;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
+
 import de.metafinanz.mixnmatch.backend.model.EventRequest;
 
+@JsonIgnoreProperties(ignoreUnknown=true)
+@JsonSerialize(include = Inclusion.NON_NULL)
 public class CouchEventRequest extends EventRequest {
 	private String _id;
 	
@@ -25,6 +31,7 @@ public class CouchEventRequest extends EventRequest {
 		this._rev = _rev;
 	}
 
+	
 	public String getType() {
 		return type;
 	}

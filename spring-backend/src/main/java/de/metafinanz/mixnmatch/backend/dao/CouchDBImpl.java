@@ -20,6 +20,7 @@ public class CouchDBImpl implements MixandmatchDao {
 	private static final String SEPARATOR = "/";
 	private static final String VIEW_BY_USER = "/_design/request_views/_view/by_user";
 	private static final String VIEW_BY_LOCATION_DATE = "/_design/request_views/_view/by_location_date";
+	private static final String VIEW_BY_LOCATION = "/_design/request_views/_view/by_location";
 	private RestTemplate restTemplate;
 	private String baseUri;
 	private String database;
@@ -117,6 +118,10 @@ public class CouchDBImpl implements MixandmatchDao {
 	public Collection<EventRequest> getRequestsByLocationAndDate(
 			String location, String date) {
 		return queryRequestView(VIEW_BY_LOCATION_DATE, location, date);
+	}
+
+	public Collection<EventRequest> getRequestsByLocation(String location) {
+		return queryRequestView(VIEW_BY_LOCATION, location);
 	}
 
 }

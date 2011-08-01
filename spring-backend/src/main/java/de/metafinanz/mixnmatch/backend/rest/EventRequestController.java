@@ -109,11 +109,18 @@ public class EventRequestController {
 		return eventRequest;
 	}
 
-	@RequestMapping(value = {"/{location}/{date}" ,"/{location}/{date}/lunch"}, method = { RequestMethod.GET })
+	@RequestMapping(value = { "/{location}/{date}", "/{location}/{date}/lunch" }, method = { RequestMethod.GET })
 	public @ResponseBody
 	Collection<EventRequest> getRequestByLocationAndDate(
 			@PathVariable String location, @PathVariable String date) {
 		return dao.getRequestsByLocationAndDate(location, date);
+	}
+	
+	@RequestMapping(value = { "/{location}" }, method = { RequestMethod.GET })
+	public @ResponseBody
+	Collection<EventRequest> getRequestByLocation(
+			@PathVariable String location) {
+		return dao.getRequestsByLocation(location);
 	}
 
 }
