@@ -1,18 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
 	<bean class="de.metafinanz.mixnmatch.backend.filter.JsonpCallbackFilter"
 		id="jsonpCallbackFilter" />
-	<!-- <bean class="de.metafinanz.mixnmatch.backend.dao.MixandmatchDaoSimpleDBImpl"
+	<!-- <bean class="de.metafinanz.mixnmatch.backend.dao.MixandmatchDaoSimpleDBImpl" 
 		id="MixandmatchDao" /> -->
 
-	<bean class="de.metafinanz.mixnmatch.backend.dao.CouchDBImpl" id="couchDb">
-		<property name="restTemplate">
-			<bean class="org.springframework.web.client.RestTemplate" />
-		</property>
-		<property name="baseUri" value="http://localhost:5984" />
-		<property name="database" value="requests"/>
-	</bean>
+	<beans profile="dev">
+		<bean class="de.metafinanz.mixnmatch.backend.dao.CouchDBImpl" id="couchDb">
+			<property name="restTemplate">
+				<bean class="org.springframework.web.client.RestTemplate" />
+			</property>
+			<property name="baseUri" value="http://localhost:5984" />
+			<property name="database" value="requests" />
+		</bean>
+	</beans>
+	<beans profile="production">
+		<bean id="factory"
+			class="de.metafinanz.mixnmatch.backend.rest.RequestFactoryFactory">
+			<property name="host" value="mixandmatch.cloudant.com" />
+			<property name="port" value="443"/>
+			<property name="user" value="mixandmatch" />
+			<property name="password" value="mixandmatch" />
+		</bean>
+		<bean class="org.springframework.web.client.RestTemplate" id="restTemplate">
+			<constructor-arg>
+				<bean factory-bean="factory" factory-method="createClient" />
+			</constructor-arg>
+		</bean>
+		<bean class="de.metafinanz.mixnmatch.backend.dao.CouchDBImpl" id="couchDb">
+			<property name="restTemplate" ref="restTemplate" />
+			<property name="baseUri" value="https://mixandmatch.cloudant.com" />
+			<property name="database" value="production" />
+		</bean>
+	</beans>
 </beans>
