@@ -27,13 +27,13 @@ import org.springframework.web.context.request.WebRequest;
 
 import de.metafinanz.mixnmatch.backend.dao.MixandmatchDao;
 import de.metafinanz.mixnmatch.backend.model.EventRequest;
+import de.metafinanz.mixnmatch.backend.model.Match;
 
 @Controller
 @RequestMapping("/requests")
 public class EventRequestController {
 	private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
 
-	private Map<String, EventRequest> requests = new HashMap<String, EventRequest>();
 	private MixandmatchDao dao;
 
 	public MixandmatchDao getDao() {
@@ -66,7 +66,6 @@ public class EventRequestController {
 		String userid = request.getUserid();
 		String key = createUrl(locationKey, date, userid);
 		request.setUrl(key);
-		requests.put(key, request);
 		dao.saveRequest(request);
 		return "redirect:" + key;
 	}
@@ -77,13 +76,16 @@ public class EventRequestController {
 		return dao.getAllRequests();
 	}
 
-	private String createUrl(String locationKey, String date, String userid) {
+	public static String createUrl(String locationKey, String date,
+			String userid) {
 		StringBuilder keyBuilder = new StringBuilder("/requests/");
 		keyBuilder.append(locationKey);
 		keyBuilder.append("/");
 		keyBuilder.append(date);
 		keyBuilder.append("/lunch/");
-		keyBuilder.append(userid);
+		if (userid != null) {
+			keyBuilder.append(userid);
+		}
 		String key = keyBuilder.toString();
 		return key;
 	}
@@ -100,10 +102,18 @@ public class EventRequestController {
 			@PathVariable String date, @PathVariable String user)
 			throws EventNotFoundException {
 		String url = createUrl(location, date, user);
-		EventRequest eventRequest = requests.get(url);
+		EventRequest eventRequest = dao.getRequest(url);
 		if (eventRequest == null) {
 			throw new EventNotFoundException(url);
 		}
 		return eventRequest;
 	}
+
+	@RequestMapping(value = {"/{location}/{date}" ,"/{location}/{date}/lunch"}, method = { RequestMethod.GET })
+	public @ResponseBody
+	Collection<EventRequest> getRequestByLocationAndDate(
+			@PathVariable String location, @PathVariable String date) {
+		return dao.getRequestsByLocationAndDate(location, date);
+	}
+
 }

@@ -1,5 +1,6 @@
 package de.metafinanz.mixnmatch.backend.dao;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
@@ -11,27 +12,68 @@ import de.metafinanz.mixnmatch.backend.dao.couchDB.KeyEventPair;
 import de.metafinanz.mixnmatch.backend.dao.couchDB.RequestQueryResult;
 import de.metafinanz.mixnmatch.backend.model.EventRequest;
 import de.metafinanz.mixnmatch.backend.model.Location;
+import de.metafinanz.mixnmatch.backend.model.Match;
 
 public class CouchDBImpl implements MixandmatchDao {
 
+	private static final String VIEW_ALL = "/_design/request_views/_view/all";
+	private static final String SEPARATOR = "/";
+	private static final String VIEW_BY_USER = "/_design/request_views/_view/by_user";
+	private static final String VIEW_BY_LOCATION_DATE = "/_design/request_views/_view/by_location_date";
 	private RestTemplate restTemplate;
 	private String baseUri;
 	private String database;
 
-	public void saveRequest(EventRequest pEventRequest) {
-		UUID uuid = java.util.UUID.randomUUID();
-		String url = baseUri + "/" + database + "/" + uuid;
-		restTemplate.put(url, pEventRequest);
+	private String getUrl() {
+		return baseUri + SEPARATOR + database;
 	}
 
-	public List<EventRequest> getAllRequests() {
-		RequestQueryResult requestQueryResult = restTemplate.getForObject(baseUri+"/"+database+"/_design/request_views/_view/all", RequestQueryResult.class);
+	private List<EventRequest> queryRequestView(String viewDocument,
+			String... keys) {
+		String keyJsonArray = null;
+		if (keys.length > 0) {
+			StringBuilder keyBuilder = new StringBuilder("[");
+			for (String key : keys) {
+				keyBuilder.append("\"");
+				keyBuilder.append(key);
+				keyBuilder.append("\",");
+			}
+			keyBuilder.replace(keyBuilder.length() - 1, keyBuilder.length(),
+					"]");
+			keyJsonArray = keyBuilder.toString();
+		}
+		RequestQueryResult requestQueryResult = null;
+		if (keyJsonArray != null) {
+			requestQueryResult = restTemplate.getForObject(getUrl()
+					+ viewDocument + "?key={key}", RequestQueryResult.class,
+					keyJsonArray);
+		} else {
+			requestQueryResult = restTemplate.getForObject(getUrl()
+					+ viewDocument, RequestQueryResult.class);
+		}
 		LinkedList<EventRequest> result = new LinkedList<EventRequest>();
 		for (KeyEventPair keyValuePair : requestQueryResult.getRows()) {
 			CouchEventRequest value = keyValuePair.getValue();
 			result.add(value);
 		}
 		return result;
+	}
+
+	public void saveRequest(EventRequest pEventRequest) {
+		UUID uuid = java.util.UUID.randomUUID();
+		String url = getUrl() + SEPARATOR + uuid;
+		restTemplate.put(url, pEventRequest);
+	}
+
+	public List<EventRequest> getAllRequests() {
+		return queryRequestView(VIEW_ALL);
+	}
+
+	public EventRequest getRequest(String url) {
+		RequestQueryResult requestQueryResult = restTemplate.getForObject(
+				getUrl() + VIEW_ALL + "?key=\"{url}\"",
+				RequestQueryResult.class, url);
+		return requestQueryResult.getRows().get(0).getValue();
 	}
 
 	public List<Location> getAllLocations() {
@@ -66,6 +108,15 @@ public class CouchDBImpl implements MixandmatchDao {
 
 	public String getDatabase() {
 		return database;
+	}
+
+	public Collection<EventRequest> getRequestsByUser(String user) {
+		return queryRequestView(VIEW_BY_USER, user);
+	}
+
+	public Collection<EventRequest> getRequestsByLocationAndDate(
+			String location, String date) {
+		return queryRequestView(VIEW_BY_LOCATION_DATE, location, date);
 	}
 
 }

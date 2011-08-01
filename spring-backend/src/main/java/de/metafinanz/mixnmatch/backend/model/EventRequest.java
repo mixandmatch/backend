@@ -35,6 +35,7 @@ public class EventRequest {
 	@Column(unique=true, nullable=true)
 	private String userid;
 	private String url;
+	private String matchUrl;
 
 	public String getLocationKey() {
 		return locationKey;
@@ -68,6 +69,14 @@ public class EventRequest {
 
 	public String getUrl() {
 		return url;
+	}
+
+	public void setMatchUrl(String matchUrl) {
+		this.matchUrl = matchUrl;
+	}
+	
+	public String getMatchUrl() {
+		return matchUrl;
 	}
 
 }
