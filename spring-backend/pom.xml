@@ -5,7 +5,7 @@
 	<artifactId>spring-backend</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
-	<name>spring-backend Maven Webapp</name>
+	<name>Mix and Match API</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<spring.version>3.0.5.RELEASE</spring.version>
@@ -90,7 +90,7 @@
         <!-- End SimpleJPA Dependencies -->
 	</dependencies>
 	<build>
-		<finalName>spring-backend</finalName>
+		<finalName>api</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
