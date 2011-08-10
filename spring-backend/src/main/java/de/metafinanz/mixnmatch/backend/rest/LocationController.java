@@ -19,27 +19,31 @@ import de.metafinanz.mixnmatch.backend.model.Location;
 @RequestMapping("/locations")
 public class LocationController {
    private Logger logger = LoggerFactory.getLogger(getClass());
-   
+
    private List<Location> locations = new LinkedList<Location>();
-   
+
    public LocationController() {
-      locations.add(new Location("HVU Mitarbeiterrestaurant","HVU", new Coords(new BigDecimal("48.188542"),new BigDecimal("11.6474"))));
-      locations.add(new Location("VGU Mitarbeiterrestaurant","VGU",new Coords(new BigDecimal("48.187483"),new BigDecimal("11.647145"))));
-      locations.add(new Location("MACE","Mace",new Coords(new BigDecimal("48.18858"),new BigDecimal("11.654873"))));
-      locations.add(new Location("Kistenpfennig","Kistenpfennig",new Coords(new BigDecimal("48.168834"),new BigDecimal("11.586927"))));
+      locations.add(new Location("HVU Mitarbeiterrestaurant", "HVU", new Coords(new BigDecimal("48.188542"), new BigDecimal(
+            "11.6474")), "Hauptverwaltung Unterföhring. Allianz Kantine am Standort Unterföhring", "11:45h Drehtüre am Eingang HVU"));
+      locations.add(new Location("VGU Mitarbeiterrestaurant", "VGU", new Coords(new BigDecimal("48.187483"), new BigDecimal(
+            "11.647145"))));
+      locations.add(new Location("MACE", "Mace", new Coords(new BigDecimal("48.18858"), new BigDecimal("11.654873"))));
+      locations.add(new Location("Kistenpfennig", "Kistenpfennig", new Coords(new BigDecimal("48.168834"), new BigDecimal(
+            "11.586927"))));
    }
-   
+
    @RequestMapping(method = RequestMethod.GET)
-   public @ResponseBody List<Location> listLocations(){
-      logger.debug( " > entering listLocations()" );
+   public @ResponseBody
+   List<Location> listLocations() {
+      logger.debug(" > entering listLocations()");
       return locations;
    }
-   
-   @RequestMapping(value="/nearby",method = RequestMethod.GET)
-   public @ResponseBody List<Location> listNearbyLocations(@RequestParam String lat, @RequestParam String lon){
+
+   @RequestMapping(value = "/nearby", method = RequestMethod.GET)
+   public @ResponseBody
+   List<Location> listNearbyLocations(@RequestParam String lat, @RequestParam String lon) {
       logger.debug(" > entering listNearbyLocations({})", lat, lon);
       return locations.subList(0, 2);
    }
-
 
 }
