@@ -2,81 +2,76 @@ package de.metafinanz.mixnmatch.backend.model;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
 import de.metafinanz.mixnmatch.backend.rest.CustomDateDeserializer;
 import de.metafinanz.mixnmatch.backend.rest.CustomDateSerializer;
-@Entity
+
+@JsonIgnoreProperties(ignoreUnknown=true)
+@JsonSerialize(include = Inclusion.NON_NULL)
 public class EventRequest {
-    
-	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private String id;
 
-    public String getId() {
-		return id;
-	}
+   private String id;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+   public String getId() {
+      return id;
+   }
 
-	@Column(unique=true, nullable=true)
-	private String locationKey;
-	@Column(unique=true, nullable=true)
-	private Date date;
-	@Column(unique=true, nullable=true)
-	private String userid;
-	private String url;
-	private String matchUrl;
+   public void setId(String id) {
+      this.id = id;
+   }
 
-	public String getLocationKey() {
-		return locationKey;
-	}
+   private String locationKey;
 
-	public void setLocationKey(String locationKey) {
-		this.locationKey = locationKey;
-	}
+   private Date date;
 
-	@JsonSerialize(using = CustomDateSerializer.class)
-	public Date getDate() {
-		return date;
-	}
+   private String userid;
+   private String url;
+   private String matchUrl;
 
-	@JsonDeserialize(using = CustomDateDeserializer.class)
-	public void setDate(Date date) {
-		this.date = date;
-	}
+   public String getLocationKey() {
+      return locationKey;
+   }
 
-	public String getUserid() {
-		return userid;
-	}
+   public void setLocationKey(String locationKey) {
+      this.locationKey = locationKey;
+   }
 
-	public void setUserid(String userid) {
-		this.userid = userid;
-	}
+   @JsonSerialize(using = CustomDateSerializer.class)
+   public Date getDate() {
+      return date;
+   }
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
+   @JsonDeserialize(using = CustomDateDeserializer.class)
+   public void setDate(Date date) {
+      this.date = date;
+   }
 
-	public String getUrl() {
-		return url;
-	}
+   public String getUserid() {
+      return userid;
+   }
 
-	public void setMatchUrl(String matchUrl) {
-		this.matchUrl = matchUrl;
-	}
-	
-	public String getMatchUrl() {
-		return matchUrl;
-	}
+   public void setUserid(String userid) {
+      this.userid = userid;
+   }
+
+   public void setUrl(String url) {
+      this.url = url;
+   }
+
+   public String getUrl() {
+      return url;
+   }
+
+   public void setMatchUrl(String matchUrl) {
+      this.matchUrl = matchUrl;
+   }
+
+   public String getMatchUrl() {
+      return matchUrl;
+   }
 
 }
