@@ -40,7 +40,7 @@ public interface MixandmatchDao {
 	 */
 	public void addLocation(Location pLocation);
 
-	public EventRequest getRequest(String url);
+	public EventRequest getRequest(String locationKey, String date, String userid);
 
 	public Collection<EventRequest> getRequestsByUser(String user);
 	

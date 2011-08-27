@@ -101,10 +101,9 @@ public class EventRequestController {
 	EventRequest getRequest(@PathVariable String location,
 			@PathVariable String date, @PathVariable String user)
 			throws EventNotFoundException {
-		String url = createUrl(location, date, user);
-		EventRequest eventRequest = dao.getRequest(url);
+		EventRequest eventRequest = dao.getRequest(location, date, user);
 		if (eventRequest == null) {
-			throw new EventNotFoundException(url);
+			throw new EventNotFoundException(createUrl(location, date, user));
 		}
 		return eventRequest;
 	}

@@ -70,10 +70,10 @@ public class CouchDBImpl implements MixandmatchDao {
 		return queryRequestView(VIEW_ALL);
 	}
 
-	public EventRequest getRequest(String url) {
-		RequestQueryResult requestQueryResult = restTemplate.getForObject(
-				getUrl() + VIEW_ALL + "?key=\"{url}\"",
-				RequestQueryResult.class, url);
+	public EventRequest getRequest(String locationKey, String date, String userid) {
+		String view = getUrl() + VIEW_ALL + "?key=[\"{locationKey}\",\"{date}\",\"{userid}\"]";
+		RequestQueryResult requestQueryResult = restTemplate.getForObject(view,
+				RequestQueryResult.class, locationKey, date, userid);
 		return requestQueryResult.getRows().get(0).getValue();
 	}
 
@@ -117,11 +117,11 @@ public class CouchDBImpl implements MixandmatchDao {
 
 	public Collection<EventRequest> getRequestsByLocationAndDate(
 			String location, String date) {
-		return queryRequestView(VIEW_BY_LOCATION_DATE, location, date);
+		return queryRequestView(VIEW_BY_LOCATION_DATE, location.toLowerCase(), date);
 	}
 
 	public Collection<EventRequest> getRequestsByLocation(String location) {
-		return queryRequestView(VIEW_BY_LOCATION, location);
+		return queryRequestView(VIEW_BY_LOCATION, location.toLowerCase());
 	}
 
 }
