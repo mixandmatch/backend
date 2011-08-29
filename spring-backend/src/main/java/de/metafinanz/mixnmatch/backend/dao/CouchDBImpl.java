@@ -46,8 +46,12 @@ public class CouchDBImpl implements MixandmatchDao {
 		}
 		RequestQueryResult requestQueryResult = null;
 		if (keyJsonArray != null) {
+			String paramSeparator="?";
+			if(viewDocument.contains(paramSeparator)){
+				paramSeparator = "&";
+			}
 			requestQueryResult = restTemplate.getForObject(getUrl()
-					+ viewDocument + "?key={key}", RequestQueryResult.class,
+					+ viewDocument + paramSeparator+"key={key}", RequestQueryResult.class,
 					keyJsonArray);
 		} else {
 			requestQueryResult = restTemplate.getForObject(getUrl()
@@ -127,6 +131,14 @@ public class CouchDBImpl implements MixandmatchDao {
 
 	public Collection<? extends EventRequest> listAllMatches() {
 		Collection<CouchEventRequest> matches =  queryRequestView(VIEW_ALL_MATCHES);
+		for (CouchEventRequest eventRequest : matches) {
+			eventRequest.setType("match");
+		}
+		return matches;
+	}
+	
+	public Collection<? extends EventRequest> listMatches(String location, String date) {
+		Collection<CouchEventRequest> matches =  queryRequestView(VIEW_ALL_MATCHES, location, date);
 		for (CouchEventRequest eventRequest : matches) {
 			eventRequest.setType("match");
 		}

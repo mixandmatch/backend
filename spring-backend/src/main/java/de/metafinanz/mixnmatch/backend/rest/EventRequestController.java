@@ -72,7 +72,7 @@ public class EventRequestController {
 
 	@RequestMapping(method = { RequestMethod.GET })
 	public @ResponseBody
-	Collection<EventRequest> listAllRequests() throws Exception {
+	List<? extends EventRequest> listAllRequests() throws Exception {
 		return dao.getAllRequests();
 	}
 
@@ -110,14 +110,14 @@ public class EventRequestController {
 
 	@RequestMapping(value = { "/{location}/{date}", "/{location}/{date}/lunch" }, method = { RequestMethod.GET })
 	public @ResponseBody
-	Collection<EventRequest> getRequestByLocationAndDate(
+	Collection<? extends EventRequest> getRequestByLocationAndDate(
 			@PathVariable String location, @PathVariable String date) {
 		return dao.getRequestsByLocationAndDate(location, date);
 	}
 	
 	@RequestMapping(value = { "/{location}" }, method = { RequestMethod.GET })
 	public @ResponseBody
-	Collection<EventRequest> getRequestByLocation(
+	Collection<? extends EventRequest> getRequestByLocation(
 			@PathVariable String location) {
 		return dao.getRequestsByLocation(location);
 	}
