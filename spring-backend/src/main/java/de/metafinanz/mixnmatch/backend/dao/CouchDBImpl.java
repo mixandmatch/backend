@@ -21,6 +21,7 @@ public class CouchDBImpl implements MixandmatchDao {
 	private static final String VIEW_BY_USER = "/_design/request_views/_view/by_user";
 	private static final String VIEW_BY_LOCATION_DATE = "/_design/request_views/_view/by_location_date";
 	private static final String VIEW_BY_LOCATION = "/_design/request_views/_view/by_location";
+	private static final String VIEW_ALL_MATCHES = "/_design/match_views/_view/all_matches?group=true";
 	private RestTemplate restTemplate;
 	private String baseUri;
 	private String database;
@@ -29,7 +30,7 @@ public class CouchDBImpl implements MixandmatchDao {
 		return baseUri + SEPARATOR + database;
 	}
 
-	private List<EventRequest> queryRequestView(String viewDocument,
+	private List<CouchEventRequest> queryRequestView(String viewDocument,
 			String... keys) {
 		String keyJsonArray = null;
 		if (keys.length > 0) {
@@ -52,7 +53,7 @@ public class CouchDBImpl implements MixandmatchDao {
 			requestQueryResult = restTemplate.getForObject(getUrl()
 					+ viewDocument, RequestQueryResult.class);
 		}
-		LinkedList<EventRequest> result = new LinkedList<EventRequest>();
+		LinkedList<CouchEventRequest> result = new LinkedList<CouchEventRequest>();
 		for (KeyEventPair keyValuePair : requestQueryResult.getRows()) {
 			CouchEventRequest value = keyValuePair.getValue();
 			result.add(value);
@@ -66,7 +67,7 @@ public class CouchDBImpl implements MixandmatchDao {
 		restTemplate.put(url, pEventRequest);
 	}
 
-	public List<EventRequest> getAllRequests() {
+	public List<? extends EventRequest> getAllRequests() {
 		return queryRequestView(VIEW_ALL);
 	}
 
@@ -111,17 +112,25 @@ public class CouchDBImpl implements MixandmatchDao {
 		return database;
 	}
 
-	public Collection<EventRequest> getRequestsByUser(String user) {
+	public Collection<? extends EventRequest> getRequestsByUser(String user) {
 		return queryRequestView(VIEW_BY_USER, user);
 	}
 
-	public Collection<EventRequest> getRequestsByLocationAndDate(
+	public Collection<? extends EventRequest> getRequestsByLocationAndDate(
 			String location, String date) {
 		return queryRequestView(VIEW_BY_LOCATION_DATE, location.toLowerCase(), date);
 	}
 
-	public Collection<EventRequest> getRequestsByLocation(String location) {
+	public Collection<? extends EventRequest> getRequestsByLocation(String location) {
 		return queryRequestView(VIEW_BY_LOCATION, location.toLowerCase());
+	}
+
+	public Collection<? extends EventRequest> listAllMatches() {
+		Collection<CouchEventRequest> matches =  queryRequestView(VIEW_ALL_MATCHES);
+		for (CouchEventRequest eventRequest : matches) {
+			eventRequest.setType("match");
+		}
+		return matches;
 	}
 
 }

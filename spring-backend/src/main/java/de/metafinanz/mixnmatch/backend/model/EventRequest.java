@@ -1,6 +1,7 @@
 package de.metafinanz.mixnmatch.backend.model;
 
 import java.util.Date;
+import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
@@ -31,6 +32,7 @@ public class EventRequest {
    private String userid;
    private String url;
    private String matchUrl;
+   private List<String> users;
 
    public String getLocationKey() {
       return locationKey;
@@ -73,5 +75,13 @@ public class EventRequest {
    public String getMatchUrl() {
       return matchUrl;
    }
+
+public List<String> getUsers() {
+	return users;
+}
+
+public void setUsers(List<String> users) {
+	this.users = users;
+}
 
 }

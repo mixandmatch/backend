@@ -21,7 +21,7 @@ public interface MixandmatchDao {
 	 * 
 	 * @return List of lunch requests
 	 */
-	public List<EventRequest> getAllRequests();
+	public List<? extends EventRequest> getAllRequests();
 	
 	
 	/**
@@ -42,9 +42,11 @@ public interface MixandmatchDao {
 
 	public EventRequest getRequest(String locationKey, String date, String userid);
 
-	public Collection<EventRequest> getRequestsByUser(String user);
+	public Collection<? extends EventRequest> getRequestsByUser(String user);
 	
-	public Collection<EventRequest> getRequestsByLocation(String location);
+	public Collection<? extends EventRequest> getRequestsByLocation(String location);
 	
-	public Collection<EventRequest> getRequestsByLocationAndDate(String location, String date);
+	public Collection<? extends EventRequest> getRequestsByLocationAndDate(String location, String date);
+	
+	public Collection<? extends EventRequest> listAllMatches();
 }
