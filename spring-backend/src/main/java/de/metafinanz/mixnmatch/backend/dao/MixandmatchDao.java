@@ -51,4 +51,6 @@ public interface MixandmatchDao {
 	public Collection<? extends EventRequest> listAllMatches();
 	
 	public Collection<? extends EventRequest> listMatches(String location, String date);
+
+	public void deleteRequest(String location, String date, String user);
 }

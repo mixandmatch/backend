@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import de.metafinanz.mixnmatch.backend.dao.MixandmatchDao;
 import de.metafinanz.mixnmatch.backend.model.EventRequest;
-import de.metafinanz.mixnmatch.backend.model.Match;
 
 @Controller
 @RequestMapping("/users")

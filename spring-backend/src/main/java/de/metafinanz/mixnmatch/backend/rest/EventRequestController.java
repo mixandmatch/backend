@@ -2,14 +2,9 @@ package de.metafinanz.mixnmatch.backend.rest;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,12 +17,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.context.request.WebRequest;
 
 import de.metafinanz.mixnmatch.backend.dao.MixandmatchDao;
 import de.metafinanz.mixnmatch.backend.model.EventRequest;
-import de.metafinanz.mixnmatch.backend.model.Match;
 
 @Controller
 @RequestMapping("/requests")
@@ -106,6 +98,12 @@ public class EventRequestController {
 			throw new EventNotFoundException(createUrl(location, date, user));
 		}
 		return eventRequest;
+	}
+	
+	@RequestMapping(value = "/{location}/{date}/lunch/{user}", method = { RequestMethod.DELETE })
+	public void deleteRequest(@PathVariable String location,
+			@PathVariable String date, @PathVariable String user) {
+		dao.deleteRequest(location, date, user);
 	}
 
 	@RequestMapping(value = { "/{location}/{date}", "/{location}/{date}/lunch" }, method = { RequestMethod.GET })
