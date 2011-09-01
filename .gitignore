@@ -1,2 +1,6 @@
+.classpath
+.project
+.settings/
+target/
+.springBeans
 .DS_Store
-backend-spec/
