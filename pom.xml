@@ -12,7 +12,7 @@
 	</properties>
 	<scm>
 		<url>scm:git:git://github.com/mixandmatch/backend.git</url>
-		<connection>scm:git:http://github.com/mixandmatch/backend.git</connection>
+		<connection>scm:git:https://github.com/mixandmatch/backend.git</connection>
 	</scm>
 	<repositories>
 		<repository>
