@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:c="http://java.sun.com/jsp/jstl/core" xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:spring="http://www.springframework.org/tags" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:create id="fc_de_metafinanz_mixmatchresttest_domain_Appointment" modelAttribute="appointment" path="/appointments" render="${empty dependencies}" z="tutMg1eBl41MJlqa66gmcK0nEp4=">
+        <field:datetime dateTimePattern="${appointment_appointmentdate_date_format}" field="appointmentDate" id="c_de_metafinanz_mixmatchresttest_domain_Appointment_appointmentDate" z="7hp77pv8SCvS1o/JESveL8Bz8Ns="/>
+        <field:select field="ownerID" id="c_de_metafinanz_mixmatchresttest_domain_Appointment_ownerID" itemValue="id" items="${useres}" path="/useres" required="true" z="vUVODWnrcgnXiTrLvM5zUBR04GI="/>
+        <field:select field="appointmentLocation" id="c_de_metafinanz_mixmatchresttest_domain_Appointment_appointmentLocation" itemValue="locationID" items="${locations}" path="/locations" required="true" z="Hr5aiJOPcGDo/GYv4GmjNGCO6a0="/>
+    </form:create>
+    <form:dependency dependencies="${dependencies}" id="d_de_metafinanz_mixmatchresttest_domain_Appointment" render="${not empty dependencies}" z="YTjcXHsnRzYiPJkq7YnSTOX0xCA="/>
+</div>

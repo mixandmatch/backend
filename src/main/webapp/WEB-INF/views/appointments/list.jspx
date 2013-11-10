@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_de_metafinanz_mixmatchresttest_domain_Appointment" items="${appointments}" z="n2SveUx06jciE+ppAglc+0nZyqc=">
+        <table:table data="${appointments}" id="l_de_metafinanz_mixmatchresttest_domain_Appointment" path="/appointments" typeIdFieldName="appointmentID" z="srLd80ZHOuBxSzgH0p56H+rEmh0=">
+            <table:column date="true" dateTimePattern="${appointment_appointmentdate_date_format}" id="c_de_metafinanz_mixmatchresttest_domain_Appointment_appointmentDate" property="appointmentDate" z="WTGlfhSsGNqR2urFqm591m5OENc="/>
+            <table:column id="c_de_metafinanz_mixmatchresttest_domain_Appointment_ownerID" property="ownerID" z="Z0dyk/ow1JI9RShy0aiFEduzcGk="/>
+            <table:column id="c_de_metafinanz_mixmatchresttest_domain_Appointment_appointmentLocation" property="appointmentLocation" z="SaFK1GTjK6sNbwn6SA8ybwAisvY="/>
+        </table:table>
+    </page:list>
+</div>

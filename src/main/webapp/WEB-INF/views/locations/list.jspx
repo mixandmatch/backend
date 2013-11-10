@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_de_metafinanz_mixmatchresttest_domain_Location" items="${locations}" z="YVd8HTrMOo9vXzrnx6gkw4folcE=">
+        <table:table data="${locations}" id="l_de_metafinanz_mixmatchresttest_domain_Location" path="/locations" typeIdFieldName="locationID" z="dvdyfXY7M1IJ85P/UgflRr6gmbY=">
+            <table:column id="c_de_metafinanz_mixmatchresttest_domain_Location_locationName" property="locationName" z="9OAZN91ttoqIChvMxOoyxgbJEy8="/>
+        </table:table>
+    </page:list>
+</div>

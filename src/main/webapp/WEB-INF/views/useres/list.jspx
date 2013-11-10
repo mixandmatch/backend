@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" xmlns:table="urn:jsptagdir:/WEB-INF/tags/form/fields" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:list id="pl_de_metafinanz_mixmatchresttest_domain_UserE" items="${useres}" z="TfT4A0VLWL5ZPFBkXFEIR0WOhHI=">
+        <table:table data="${useres}" id="l_de_metafinanz_mixmatchresttest_domain_UserE" path="/useres" z="8q/5k4LPAhnBklNgeroyf7xR2Bg=">
+            <table:column id="c_de_metafinanz_mixmatchresttest_domain_UserE_username" property="username" z="0XAv8vWYQQ/JgMOXlTEL3mkzCpA="/>
+        </table:table>
+    </page:list>
+</div>

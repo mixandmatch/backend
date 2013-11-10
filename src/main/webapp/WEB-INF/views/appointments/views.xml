@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN" "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+    <definition extends="default" name="appointments/list">
+        <put-attribute name="body" value="/WEB-INF/views/appointments/list.jspx"/>
+    </definition>
+<definition extends="default" name="appointments/show">
+        <put-attribute name="body" value="/WEB-INF/views/appointments/show.jspx"/>
+    </definition>
+<definition extends="default" name="appointments/create">
+        <put-attribute name="body" value="/WEB-INF/views/appointments/create.jspx"/>
+    </definition>
+<definition extends="default" name="appointments/update">
+        <put-attribute name="body" value="/WEB-INF/views/appointments/update.jspx"/>
+    </definition>
+<definition extends="default" name="appointments/findAppointmentsByAppointmentLocation">
+        <put-attribute name="body" value="/WEB-INF/views/appointments/findAppointmentsByAppointmentLocation.jspx"/>
+    </definition>
+<definition extends="default" name="appointments/findAppointmentsByOwnerID">
+        <put-attribute name="body" value="/WEB-INF/views/appointments/findAppointmentsByOwnerID.jspx"/>
+    </definition>
+</tiles-definitions>

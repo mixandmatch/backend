@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:form="urn:jsptagdir:/WEB-INF/tags/form" xmlns:jsp="http://java.sun.com/JSP/Page" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <form:update id="fu_de_metafinanz_mixmatchresttest_domain_Appointment" idField="appointmentID" modelAttribute="appointment" path="/appointments" versionField="Version" z="C4s+gRnMfZ9Uc6nVbYEEsaAP/DM=">
+        <field:datetime dateTimePattern="${appointment_appointmentdate_date_format}" field="appointmentDate" id="c_de_metafinanz_mixmatchresttest_domain_Appointment_appointmentDate" z="7hp77pv8SCvS1o/JESveL8Bz8Ns="/>
+        <field:select field="ownerID" id="c_de_metafinanz_mixmatchresttest_domain_Appointment_ownerID" itemValue="id" items="${useres}" path="/useres" required="true" z="vUVODWnrcgnXiTrLvM5zUBR04GI="/>
+        <field:select field="appointmentLocation" id="c_de_metafinanz_mixmatchresttest_domain_Appointment_appointmentLocation" itemValue="locationID" items="${locations}" path="/locations" required="true" z="Hr5aiJOPcGDo/GYv4GmjNGCO6a0="/>
+    </form:update>
+</div>

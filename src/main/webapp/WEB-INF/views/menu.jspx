@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:menu="urn:jsptagdir:/WEB-INF/tags/menu" id="menu" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <menu:menu id="_menu" z="nZaf43BjUg1iM0v70HJVEsXDopc=">
+        <menu:category id="c_location" z="RvMgx8apsPylYygCQ4tMBVfulVw=">
+            <menu:item id="i_location_new" messageCode="global_menu_new" url="/locations?form" z="sW8KSnwNnd9wjssI0lLV1kzOguk="/>
+            <menu:item id="i_location_list" messageCode="global_menu_list" url="/locations?page=1&amp;size=${empty param.size ? 10 : param.size}" z="VdKLEljpeTLil2W6A3GdWmSBzXI="/>
+            <menu:item id="fi_location_locationnamelike" messageCode="global_menu_find" url="/locations?find=ByLocationNameLike&amp;form" z="TQR20GVIZ3Glvi/V08mt2maKwRM="/>
+        </menu:category>
+        <menu:category id="c_appointment" z="iuGzo5gABhrfaq/MdaNriVcevDM=">
+            <menu:item id="i_appointment_new" messageCode="global_menu_new" url="/appointments?form" z="+r2NZNAsN7VnAaba+oHMSM/xYho="/>
+            <menu:item id="i_appointment_list" messageCode="global_menu_list" url="/appointments?page=1&amp;size=${empty param.size ? 10 : param.size}" z="4wRKtVuEuIgcWTeITdXaZUVwhVY="/>
+            <menu:item id="fi_appointment_appointmentlocation" messageCode="global_menu_find" url="/appointments?find=ByAppointmentLocation&amp;form" z="Rpk6pMbuMdtDMc39w8LRElWYmeg="/>
+            <menu:item id="fi_appointment_ownerid" messageCode="global_menu_find" url="/appointments?find=ByOwnerID&amp;form" z="84ClRKlA4k9LgD9Aqr1SGoLC+B8="/>
+        </menu:category>
+        <menu:category id="c_usere" z="c0gWmwLZkxbF9tosaq8oiJo5kTM=">
+            <menu:item id="i_usere_new" messageCode="global_menu_new" url="/useres?form" z="hxl+WA1FOqimRSpBiPgDEp0UcBk="/>
+            <menu:item id="i_usere_list" messageCode="global_menu_list" url="/useres?page=1&amp;size=${empty param.size ? 10 : param.size}" z="Ru71OZYKkSuNMy5ecIn9Orntml8="/>
+            <menu:item id="fi_usere_usernameequals" messageCode="global_menu_find" url="/useres?find=ByUsernameEquals&amp;form" z="CxvlXXsOkDsF9qZILujDlI+GZaw="/>
+            <menu:item id="fi_usere_usernamelike" messageCode="global_menu_find" url="/useres?find=ByUsernameLike&amp;form" z="8S7i1ofpS1LmxSuXcx9Wu9pM19Q="/>
+        </menu:category>
+    </menu:menu>
+</div>

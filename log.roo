@@ -1,0 +1,52 @@
+project --topLevelPackage de.metafinanz.MixMatchRestTest --projectName MixMatchRooRestTestService --java 6 --packaging JAR
+jpa setup --database HYPERSONIC_IN_MEMORY --provider HIBERNATE --databaseName MixMatchRestTestDB
+entity jpa --class ~.domain.UserE --testAutomatically --entityName User --equals
+field string --fieldName username --notNull true --unique 
+entity jpa --class ~.domain.Appointment --testAutomatically --entityName Appointment --equals 
+field number --fieldName appointmentID --type java.lang.Long --unique --column id
+field date --fieldName appointmentDate --type java.util.Date
+field reference --fieldName ownerID --type ~.domain.UserE --notNull 
+entity jpa --class ~.domain.Location
+field string --fieldName locationName --notNull 
+field number --fieldName locationID --type java.lang.Long --unique --column id
+field reference --fieldName locationID --type ~.domain.Location --notNull --class ~.domain.Appointment
+backup
+logging setup --level TRACE --package PROJECT 
+web mvc json setup
+web mvc setup
+json all 
+web mvc all --package ~.web
+web mvc json all --package ~.web
+backup
+finder list --class ~.domain.Appointment
+finder add --finderName findAppointmentsByOwnerID
+finder add --finderName findAppointmentsByAppointmentLocation
+finder list 
+focus --class ~.domain.UserE
+finder list 
+finder add findUserEsByUsernameLike
+focus --class ~.domain.Location
+finder list 
+finder add findLocationsByLocationNameLike
+web mvc update tags 
+web mvc all --package de.metafinanz.mixmatchresttest.web
+hint
+hint finders
+hint web mvc
+web mvc finder all 
+web mvc json all 
+json all 
+test integration --entity ~.domain.Appointment
+test mock
+test stub 
+test integration --entity ~.domain.UserE
+test mock 
+test stub 
+test integration --entity ~.domain.Location
+test mock 
+test stub 
+focus --class ~.domain.UserE
+finder list 
+focus --class ~.domain.UserE
+finder list 
+finder add --finderName findUserEsByUsernameEquals

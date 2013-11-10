@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:field="urn:jsptagdir:/WEB-INF/tags/form/fields" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:page="urn:jsptagdir:/WEB-INF/tags/form" version="2.0">
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <page:show id="ps_de_metafinanz_mixmatchresttest_domain_Location" object="${location}" path="/locations" z="VGlQY1Lrf6DVzrP1+Pbn9zNClfk=">
+        <field:display field="locationName" id="s_de_metafinanz_mixmatchresttest_domain_Location_locationName" object="${location}" z="Z21OWWGnVw8gHuI1kjeGe7t25QE="/>
+    </page:show>
+</div>
