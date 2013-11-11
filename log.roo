@@ -50,3 +50,10 @@ finder list
 focus --class ~.domain.UserE
 finder list 
 finder add --finderName findUserEsByUsernameEquals
+focus --class ~.domain.Appointment
+field set --type ~.domain.UserE --fieldName participants --cardinality MANY_TO_MANY 
+json all 
+web mvc json all --package ~.web
+// Spring Roo 1.2.4.RELEASE [rev 75337cf] log opened at 2013-11-11 23:05:21
+exit
+// Spring Roo 1.2.4.RELEASE [rev 75337cf] log closed at 2013-11-11 23:05:49

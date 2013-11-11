@@ -6,5 +6,6 @@
         <field:display date="true" dateTimePattern="${appointment_appointmentdate_date_format}" field="appointmentDate" id="s_de_metafinanz_mixmatchresttest_domain_Appointment_appointmentDate" object="${appointment}" z="Ehg5YJvgtVyQVERHIJ/fJbSfFt0="/>
         <field:display field="ownerID" id="s_de_metafinanz_mixmatchresttest_domain_Appointment_ownerID" object="${appointment}" z="g5TKvH938EBDNc6P7ZX8k072HQo="/>
         <field:display field="appointmentLocation" id="s_de_metafinanz_mixmatchresttest_domain_Appointment_appointmentLocation" object="${appointment}" z="VeB/2TENTwjTPWauetoK/HprYYw="/>
+        <field:display field="participants" id="s_de_metafinanz_mixmatchresttest_domain_Appointment_participants" object="${appointment}" z="1tkLL3pc0tzEJ+r0xiExVQnFbrQ="/>
     </page:show>
 </div>

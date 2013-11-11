@@ -7,6 +7,7 @@ import de.metafinanz.mixmatchresttest.domain.Appointment;
 import de.metafinanz.mixmatchresttest.domain.Location;
 import de.metafinanz.mixmatchresttest.domain.UserE;
 import java.util.Date;
+import java.util.Set;
 
 privileged aspect Appointment_Roo_JavaBean {
     
@@ -40,6 +41,14 @@ privileged aspect Appointment_Roo_JavaBean {
     
     public void Appointment.setAppointmentLocation(Location appointmentLocation) {
         this.appointmentLocation = appointmentLocation;
+    }
+    
+    public Set<UserE> Appointment.getParticipants() {
+        return this.participants;
+    }
+    
+    public void Appointment.setParticipants(Set<UserE> participants) {
+        this.participants = participants;
     }
     
 }

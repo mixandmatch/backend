@@ -13,19 +13,19 @@ import java.util.List;
 privileged aspect Appointment_Roo_Json {
     
     public String Appointment.toJson() {
-        return new JSONSerializer().exclude("*.class").serialize(this);
+        return new JSONSerializer().exclude("*.class").deepSerialize(this);
     }
     
     public String Appointment.toJson(String[] fields) {
-        return new JSONSerializer().include(fields).exclude("*.class").serialize(this);
+        return new JSONSerializer().include(fields).exclude("*.class").deepSerialize(this);
     }
     
     public static String Appointment.toJsonArray(Collection<Appointment> collection) {
-        return new JSONSerializer().exclude("*.class").serialize(collection);
+        return new JSONSerializer().exclude("*.class").deepSerialize(collection);
     }
     
     public static String Appointment.toJsonArray(Collection<Appointment> collection, String[] fields) {
-        return new JSONSerializer().include(fields).exclude("*.class").serialize(collection);
+        return new JSONSerializer().include(fields).exclude("*.class").deepSerialize(collection);
     }
     
     public static Collection<Appointment> Appointment.fromJsonArrayToAppointments(String json) {

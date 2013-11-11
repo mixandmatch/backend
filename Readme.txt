@@ -34,6 +34,10 @@ Find user by name:
 curl -i -H "Accept: application/json" http://localhost:8080/MixMatchRooRestTestService/useres?find=ByUsernameEquals&username=user+1
 Returns empty json array if user doesn't exist.
 
+Get user with id:
+curl -i -H "Accept: application/json" http://localhost:8080/MixMatchRooRestTestService/useres/2
+
+
 Appointments
 ------------
 Add an appointment:
@@ -42,6 +46,15 @@ Where appointmentLocation and ownerID are IDs of existing locations/users
 
 Get all appointments:
 curl -i -H "Accept: application/json" http://localhost:8080/MixMatchRooRestTestService/appointments
+
+Get appointment with ID:
+curl -i -H "Accept: application/json" http://localhost:8080/MixMatchRooRestTestService/appointments/1
+
+Add a participant to an appointment:
+curl -i -v -H "Accept: application/json" -X POST -H "Content-Type: application/json" -d '{"username":"testuser"}' http://localhost:8080/MixMatchRooRestTestService/appointments/1/addParticipant
+
+URL:
+http://localhost:8080/MixMatchRooRestTestService/appointments/{appointmentID}/addParticipant
 
 
 

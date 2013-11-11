@@ -3,6 +3,7 @@ package de.metafinanz.mixmatchresttest.util;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationListener;
@@ -20,19 +21,16 @@ import de.metafinanz.mixmatchresttest.domain.UserE;
  * configuration.
  */
 @Component
-public class SampleDataGenerator implements
-		ApplicationListener<ContextRefreshedEvent> {
+public class SampleDataGenerator implements ApplicationListener<ContextRefreshedEvent> {
 
-	private static final Logger logger = Logger
-			.getLogger(SampleDataGenerator.class);
+	private static final Logger logger = Logger.getLogger(SampleDataGenerator.class);
 
 	@Override
 	@Transactional
 	public final void onApplicationEvent(final ContextRefreshedEvent event) {
 		if (event.getApplicationContext().getParent() == null) {
 			// Only add the sample data when the database is empty
-			if (UserE.countUserEs() == 0 && Location.countLocations() == 0
-					&& Appointment.countAppointments() == 0) {
+			if (UserE.countUserEs() == 0 && Location.countLocations() == 0 && Appointment.countAppointments() == 0) {
 				logger.info("Parent started: generating sample data");
 				this.insertSampleData();
 				logger.trace("Sample data generated: ");
@@ -75,6 +73,11 @@ public class SampleDataGenerator implements
 
 		anAppointment.setAppointmentLocation(aLocation);
 		anAppointment.setOwnerID(aUser);
+
+		Set<UserE> participants = anAppointment.getParticipants();
+		participants.add(UserE.findUserE(1L));
+		anAppointment.setParticipants(participants);
+		
 		anAppointment.persist();
 
 	}
