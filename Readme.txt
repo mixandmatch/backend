@@ -62,3 +62,39 @@ To get a JSON representation of the page displayed in the browser just add .json
 Samples:
 http://localhost:8080/MixMatchRooRestTestService/locations.json
 http://localhost:8080/MixMatchRooRestTestService/locations.json?find=ByLocationNameLike&locationName=test
+
+
+Standalone Jar
+==============
+
+To create a standalone jar with an embedded tomcat server add the following to the pom.xml and run mvn package.
+
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.1</version>
+				<executions>
+					<execution>
+						<id>tomcat-run</id>
+						<goals>
+							<goal>exec-war-only</goal>
+						</goals>
+						<phase>package</phase>
+						<configuration>
+							<path>/MixMatchRooRestTestService</path>
+							<!-- optional, needed only if you want to use a preconfigured server.xml 
+								file <serverXml>src/main/tomcatconf/server.xml</serverXml> -->
+							<!-- optional values which can be configurable -->
+							<enableNaming>false</enableNaming>
+							<finalName>MixMatchRooRestTestService.jar</finalName>
+							<charset>utf-8</charset>
+							<attachArtifactClassifier>exec-war</attachArtifactClassifier>
+							<attachArtifactClassifierType>jar</attachArtifactClassifierType>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+To run the server use:
+java -jar MixMatchRooRestTestService.jar
+The URL stays the same.
