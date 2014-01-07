@@ -1,0 +1,19 @@
+// Spring Roo 1.2.4.RELEASE [rev 75337cf] log opened at 2014-01-07 10:39:09
+project --topLevelPackage de.metafinanz.mam --projectName mam-backend --java 6 --packaging JAR
+// Spring Roo 1.2.4.RELEASE [rev 75337cf] log closed at 2014-01-07 10:39:10
+// Spring Roo 1.2.4.RELEASE [rev 75337cf] log opened at 2014-01-07 10:39:13
+jpa setup --database HYPERSONIC_IN_MEMORY --provider HIBERNATE --databaseName MixMatchDB
+// Spring Roo 1.2.4.RELEASE [rev 75337cf] log closed at 2014-01-07 10:54:39
+// Spring Roo 1.2.4.RELEASE [rev 75337cf] log opened at 2014-01-07 11:13:04
+entity jpa --class de.metafinanz.mam.backend.repository --entityName User --equals --permitReservedWords
+entity jpa --class de.metafinanz.mam.backend.repository.User --entityName User --equals --permitReservedWords
+jpa setup --database H2_IN_MEMORY --provider HIBERNATE --databaseName MixMatchDB
+// Spring Roo 1.2.4.RELEASE [rev 75337cf] log opened at 2014-01-07 11:47:41
+// Spring Roo 1.2.4.RELEASE [rev 75337cf] log closed at 2014-01-07 11:51:55
+// Spring Roo 1.2.4.RELEASE [rev 75337cf] log opened at 2014-01-07 11:52:06
+hint
+// [failed] test stub --class ~.backend.repository.User
+// [failed] test stub --class ~.backend.repository.User --permitReservedWords true
+test integration --entity ~.backend.repository.User --permitReservedWords 
+test integration --entity ~.backend.repository.Appointment
+test integration --entity ~.backend.repository.Locationjpa setup --database HYPERSONIC_IN_MEMORY --provider HIBERNATE --databaseName MixMatchRestTestDB
