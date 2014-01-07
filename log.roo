@@ -17,3 +17,5 @@ hint
 test integration --entity ~.backend.repository.User --permitReservedWords 
 test integration --entity ~.backend.repository.Appointment
 test integration --entity ~.backend.repository.Locationjpa setup --database HYPERSONIC_IN_MEMORY --provider HIBERNATE --databaseName MixMatchRestTestDB
+finder list --class ~.backend.repository.User
+jpa setup --database H2_IN_MEMORY --provider HIBERNATE --databaseName MixMatchDB

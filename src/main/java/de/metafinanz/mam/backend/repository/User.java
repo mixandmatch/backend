@@ -12,7 +12,7 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooToString
 @RooEquals
 @RooJson
-@RooJpaActiveRecord(entityName = "User", finders = { "findUserEsByUsernameLike", "findUserEsByUsernameEquals" })
+@RooJpaActiveRecord(entityName = "User", finders = { "findUsersByUsernameLike", "findUsersByUsernameEquals" })
 public class User {
 	
     /**

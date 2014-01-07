@@ -1,0 +1,6 @@
+- Use /mam-backend/src/main/resources/database.properties instead of /src/main/resources/META-INF/spring/database.properties
+  in applicationContext.xml:
+	-> Problem: Keep JUnit Tests that are running within Eclipse functional.
+			Modify context to load a default properties file during tests? / Load different context in tests? (Context is defined using: @ContextConfiguration)
+- Replace existing logging that users log4j with logback. Once that is done log4j.properties can be deleted.
+	Example of logback logging: /src/test/java/de/metafinanz/mam/backend/repository/UserTest.java
