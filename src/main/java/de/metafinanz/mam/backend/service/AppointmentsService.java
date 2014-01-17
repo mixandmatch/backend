@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -30,9 +31,10 @@ public class AppointmentsService {
 		return appointmentsController.getAppointments();
 	}
 	
-	@PUT
+	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response appointments_add(JSONAppointment appointment) {
+		System.err.println("asdf");
 		String result = appointmentsController.addAppointment(appointment);
 		return Response.status(201).entity(result).build();
 	}

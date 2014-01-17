@@ -423,6 +423,7 @@
                     <redirectTestOutputToFile>true</redirectTestOutputToFile>
                     <excludes>
                         <exclude>**/*_Roo_*</exclude>
+                        <exclude>**/client/*.java</exclude>
                     </excludes>
                 </configuration>
             </plugin>
