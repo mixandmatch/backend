@@ -14,15 +14,12 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect AppointmentIntegrationTest_Roo_IntegrationTest {
     
     declare @type: AppointmentIntegrationTest: @RunWith(SpringJUnit4ClassRunner.class);
-    
-    declare @type: AppointmentIntegrationTest: @ContextConfiguration(locations = "classpath*:/META-INF/spring/applicationContext*.xml");
     
     declare @type: AppointmentIntegrationTest: @Transactional;
     

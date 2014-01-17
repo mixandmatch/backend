@@ -2,8 +2,10 @@ package de.metafinanz.mam.backend.repository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.roo.addon.test.RooIntegrationTest;
+import org.springframework.test.context.ContextConfiguration;
 
 @RooIntegrationTest(entity = Location.class)
+@ContextConfiguration(locations = "classpath*:applicationContext*.xml")
 public class LocationIntegrationTest {
 
     @Test

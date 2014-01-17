@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,8 +30,8 @@ import flexjson.JSONDeserializer;
 @RooToString
 @RooEquals
 @RooJson(deepSerialize = true)
-@RooJpaActiveRecord(entityName = "Appointment", finders = { "findAppointmentsByOwnerID",
-		"findAppointmentsByAppointmentLocation" })
+@RooJpaActiveRecord(entityName = "Appointment", finders = {
+		"findAppointmentsByOwnerID", "findAppointmentsByAppointmentLocation" })
 public class Appointment {
 
 	/**
@@ -61,7 +62,9 @@ public class Appointment {
 	/**
      */
 	// TODO: Just save userID as reference?
-	@ManyToMany(cascade = CascadeType.ALL)
+	// fetch = Eager fixes the lazy init error when the participants are
+	// accessed after the session is closed.
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<User> participants = new HashSet<User>();
 
 	// @Transient
@@ -138,19 +141,38 @@ public class Appointment {
 		// FIXME: Quick hack to convert json Appointments only containing IDs:
 		Appointment newAppointment = new Appointment();
 		try {
-			newAppointment = new JSONDeserializer<Appointment>().use(null, Appointment.class).deserialize(json);
+			newAppointment = new JSONDeserializer<Appointment>().use(null,
+					Appointment.class).deserialize(json);
 		} catch (ClassCastException e) {
-			JSONAppointment aJsonAppointment = new JSONDeserializer<JSONAppointment>().use(null, JSONAppointment.class)
-					.deserialize(json);
-			if (aJsonAppointment.getOwnerID() == 0 || aJsonAppointment.getAppointmentLocation() == 0) {
+			JSONAppointment aJsonAppointment = new JSONDeserializer<JSONAppointment>()
+					.use(null, JSONAppointment.class).deserialize(json);
+			if (aJsonAppointment.getOwnerID() == 0
+					|| aJsonAppointment.getAppointmentLocation() == 0) {
 				throw new ClassCastException();
 			}
 			newAppointment = new Appointment();
-			newAppointment.setAppointmentID(aJsonAppointment.getAppointmentID());
-			newAppointment.setAppointmentDate(aJsonAppointment.getAppointmentDate());
-			newAppointment.setOwnerID(User.findUser(aJsonAppointment.getOwnerID()));
-			newAppointment.setAppointmentLocation(Location.findLocation(aJsonAppointment.getAppointmentLocation()));
+			newAppointment
+					.setAppointmentID(aJsonAppointment.getAppointmentID());
+			newAppointment.setAppointmentDate(aJsonAppointment
+					.getAppointmentDate());
+			newAppointment.setOwnerID(User.findUser(aJsonAppointment
+					.getOwnerID()));
+			newAppointment.setAppointmentLocation(Location
+					.findLocation(aJsonAppointment.getAppointmentLocation()));
 		}
+		return newAppointment;
+	}
+
+	public static Appointment fromJsonAppointmentToAppointment(
+			JSONAppointment aJSONAppointment) {
+		// FIXME: Quick hack to convert json Appointments only containing IDs:
+		Appointment newAppointment = new Appointment();
+		// newAppointment.setAppointmentID(aJSONAppointment.getAppointmentID());
+		newAppointment
+				.setAppointmentDate(aJSONAppointment.getAppointmentDate());
+		newAppointment.setOwnerID(User.findUser(aJSONAppointment.getOwnerID()));
+		newAppointment.setAppointmentLocation(Location
+				.findLocation(aJSONAppointment.getAppointmentLocation()));
 		return newAppointment;
 	}
 }
