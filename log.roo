@@ -19,3 +19,4 @@ test integration --entity ~.backend.repository.Appointment
 test integration --entity ~.backend.repository.Locationjpa setup --database HYPERSONIC_IN_MEMORY --provider HIBERNATE --databaseName MixMatchRestTestDB
 finder list --class ~.backend.repository.User
 jpa setup --database H2_IN_MEMORY --provider HIBERNATE --databaseName MixMatchDB
+// Spring Roo 1.2.4.RELEASE [rev 75337cf] log opened at 2014-01-17 09:18:40
