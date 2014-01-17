@@ -31,7 +31,6 @@ public class AppointmentsService {
 	}
 	
 	@PUT
-	@Path("/add")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response appointments_add(JSONAppointment appointment) {
 		String result = appointmentsController.addAppointment(appointment);
