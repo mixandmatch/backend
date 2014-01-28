@@ -22,6 +22,10 @@
 			<param-value>com.mam.rest</param-value>
 		</init-param>
 		<init-param>
+			<param-name>com.sun.jersey.spi.container.ContainerResponseFilters</param-name>
+			<param-value>de.metafinanz.mam.backend.filter.CrossDomainFilter</param-value>
+		</init-param>
+		<init-param>
 			<param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
 			<param-value>true</param-value>
 		</init-param>
