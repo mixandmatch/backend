@@ -35,7 +35,7 @@ public class TestLocations {
 		get();
 		
 		String json = "{\"locationName\":\"Berlin\"}";
-		post(json);
+		System.out.println(post(json));
 		
 		json = get();
 		
@@ -87,7 +87,7 @@ public class TestLocations {
 		System.out.println();
 		System.out.println("======== POST ========");
 		System.out.println(json);
-		ClientResponse response = webResource.accept(MediaType.APPLICATION_JSON).post(ClientResponse.class,
+		ClientResponse response = webResource.accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON).post(ClientResponse.class,
 						json);
 		return response.toString();
 	}

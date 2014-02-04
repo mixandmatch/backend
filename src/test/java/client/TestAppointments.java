@@ -35,7 +35,7 @@ public class TestAppointments {
 		get();
 	
 		String json = "{\"appointmentDate\":1389771678807,\"appointmentLocation\":1,\"ownerID\":1}";
-		post(json);
+		System.out.println(post(json));
 		
 		json = get();
 		
@@ -63,7 +63,7 @@ public class TestAppointments {
 		System.out.println();
 		System.out.println("======== POST Participant ========");
 		System.out.println(json);
-		ClientResponse response = webResource.path("/" + id + "/addParticipant").accept(MediaType.APPLICATION_JSON).post(ClientResponse.class,
+		ClientResponse response = webResource.path("/" + id + "/addParticipant").accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON).post(ClientResponse.class,
 						json);
 		return response.toString();
 		
@@ -90,7 +90,7 @@ public class TestAppointments {
 		System.out.println();
 		System.out.println("======== POST ========");
 		System.out.println(json);
-		ClientResponse response = webResource.accept(MediaType.APPLICATION_JSON).post(ClientResponse.class,
+		ClientResponse response = webResource.accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON).post(ClientResponse.class,
 						json);
 		return response.toString();
 	}

@@ -315,6 +315,9 @@
 	<profiles>
 		<profile>
 			<id>stage-dev</id>
+		    <activation>
+		        <activeByDefault>true</activeByDefault>
+		    </activation>
 			<properties>
 				<jdbc.driverClassName>org.h2.Driver</jdbc.driverClassName>
 				<jdbc.url>jdbc:h2:mem:mixandmatch;DB_CLOSE_DELAY=-1</jdbc.url>
