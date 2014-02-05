@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.EntityManager;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -64,7 +66,8 @@ public class Appointment {
 	// TODO: Just save userID as reference?
 	// fetch = Eager fixes the lazy init error when the participants are
 	// accessed after the session is closed.
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//	TODO: Change cascade to: cascade={REMOVE, REFRESH, DETACH}?
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = User.class)
 	private Set<User> participants = new HashSet<User>();
 
 	// @Transient
@@ -174,5 +177,24 @@ public class Appointment {
 		newAppointment.setAppointmentLocation(Location
 				.findLocation(aJSONAppointment.getAppointmentLocation()));
 		return newAppointment;
+	}
+
+	public static TypedQuery<Appointment> findAppointmentsByParticipant(
+			User aParticipant) {
+		if (aParticipant == null)
+			throw new IllegalArgumentException(
+					"The aParticipant argument is required");
+		EntityManager em = Appointment.entityManager();
+		// TypedQuery<Appointment> q = em.createQuery(
+		// "SELECT o FROM Appointment AS o WHERE o.PARTICIPANTS = :aParticipant",
+		// Appointment.class);
+		TypedQuery<Appointment> q = em
+				.createQuery(
+						"SELECT DISTINCT o FROM Appointment o JOIN o.participants p where p.id = :aParticipant",
+						Appointment.class);
+		q.setParameter("aParticipant", aParticipant.getId());
+		System.out.println(q.toString());
+		return q;
+
 	}
 }

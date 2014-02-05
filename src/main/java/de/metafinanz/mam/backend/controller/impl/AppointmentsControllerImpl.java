@@ -1,7 +1,6 @@
 package de.metafinanz.mam.backend.controller.impl;
 
 import java.util.List;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,21 +27,37 @@ public class AppointmentsControllerImpl implements AppointmentsController {
 		return "appointment " + appointment.getAppointmentID() + " created";
 	}
 
+	/**
+	 * Ads a new participant to the appointment. Automatically persists the
+	 * changed appointment. If the user does not exist a new one is
+	 * automatically created.
+	 * 
+	 * @param aUserName
+	 *            Username of the participant to add.
+	 */
 	@Override
-	public String addParticipant(Long appointmentID, User newParticipant) {
+	public String addParticipant(Long appointmentID, String aUserName) {
 		logger.trace("entering addParticipant");
-		logger.debug("Adding participant " + newParticipant
+		logger.debug("Adding participant " + aUserName
 				+ " to appointment with id: " + appointmentID);
+		User participant;
+
+		List<User> userResult = User.findUsersByUsernameEquals(aUserName)
+				.getResultList();
+		if (userResult.isEmpty()) {
+			// User does not exist: Create it
+			participant = new User();
+			participant.setUsername(aUserName);
+			participant.persist();
+			participant.flush();
+		} else {
+			participant = userResult.get(0);
+		}
+
 		Appointment anAppointment = Appointment.findAppointment(appointmentID);
 		logger.debug("Appointment from db: " + anAppointment);
-		// TODO: findUsersByUsername like or equals?
-		// TODO: Create new User if he does not exist
-		User aUser = User.findUsersByUsernameLike(newParticipant.getUsername())
-				.getSingleResult();
-		Set<User> participants = anAppointment.getParticipants();
-		participants.add(aUser);
-		anAppointment.setParticipants(participants);
-		anAppointment.persist();
+		anAppointment.getParticipants().add(participant);
+		anAppointment.merge();
 		anAppointment.flush();
 		return null;
 	}

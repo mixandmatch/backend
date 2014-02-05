@@ -10,6 +10,6 @@ public interface AppointmentsController {
 
 	List<Appointment> getAppointments();
 	String addAppointment(JSONAppointment appointment);
-	String addParticipant(Long appointmentID, User newParticipant);
+	String addParticipant(Long appointmentID, String aUserName);
 
 }

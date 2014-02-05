@@ -1,4 +1,5 @@
 package de.metafinanz.mam.backend.repository;
+
 import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 
@@ -12,12 +13,14 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooToString
 @RooEquals
 @RooJson
-@RooJpaActiveRecord(entityName = "User", finders = { "findUsersByUsernameLike", "findUsersByUsernameEquals" })
+@RooJpaActiveRecord(entityName = "User", finders = { "findUsersByUsernameLike",
+		"findUsersByUsernameEquals" })
 public class User {
-	
-    /**
+
+	/**
      */
-    @NotNull
-    @Column(unique = true)
-    private String username;
+	@NotNull
+	@Column(unique = true)
+	private String username;
+
 }

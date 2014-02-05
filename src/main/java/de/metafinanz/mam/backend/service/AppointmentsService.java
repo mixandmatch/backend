@@ -44,13 +44,27 @@ public class AppointmentsService {
 		return Response.status(201).entity(result).build();
 	}
 
+	/**
+	 * Adds a new participant to an Appointment.
+	 * 
+	 * @param id
+	 *            The appointment ID derived from the Path
+	 * @param newParticipant
+	 *            The new participant. As the client generally uses a JSON like
+	 *            this: {"username":"testuser"}. The resulting User object does
+	 *            not have an id value.
+	 * @return
+	 */
 	@POST
 	@Path("{id}/addParticipant")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addParticipant(@PathParam("id") String id, User newParticipant) {
+	public Response addParticipant(@PathParam("id") String id,
+			User newParticipant) {
 		logger.trace("entering addParticipant");
-		logger.debug("Adding participant: " + newParticipant + " to appointment with id: " + id);
+		logger.debug("Adding participant: " + newParticipant
+				+ " to appointment with id: " + id);
+		appointmentsController.addParticipant(new Long(id), newParticipant.getUsername());
 		return Response.status(201).entity("").build();
 	}
-	
+
 }
