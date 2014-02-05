@@ -23,7 +23,6 @@ public class AppointmentsControllerImpl implements AppointmentsController {
 		Appointment newAppointment = Appointment
 				.fromJsonAppointmentToAppointment(appointment);
 		newAppointment.persist();
-		newAppointment.flush();
 		return "appointment " + appointment.getAppointmentID() + " created";
 	}
 
@@ -49,7 +48,6 @@ public class AppointmentsControllerImpl implements AppointmentsController {
 			participant = new User();
 			participant.setUsername(aUserName);
 			participant.persist();
-			participant.flush();
 		} else {
 			participant = userResult.get(0);
 		}
@@ -58,7 +56,12 @@ public class AppointmentsControllerImpl implements AppointmentsController {
 		logger.debug("Appointment from db: " + anAppointment);
 		anAppointment.getParticipants().add(participant);
 		anAppointment.merge();
-		anAppointment.flush();
+		return null;
+	}
+
+	@Override
+	public Appointment removeParticipant(Long userID) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

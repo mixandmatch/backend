@@ -33,9 +33,14 @@ public class LocationsControllerImpl implements LocationsController {
 		Location newLocation = new Location();
 		newLocation.setLocationName(aLocation.getLocationName());
 		newLocation.persist();
-		newLocation.flush();
 		// TODO: Error Handling
 		return true;
+	}
+
+	@Override
+	public boolean removeLocation(Location aLocation) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

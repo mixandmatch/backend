@@ -2,10 +2,6 @@ package de.metafinanz.mam.backend.controller;
 
 import java.util.List;
 
-import javax.ws.rs.core.Response;
-
-import org.springframework.http.HttpStatus;
-
 import de.metafinanz.mam.backend.repository.Location;
 
 public interface LocationsController {
@@ -29,5 +25,7 @@ public interface LocationsController {
 	 * @return true if the location was successfully added, false if there was any error.
 	 */
 	boolean addLocation(Location aLocation);
+	
+	boolean removeLocation(Location aLocation);
 
 }

@@ -70,5 +70,5 @@
     
     <bean id="appointmentsController" class="de.metafinanz.mam.backend.controller.impl.AppointmentsControllerImpl" />
  	<bean id="locationsController" class="de.metafinanz.mam.backend.controller.impl.LocationsControllerImpl" />
- 	<bean id="matchesController" class="de.metafinanz.mam.backend.controller.impl.MatchesControllerImpl" />
+ 	<bean id="matchesController" class="de.metafinanz.mam.backend.controller.impl.UserControllerImpl" />
 </beans>
