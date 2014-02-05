@@ -4,18 +4,18 @@
 package de.metafinanz.mam.backend.repository;
 
 import de.metafinanz.mam.backend.repository.Appointment;
-import de.metafinanz.mam.backend.repository.Location;
 import de.metafinanz.mam.backend.repository.User;
+import java.util.Date;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 privileged aspect Appointment_Roo_Finder {
     
-    public static TypedQuery<Appointment> Appointment.findAppointmentsByAppointmentLocation(Location appointmentLocation) {
-        if (appointmentLocation == null) throw new IllegalArgumentException("The appointmentLocation argument is required");
+    public static TypedQuery<Appointment> Appointment.findAppointmentsByAppointmentDateGreaterThan(Date appointmentDate) {
+        if (appointmentDate == null) throw new IllegalArgumentException("The appointmentDate argument is required");
         EntityManager em = Appointment.entityManager();
-        TypedQuery<Appointment> q = em.createQuery("SELECT o FROM Appointment AS o WHERE o.appointmentLocation = :appointmentLocation", Appointment.class);
-        q.setParameter("appointmentLocation", appointmentLocation);
+        TypedQuery<Appointment> q = em.createQuery("SELECT o FROM Appointment AS o WHERE o.appointmentDate > :appointmentDate", Appointment.class);
+        q.setParameter("appointmentDate", appointmentDate);
         return q;
     }
     

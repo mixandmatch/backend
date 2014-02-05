@@ -65,4 +65,16 @@ public class AppointmentsControllerImpl implements AppointmentsController {
 		return null;
 	}
 
+	@Override
+	public List<Appointment> getAppointmentsForLocation(Long locationID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Appointment deleteAppointment() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

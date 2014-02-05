@@ -3,7 +3,6 @@ package de.metafinanz.mam.backend.repository;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EntityManager;
@@ -17,14 +16,12 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
-
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.roo.addon.equals.RooEquals;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import org.springframework.roo.addon.json.RooJson;
 import org.springframework.roo.addon.tostring.RooToString;
-
 import de.metafinanz.mam.backend.repository.json.JSONAppointment;
 import flexjson.JSONDeserializer;
 
@@ -33,7 +30,7 @@ import flexjson.JSONDeserializer;
 @RooEquals
 @RooJson(deepSerialize = true)
 @RooJpaActiveRecord(entityName = "Appointment", finders = {
-		"findAppointmentsByOwnerID", "findAppointmentsByAppointmentLocation" })
+		"findAppointmentsByOwnerID", "findAppointmentsByAppointmentLocation", "findAppointmentsByAppointmentDateGreaterThan" })
 public class Appointment {
 
 	/**
@@ -197,4 +194,12 @@ public class Appointment {
 		return q;
 
 	}
+
+	public static TypedQuery<Appointment> findAppointmentsByAppointmentLocation(Location appointmentLocation) {
+        if (appointmentLocation == null) throw new IllegalArgumentException("The appointmentLocation argument is required");
+        EntityManager em = Appointment.entityManager();
+        TypedQuery<Appointment> q = em.createQuery("SELECT o FROM Appointment AS o WHERE o.appointmentLocation = :appointmentLocation", Appointment.class);
+        q.setParameter("appointmentLocation", appointmentLocation);
+        return q;
+    }
 }

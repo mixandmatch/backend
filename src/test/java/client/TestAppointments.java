@@ -59,7 +59,7 @@ public class TestAppointments {
 		get();
 	}
 
-	public void testDeleteParticipant() {
+	public void testRemoveParticipant() {
 		// TODO Implement
 	}
 

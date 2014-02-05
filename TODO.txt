@@ -4,3 +4,20 @@
 			Modify context to load a default properties file during tests? / Load different context in tests? (Context is defined using: @ContextConfiguration)
 - Replace existing logging that users log4j with logback. Once that is done log4j.properties can be deleted.
 	Example of logback logging: /src/test/java/de/metafinanz/mam/backend/repository/UserTest.java
+
+Services to implement:
+- CreateOrGetUser: Create User and return ID or return ID of exiting user
+- removeParticipant
+- getAppointmentsForLocation
+- get Appointments only for future events (getAppointments, getAppointmentsForLocation)
+- Add findAppointmentsByUser Find appointments where the user is either the owner or a participant
+- Modify addParticipant to be able to use a username or an ID as param
+
+Update and refactor Test clients
+
+Nice to have:
+- removeLocation
+- deleteAppointment:
+	At the moment there is no way available to authenticate the owner
+	-> Simple solution: addAppointment returns a secret to the client
+	   This is needed when the appointment should be deleted
