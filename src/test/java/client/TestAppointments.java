@@ -6,6 +6,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -54,7 +55,9 @@ public class TestAppointments {
 		String id = getResourceID(json, "appointmentID");
 
 		json = "{\"username\":\"Marion\"}";
-		postParticipant(id, json);
+		ClientResponse response =postParticipant(id, json);
+		System.out.println("response: " + response.toString());
+		Assert.assertEquals(ClientResponse.Status.CREATED, response.getClientResponseStatus());
 
 		get();
 	}
@@ -93,14 +96,14 @@ public class TestAppointments {
 		get();
 	}
 
-	private String postParticipant(String id, String json) {
+	private ClientResponse postParticipant(String id, String json) {
 		System.out.println();
 		System.out.println("======== POST Participant ========");
 		System.out.println(json);
 		ClientResponse response = webResource.path("/" + id + "/addParticipant")
 				.accept(MediaType.APPLICATION_JSON).type(MediaType.APPLICATION_JSON)
 				.post(ClientResponse.class, json);
-		return response.toString();
+		return response;
 
 	}
 

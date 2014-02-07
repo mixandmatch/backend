@@ -30,9 +30,9 @@
 	<logger name="org.springframework" level="error" />
 	<logger name="org.apache.commons" level="error" />
 	<logger name="org.hibernate" level="debug" />
-	<logger name="de.maetafinanz.mam" level="debug" />
+	<logger name="de.maetafinanz.mam" level="all" />
 
-	<root level="debug">
+	<root level="all">
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="FILE" />
 	</root>

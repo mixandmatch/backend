@@ -13,6 +13,8 @@ Services to implement:
 - Add findAppointmentsByUser Find appointments where the user is either the owner or a participant
 - Modify addParticipant to be able to use a username or an ID as param
 
+- Improve Error handling
+
 Update and refactor Test clients
 
 Nice to have:

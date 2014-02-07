@@ -25,11 +25,11 @@
 		</encoder>
 	</appender>
 
-	<logger name="org.springframework" level="debug" />
-	<logger name="org.hibernate" level="debug" />
-	<logger name="de.maetafinanz.mam" level="debug" />
+	<logger name="org.springframework" level="all" />
+	<logger name="org.hibernate" level="all" />
+	<logger name="de.maetafinanz.mam" level="all" />
 	
-	<root level="debug">
+	<root level="all">
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="FILE" />
 	</root>

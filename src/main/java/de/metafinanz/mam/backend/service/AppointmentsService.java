@@ -3,6 +3,7 @@ package de.metafinanz.mam.backend.service;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -10,6 +11,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,18 +55,37 @@ public class AppointmentsService {
 	 *            The new participant. As the client generally uses a JSON like
 	 *            this: {"username":"testuser"}. The resulting User object does
 	 *            not have an id value.
-	 * @return
+	 * @return The new appointment. Null if there was an error.
 	 */
 	@POST
 	@Path("{id}/addParticipant")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addParticipant(@PathParam("id") String id,
-			User newParticipant) {
+	public Response addParticipant(@PathParam("id") String id, User newParticipant) {
 		logger.trace("entering addParticipant");
-		logger.debug("Adding participant: " + newParticipant
-				+ " to appointment with id: " + id);
-		appointmentsController.addParticipant(new Long(id), newParticipant.getUsername());
-		return Response.status(201).entity("").build();
+		logger.debug("Adding participant: " + newParticipant + " to appointment with id: " + id);
+		Appointment result = appointmentsController.addParticipant(new Long(id), newParticipant);
+
+		if (result == null) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+		} else {
+			return Response.status(Status.CREATED).entity(result).build();
+		}
+	}
+
+	@DELETE
+	@Path("{id}/removeParticipant")
+	@Produces(MediaType.APPLICATION_JSON)
+	private Response removeParticipant(@PathParam("id") String id, User aParticipant) {
+		logger.trace("entering removeParticipant");
+		logger.debug("Removing participant: " + aParticipant + " from appointment with id: " + id);
+
+		Appointment result = appointmentsController.removeParticipant(new Long(id), aParticipant);
+		if (result == null) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+		} else {
+			return Response.status(Status.CREATED).entity(result).build();
+		}
+
 	}
 
 }

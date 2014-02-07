@@ -20,47 +20,35 @@ public class AppointmentsControllerImpl implements AppointmentsController {
 	}
 
 	public String addAppointment(JSONAppointment appointment) {
-		Appointment newAppointment = Appointment
-				.fromJsonAppointmentToAppointment(appointment);
+		Appointment newAppointment = Appointment.fromJsonAppointmentToAppointment(appointment);
 		newAppointment.persist();
 		return "appointment " + appointment.getAppointmentID() + " created";
 	}
 
 	/**
 	 * Ads a new participant to the appointment. Automatically persists the
-	 * changed appointment. If the user does not exist a new one is
-	 * automatically created.
+	 * changed appointment.
 	 * 
 	 * @param aUserName
 	 *            Username of the participant to add.
 	 */
-	@Override
-	public String addParticipant(Long appointmentID, String aUserName) {
+	public Appointment addParticipant(Long appointmentID, User aUser)
+			throws IllegalArgumentException {
 		logger.trace("entering addParticipant");
-		logger.debug("Adding participant " + aUserName
-				+ " to appointment with id: " + appointmentID);
-		User participant;
+		logger.debug("Adding participant with ID: " + aUser + " to appointment with ID: "
+				+ appointmentID);
 
-		List<User> userResult = User.findUsersByUsernameEquals(aUserName)
-				.getResultList();
-		if (userResult.isEmpty()) {
-			// User does not exist: Create it
-			participant = new User();
-			participant.setUsername(aUserName);
-			participant.persist();
-		} else {
-			participant = userResult.get(0);
-		}
+		aUser = User.getOrCreateUser(aUser);
 
 		Appointment anAppointment = Appointment.findAppointment(appointmentID);
 		logger.debug("Appointment from db: " + anAppointment);
-		anAppointment.getParticipants().add(participant);
+		anAppointment.getParticipants().add(aUser);
 		anAppointment.merge();
-		return null;
+		return anAppointment;
 	}
 
 	@Override
-	public Appointment removeParticipant(Long userID) {
+	public Appointment removeParticipant(Long appointmentID, User aUser) {
 		// TODO Auto-generated method stub
 		return null;
 	}

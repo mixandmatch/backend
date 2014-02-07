@@ -26,40 +26,35 @@ public class AppointmentTest {
 	static Logger logger = LoggerFactory.getLogger(AppointmentTest.class);
 
 	@Test
-	public void testMethod() {
-		// logger.error("logger test");
+	public void testControllerAddParticipant() {
+		System.out.println("All Appointments: " + Appointment.findAllAppointments().toString());
 
-		List<Appointment> asdf = Appointment.findAllAppointments();
-		System.out.println("All Appointments: " + asdf.toString());
-
-		// Add non existant User to Appointment
-		Appointment anAppointment = Appointment.findAppointment(new Long(1));
+		// Add non existent User to Appointment:
+		Appointment anAppointment = Appointment.findAppointment(1L);
 		System.out.println("\nBefore Adduser: " + anAppointment.toString());
-		new AppointmentsControllerImpl().addParticipant(
-				anAppointment.getAppointmentID(), "newTestParticipant");
 
-		anAppointment = Appointment.findAppointment(new Long(1));
+		// New User only with username:
+		User newTestParticipant = new User();
+		newTestParticipant.setUsername("newTestParticipant");
+		new AppointmentsControllerImpl().addParticipant(anAppointment.getAppointmentID(),
+				newTestParticipant);
+
+		anAppointment = Appointment.findAppointment(1L);
 		System.out.println("After  Adduser: " + anAppointment.toString());
 
-		System.out.println("Adding an existing user:");
-		new AppointmentsControllerImpl().addParticipant(anAppointment
-				.getAppointmentID(), User.findUser(new Long(5)).getUsername());
+		Set<User> participants = anAppointment.getParticipants();
+		org.junit.Assert.assertEquals(true, participants.contains(User.findUsersByUsernameEquals(
+				"newTestParticipant").getSingleResult()));
 
-		anAppointment = Appointment.findAppointment(new Long(1));
+		System.out.println("Adding an existing user:");
+		new AppointmentsControllerImpl().addParticipant(anAppointment.getAppointmentID(),
+				User.findUser(5L));
+
+		anAppointment = Appointment.findAppointment(1L);
 		System.out.println(anAppointment.toString() + "\n");
 
-		asdf = Appointment.findAppointmentsByOwnerID(
-				User.findUser(new Long(10))).getResultList();
-		System.out.println(asdf.toString());
-
-		asdf = Appointment.findAppointmentsByParticipant(
-				User.findUser(new Long(1))).getResultList();
-		System.out.println(asdf.toString());
-
-		// System.out.println(User.findUser(new
-		// Long(1)).getAppointments().toString());
-
-		// org.junit.Assert.assertEquals(expectedCount, User.countUserEs());
+		participants = anAppointment.getParticipants();
+		org.junit.Assert.assertEquals(true, participants.contains(User.findUser(5L)));
 	}
 
 	/**
@@ -69,38 +64,42 @@ public class AppointmentTest {
 	@Transactional
 	public void testFindAppointmentsByParticipant() {
 		logger.debug("Appointments for User with id 5 before:");
-		List<Appointment> appointments = Appointment.findAppointmentsByParticipant(User.findUser(5L)).getResultList();
-		
+		List<Appointment> appointments = Appointment.findAppointmentsByParticipant(
+				User.findUser(5L)).getResultList();
+
 		Assert.assertEquals(appointments.size(), 0);
-		
-		
+
 		Appointment firstAppointment = new Appointment();
 		firstAppointment.setOwnerID(User.findUser(1L));
 		firstAppointment.setAppointmentLocation(Location.findLocation(1L));
-		
+
 		Set<User> participants = firstAppointment.getParticipants();
 		participants.add(User.findUser(5L));
-//		firstAppointment.setParticipants(participants);
+		// firstAppointment.setParticipants(participants);
 		firstAppointment.persist();
-		
-		
+
 		Appointment secondAppointment = new Appointment();
 		secondAppointment.setOwnerID(User.findUser(1L));
 		secondAppointment.setAppointmentLocation(Location.findLocation(1L));
-		
+
 		participants = secondAppointment.getParticipants();
 		participants.add(User.findUser(5L));
-//		secondAppointment.setParticipants(participants);
+		// secondAppointment.setParticipants(participants);
 		secondAppointment.persist();
-		
+
 		logger.debug("Appointments for User with id 5");
 		appointments = Appointment.findAppointmentsByParticipant(User.findUser(5L)).getResultList();
-		
+
 		for (int i = 0; i < appointments.size(); i++) {
 			System.out.println("Appointment " + i + " " + appointments.get(i).toString());
 		}
-		
+
 		Assert.assertEquals(appointments.size(), 2);
 
+		System.out.println(Appointment.findAppointmentsByOwnerID(User.findUser(10L))
+				.getResultList());
+
+		System.out.println(Appointment.findAppointmentsByParticipant(User.findUser(1L))
+				.getResultList());
 	}
 }
