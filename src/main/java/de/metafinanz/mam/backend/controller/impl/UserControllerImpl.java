@@ -12,9 +12,8 @@ public class UserControllerImpl implements UserController {
 	}
 
 	@Override
-	public User CreateOrGetUser(String aUsername) {
-		// TODO Auto-generated method stub
-		return null;
+	public User getOrCreateUser(User aUser) {
+		return User.getOrCreateUser(aUser);
 	}
 
 }

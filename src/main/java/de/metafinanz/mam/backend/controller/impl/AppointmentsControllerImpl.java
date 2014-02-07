@@ -1,6 +1,8 @@
 package de.metafinanz.mam.backend.controller.impl;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +34,7 @@ public class AppointmentsControllerImpl implements AppointmentsController {
 	 * @param aUserName
 	 *            Username of the participant to add.
 	 */
+	@Override
 	public Appointment addParticipant(Long appointmentID, User aUser)
 			throws IllegalArgumentException {
 		logger.trace("entering addParticipant");
@@ -47,10 +50,39 @@ public class AppointmentsControllerImpl implements AppointmentsController {
 		return anAppointment;
 	}
 
+	/**
+	 * Removes a participant from the appointment. Automatically persists the
+	 * changed appointment.
+	 * 
+	 * @param aUserName
+	 *            Username of the participant to remove.
+	 */
 	@Override
-	public Appointment removeParticipant(Long appointmentID, User aUser) {
-		// TODO Auto-generated method stub
-		return null;
+	public Appointment removeParticipant(Long appointmentID, User aUser)
+			throws IllegalArgumentException {
+		logger.trace("entering removeParticipant");
+		logger.debug("Removing participant with ID: " + aUser + " from appointment with ID: "
+				+ appointmentID);
+
+		aUser = User.getOrCreateUser(aUser);
+
+		Appointment anAppointment = Appointment.findAppointment(appointmentID);
+		logger.debug("Appointment from db: " + anAppointment);
+
+		// Possible:?
+		// anAppointment.getParticipants().remove(aUser);
+
+		Set<User> participants = anAppointment.getParticipants();
+
+		for (Iterator<User> iterator = participants.iterator(); iterator.hasNext();) {
+			User user = (User) iterator.next();
+			if (user.getId() == aUser.getId()) {
+				participants.remove(user);
+				break;
+			}
+		}
+		anAppointment.merge();
+		return anAppointment;
 	}
 
 	@Override

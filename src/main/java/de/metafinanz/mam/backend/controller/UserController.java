@@ -4,7 +4,7 @@ import de.metafinanz.mam.backend.repository.User;
  
 public interface UserController{
  
-	User CreateOrGetUser(String aUsername);
+	User getOrCreateUser(User aUsername);
 //	String deleteUser();
 	User findUserByID(Long userID);
  

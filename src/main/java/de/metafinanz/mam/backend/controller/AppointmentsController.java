@@ -28,7 +28,7 @@ public interface AppointmentsController {
 	 */
 	Appointment addParticipant(Long appointmentID, User aUser) throws IllegalArgumentException;
 
-	Appointment removeParticipant(Long appointmentID, User aUser);
+	Appointment removeParticipant(Long appointmentID, User aUser) throws IllegalArgumentException;
 
 	// Only allowed for the owner?
 	Appointment deleteAppointment();

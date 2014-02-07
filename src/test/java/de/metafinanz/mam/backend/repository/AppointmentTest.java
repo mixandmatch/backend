@@ -21,6 +21,7 @@ import de.metafinanz.mam.backend.controller.impl.AppointmentsControllerImpl;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath*:applicationContext*.xml")
 // @Transactional
+//TODO: Cleanup
 public class AppointmentTest {
 
 	static Logger logger = LoggerFactory.getLogger(AppointmentTest.class);
@@ -55,6 +56,38 @@ public class AppointmentTest {
 
 		participants = anAppointment.getParticipants();
 		org.junit.Assert.assertEquals(true, participants.contains(User.findUser(5L)));
+	}
+
+	@Test
+	public void testControllerRemoveParticipant() {
+		// Add non existent User to Appointment:
+		Appointment anAppointment = Appointment.findAppointment(1L);
+		System.out.println("\nBefore Adduser: " + anAppointment.toString());
+
+		// New User only with username:
+		User newTestParticipant = new User();
+		newTestParticipant.setUsername("newTestParticipant");
+		new AppointmentsControllerImpl().addParticipant(anAppointment.getAppointmentID(),
+				newTestParticipant);
+
+		anAppointment = Appointment.findAppointment(1L);
+		System.out.println("After  Adduser: " + anAppointment.toString());
+
+		Set<User> participants = anAppointment.getParticipants();
+		org.junit.Assert.assertEquals(true, participants.contains(User.findUsersByUsernameEquals(
+				"newTestParticipant").getSingleResult()));
+
+		// Remove the user again:
+		new AppointmentsControllerImpl().removeParticipant(anAppointment.getAppointmentID(), User
+				.findUsersByUsernameEquals("newTestParticipant").getSingleResult());
+
+		anAppointment = Appointment.findAppointment(1L);
+		System.out.println("After Remove: " + anAppointment.toString());
+
+		participants = anAppointment.getParticipants();
+		org.junit.Assert.assertEquals(false, participants.contains(User.findUsersByUsernameEquals(
+				"newTestParticipant").getSingleResult()));
+
 	}
 
 	/**

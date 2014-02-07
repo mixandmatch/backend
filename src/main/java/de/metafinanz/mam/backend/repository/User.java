@@ -29,6 +29,12 @@ public class User {
 	@Column(unique = true)
 	private String username;
 
+	/**
+	 * Return the user from the database if it exists or create a new one.
+	 * @param aUser User object with at least the id or username.
+	 * @return The user from the database.
+	 * @throws IllegalArgumentException Thrown if the aUser is null.
+	 */
 	public static User getOrCreateUser(User aUser) throws IllegalArgumentException {
 		logger.trace("entering getOrCreateUser");
 		if (aUser == null) {

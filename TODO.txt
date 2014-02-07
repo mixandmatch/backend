@@ -6,12 +6,10 @@
 	Example of logback logging: /src/test/java/de/metafinanz/mam/backend/repository/UserTest.java
 
 Services to implement:
-- CreateOrGetUser: Create User and return ID or return ID of exiting user
-- removeParticipant
 - getAppointmentsForLocation
 - get Appointments only for future events (getAppointments, getAppointmentsForLocation)
 - Add findAppointmentsByUser Find appointments where the user is either the owner or a participant
-- Modify addParticipant to be able to use a username or an ID as param
+- CreateOrGetUser: Add result handling to service. (Return the corresponding result to the client)
 
 - Improve Error handling
 
