@@ -18,6 +18,7 @@ public class Location {
     /**
      */
     @NotNull
+    @Column(unique = true)
     private String locationName;
 
     /**

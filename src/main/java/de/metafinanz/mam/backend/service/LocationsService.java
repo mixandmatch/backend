@@ -10,6 +10,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +21,7 @@ import de.metafinanz.mam.backend.controller.LocationsController;
 import de.metafinanz.mam.backend.repository.Location;
 
 @Component
-@Path("/locations")
+@Path("locations")
 public class LocationsService {
 
 	@Autowired
@@ -45,20 +46,26 @@ public class LocationsService {
 		return locationsController.getLocation(new Long(id));
 	}
 
-	@POST
+	/*@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response location_add(Location aLocation) {
-		logger.trace("entering location_add");
-		Response.Status httpResult = Response.Status.INTERNAL_SERVER_ERROR;
-		logger.debug("Adding new location with name: "
-				+ aLocation.getLocationName());
-		boolean result = locationsController.addLocation(aLocation);
 
+		logger.trace("entering location_add");
+		
+		boolean result = false;
+		
+		try{
+			result = locationsController.addLocation(aLocation);
+		}
+		catch(Exception e){
+			logger.error(e.getMessage());
+		}
+		
 		if (result) {
-			httpResult = Response.Status.CREATED;
+			return Response.ok().status(Status.CREATED).build();
 		}
 
-		return Response.status(httpResult).entity(result).build();
-	}
+		return Response.status(Status.FORBIDDEN).build();
+	}*/
 
 }

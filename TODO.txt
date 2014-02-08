@@ -6,14 +6,10 @@
 	Example of logback logging: /src/test/java/de/metafinanz/mam/backend/repository/UserTest.java
 
 Services to implement:
-- getAppointmentsForLocation
-- get Appointments only for future events (getAppointments, getAppointmentsForLocation)
-- Add findAppointmentsByUser Find appointments where the user is either the owner or a participant
-- CreateOrGetUser: Add result handling to service. (Return the corresponding result to the client)
-
 - Improve Error handling
+- Improve Interfaces (return always a json-Object?)
 
-Update and refactor Test clients
+Update and refactor Test clients (README in doc -> soapui)
 
 Nice to have:
 - removeLocation

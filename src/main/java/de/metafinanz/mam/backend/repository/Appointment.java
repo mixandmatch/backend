@@ -198,8 +198,26 @@ public class Appointment {
 	public static TypedQuery<Appointment> findAppointmentsByAppointmentLocation(Location appointmentLocation) {
         if (appointmentLocation == null) throw new IllegalArgumentException("The appointmentLocation argument is required");
         EntityManager em = Appointment.entityManager();
-        TypedQuery<Appointment> q = em.createQuery("SELECT o FROM Appointment AS o WHERE o.appointmentLocation = :appointmentLocation", Appointment.class);
+        TypedQuery<Appointment> q = em.createQuery("SELECT o FROM Appointment AS o WHERE o.appointmentLocation = :appointmentLocation AND o.appointmentDate > :appointmentDate", Appointment.class);
         q.setParameter("appointmentLocation", appointmentLocation);
+        q.setParameter("appointmentDate", new Date());
+        return q;
+    }
+	
+
+	public static TypedQuery<Appointment> findAppointmentsByAppointmentDateGreaterThan(Date appointmentDate) {
+        if (appointmentDate == null) throw new IllegalArgumentException("The appointmentDate argument is required");
+        EntityManager em = Appointment.entityManager();
+        TypedQuery<Appointment> q = em.createQuery("SELECT o FROM Appointment AS o WHERE o.appointmentDate > :appointmentDate", Appointment.class);
+        q.setParameter("appointmentDate", appointmentDate);
+        return q;
+    }
+
+	public static TypedQuery<Appointment> findAppointmentsByOwnerID(User ownerID) {
+        if (ownerID == null) throw new IllegalArgumentException("The ownerID argument is required");
+        EntityManager em = Appointment.entityManager();
+        TypedQuery<Appointment> q = em.createQuery("SELECT o FROM Appointment AS o WHERE o.ownerID = :ownerID", Appointment.class);
+        q.setParameter("ownerID", ownerID);
         return q;
     }
 }

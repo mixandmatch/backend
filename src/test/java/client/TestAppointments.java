@@ -1,5 +1,8 @@
 package client;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -34,6 +37,14 @@ public class TestAppointments {
 	public void test() {
 		System.out.println("======== " + TestAppointments.class.getSimpleName() + " ========");
 
+	}
+	
+	@Test
+	public void testTime() {
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(1359771678807L);
+		System.out.println(cal.getTime());
+		System.out.println(cal.getTimeInMillis());
 	}
 
 	@Test

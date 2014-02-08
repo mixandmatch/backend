@@ -1,5 +1,7 @@
 package de.metafinanz.mam.backend.repository;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -101,10 +103,16 @@ public class AppointmentTest {
 				User.findUser(5L)).getResultList();
 
 		Assert.assertEquals(appointments.size(), 0);
+		
+		Calendar cal = Calendar.getInstance();
+		int year = cal.get(Calendar.YEAR);
+		cal.set(Calendar.YEAR, year + 1);
+		Date appointmentDate = cal.getTime();
 
 		Appointment firstAppointment = new Appointment();
 		firstAppointment.setOwnerID(User.findUser(1L));
 		firstAppointment.setAppointmentLocation(Location.findLocation(1L));
+		firstAppointment.setAppointmentDate(appointmentDate);
 
 		Set<User> participants = firstAppointment.getParticipants();
 		participants.add(User.findUser(5L));
@@ -114,6 +122,7 @@ public class AppointmentTest {
 		Appointment secondAppointment = new Appointment();
 		secondAppointment.setOwnerID(User.findUser(1L));
 		secondAppointment.setAppointmentLocation(Location.findLocation(1L));
+		secondAppointment.setAppointmentDate(appointmentDate);
 
 		participants = secondAppointment.getParticipants();
 		participants.add(User.findUser(5L));

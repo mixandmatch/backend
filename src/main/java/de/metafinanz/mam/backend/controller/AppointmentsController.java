@@ -9,9 +9,13 @@ import de.metafinanz.mam.backend.repository.json.JSONAppointment;
 public interface AppointmentsController {
 
 	List<Appointment> getAppointments();
-
+	
+	List<Appointment> getAppointmentsInFuture();
+	
 	List<Appointment> getAppointmentsForLocation(Long locationID);
-
+	
+	List<Appointment> getAppointmentsForUser(Long userID);
+	
 	// TODO: Return Appointment:
 	String addAppointment(JSONAppointment appointment);
 
