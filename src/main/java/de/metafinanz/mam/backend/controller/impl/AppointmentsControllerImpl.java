@@ -28,10 +28,10 @@ public class AppointmentsControllerImpl implements AppointmentsController {
 		return Appointment.findAppointmentsByAppointmentDateGreaterThan(new Date()).getResultList();
 	}
 
-	public String addAppointment(JSONAppointment appointment) {
+	public Appointment addAppointment(JSONAppointment appointment) {
 		Appointment newAppointment = Appointment.fromJsonAppointmentToAppointment(appointment);
 		newAppointment.persist();
-		return "appointment " + newAppointment.getAppointmentID() + " created";
+		return newAppointment;
 	}
 
 	/**

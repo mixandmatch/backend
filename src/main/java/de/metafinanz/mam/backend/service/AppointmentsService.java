@@ -72,11 +72,12 @@ public class AppointmentsService {
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response appointments_add(JSONAppointment appointment) {
 		logger.trace("entering appointments_add");
 		try{
-			String result = appointmentsController.addAppointment(appointment);
-			return Response.status(201).entity(result).build();
+			Appointment result = appointmentsController.addAppointment(appointment);
+			return Response.ok(result, MediaType.APPLICATION_JSON).status(Status.CREATED).build();
 		}
 		catch(Exception e){
 			logger.error(e.getMessage());
@@ -98,6 +99,7 @@ public class AppointmentsService {
 	@POST
 	@Path("{id}/addParticipant")
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response addParticipant(@PathParam("id") String id, User newParticipant) {
 		logger.trace("entering addParticipant");
 		
@@ -117,6 +119,7 @@ public class AppointmentsService {
 	@POST
 	@Path("{id}/removeParticipant")
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response removeParticipant(@PathParam("id") String id, User aParticipant) {
 		logger.trace("entering removeParticipant");
 		try{
@@ -124,7 +127,7 @@ public class AppointmentsService {
 
 			Appointment result = appointmentsController.removeParticipant(new Long(id), aParticipant);
 			if (result != null) {
-				return Response.ok().build();
+				return Response.ok(result, MediaType.APPLICATION_JSON).build();
 			}
 		}
 		catch(Exception e){

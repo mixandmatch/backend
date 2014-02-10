@@ -17,7 +17,7 @@ public interface AppointmentsController {
 	List<Appointment> getAppointmentsForUser(Long userID);
 	
 	// TODO: Return Appointment:
-	String addAppointment(JSONAppointment appointment);
+	Appointment addAppointment(JSONAppointment appointment);
 
 	/**
 	 * Add a new participant to an appointment. The User has to either contain
