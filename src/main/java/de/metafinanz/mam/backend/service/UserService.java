@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import de.metafinanz.mam.backend.controller.UserController;
-import de.metafinanz.mam.backend.repository.Location;
 import de.metafinanz.mam.backend.repository.User;
 
 @Component
@@ -26,7 +25,7 @@ public class UserService {
 
 	@Autowired
 	UserController userController;
-	
+
 	static Logger logger = LoggerFactory.getLogger(UserService.class);
 
 	@GET
@@ -35,27 +34,35 @@ public class UserService {
 		logger.trace("entering users()");
 		return userController.getUsers();
 	}
-	
+
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getOrCreateUser(User aUser) {
-		
+
 		User result = null;
-		
-		try{		
+
+		try {
 			result = userController.getOrCreateUser(aUser);
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}
-		
-		
-		if(result == null){
+
+		if (result == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
-		
+
 		return Response.ok(result, MediaType.APPLICATION_JSON).build();
+
+		// TODO Modify getOrCreateUser so that the corresponding status can be
+		// used:
+		// Return if user was created:
+		// Response.created(location)
+		// return Response.status(Status.CREATED).entity(result).build();
+
+		// Return if user already exists in DB:
+		// Response.notModified()
+		// return Response.status(Status.NOT_MODIFIED).entity(result).build();
 	}
 
 }

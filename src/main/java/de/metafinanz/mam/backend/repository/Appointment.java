@@ -29,8 +29,8 @@ import flexjson.JSONDeserializer;
 @RooToString
 @RooEquals
 @RooJson(deepSerialize = true)
-@RooJpaActiveRecord(entityName = "Appointment", finders = {
-		"findAppointmentsByOwnerID", "findAppointmentsByAppointmentLocation", "findAppointmentsByAppointmentDateGreaterThan" })
+@RooJpaActiveRecord(entityName = "Appointment", finders = { "findAppointmentsByOwnerID",
+		"findAppointmentsByAppointmentLocation", "findAppointmentsByAppointmentDateGreaterThan" })
 public class Appointment {
 
 	/**
@@ -63,7 +63,7 @@ public class Appointment {
 	// TODO: Just save userID as reference?
 	// fetch = Eager fixes the lazy init error when the participants are
 	// accessed after the session is closed.
-//	TODO: Change cascade to: cascade={REMOVE, REFRESH, DETACH}?
+	// TODO: Change cascade to: cascade={REMOVE, REFRESH, DETACH}?
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, targetEntity = User.class)
 	private Set<User> participants = new HashSet<User>();
 
@@ -141,46 +141,39 @@ public class Appointment {
 		// FIXME: Quick hack to convert json Appointments only containing IDs:
 		Appointment newAppointment = new Appointment();
 		try {
-			newAppointment = new JSONDeserializer<Appointment>().use(null,
-					Appointment.class).deserialize(json);
+			newAppointment = new JSONDeserializer<Appointment>().use(null, Appointment.class)
+					.deserialize(json);
 		} catch (ClassCastException e) {
-			JSONAppointment aJsonAppointment = new JSONDeserializer<JSONAppointment>()
-					.use(null, JSONAppointment.class).deserialize(json);
+			JSONAppointment aJsonAppointment = new JSONDeserializer<JSONAppointment>().use(null,
+					JSONAppointment.class).deserialize(json);
 			if (aJsonAppointment.getOwnerID() == 0
 					|| aJsonAppointment.getAppointmentLocation() == 0) {
 				throw new ClassCastException();
 			}
 			newAppointment = new Appointment();
-			newAppointment
-					.setAppointmentID(aJsonAppointment.getAppointmentID());
-			newAppointment.setAppointmentDate(aJsonAppointment
-					.getAppointmentDate());
-			newAppointment.setOwnerID(User.findUser(aJsonAppointment
-					.getOwnerID()));
-			newAppointment.setAppointmentLocation(Location
-					.findLocation(aJsonAppointment.getAppointmentLocation()));
+			newAppointment.setAppointmentID(aJsonAppointment.getAppointmentID());
+			newAppointment.setAppointmentDate(aJsonAppointment.getAppointmentDate());
+			newAppointment.setOwnerID(User.findUser(aJsonAppointment.getOwnerID()));
+			newAppointment.setAppointmentLocation(Location.findLocation(aJsonAppointment
+					.getAppointmentLocation()));
 		}
 		return newAppointment;
 	}
 
-	public static Appointment fromJsonAppointmentToAppointment(
-			JSONAppointment aJSONAppointment) {
+	public static Appointment fromJsonAppointmentToAppointment(JSONAppointment aJSONAppointment) {
 		// FIXME: Quick hack to convert json Appointments only containing IDs:
 		Appointment newAppointment = new Appointment();
 		// newAppointment.setAppointmentID(aJSONAppointment.getAppointmentID());
-		newAppointment
-				.setAppointmentDate(aJSONAppointment.getAppointmentDate());
+		newAppointment.setAppointmentDate(aJSONAppointment.getAppointmentDate());
 		newAppointment.setOwnerID(User.findUser(aJSONAppointment.getOwnerID()));
-		newAppointment.setAppointmentLocation(Location
-				.findLocation(aJSONAppointment.getAppointmentLocation()));
+		newAppointment.setAppointmentLocation(Location.findLocation(aJSONAppointment
+				.getAppointmentLocation()));
 		return newAppointment;
 	}
 
-	public static TypedQuery<Appointment> findAppointmentsByParticipant(
-			User aParticipant) {
+	public static TypedQuery<Appointment> findAppointmentsByParticipant(User aParticipant) {
 		if (aParticipant == null)
-			throw new IllegalArgumentException(
-					"The aParticipant argument is required");
+			throw new IllegalArgumentException("The aParticipant argument is required");
 		EntityManager em = Appointment.entityManager();
 		// TypedQuery<Appointment> q = em.createQuery(
 		// "SELECT o FROM Appointment AS o WHERE o.PARTICIPANTS = :aParticipant",
@@ -195,29 +188,18 @@ public class Appointment {
 
 	}
 
-	public static TypedQuery<Appointment> findAppointmentsByAppointmentLocation(Location appointmentLocation) {
-        if (appointmentLocation == null) throw new IllegalArgumentException("The appointmentLocation argument is required");
-        EntityManager em = Appointment.entityManager();
-        TypedQuery<Appointment> q = em.createQuery("SELECT o FROM Appointment AS o WHERE o.appointmentLocation = :appointmentLocation AND o.appointmentDate > :appointmentDate", Appointment.class);
-        q.setParameter("appointmentLocation", appointmentLocation);
-        q.setParameter("appointmentDate", new Date());
-        return q;
-    }
-	
+	public static TypedQuery<Appointment> findAppointmentsByAppointmentLocation(
+			Location appointmentLocation) {
+		if (appointmentLocation == null)
+			throw new IllegalArgumentException("The appointmentLocation argument is required");
+		EntityManager em = Appointment.entityManager();
+		TypedQuery<Appointment> q = em
+				.createQuery(
+						"SELECT o FROM Appointment AS o WHERE o.appointmentLocation = :appointmentLocation AND o.appointmentDate > :appointmentDate",
+						Appointment.class);
+		q.setParameter("appointmentLocation", appointmentLocation);
+		q.setParameter("appointmentDate", new Date());
+		return q;
+	}
 
-	public static TypedQuery<Appointment> findAppointmentsByAppointmentDateGreaterThan(Date appointmentDate) {
-        if (appointmentDate == null) throw new IllegalArgumentException("The appointmentDate argument is required");
-        EntityManager em = Appointment.entityManager();
-        TypedQuery<Appointment> q = em.createQuery("SELECT o FROM Appointment AS o WHERE o.appointmentDate > :appointmentDate", Appointment.class);
-        q.setParameter("appointmentDate", appointmentDate);
-        return q;
-    }
-
-	public static TypedQuery<Appointment> findAppointmentsByOwnerID(User ownerID) {
-        if (ownerID == null) throw new IllegalArgumentException("The ownerID argument is required");
-        EntityManager em = Appointment.entityManager();
-        TypedQuery<Appointment> q = em.createQuery("SELECT o FROM Appointment AS o WHERE o.ownerID = :ownerID", Appointment.class);
-        q.setParameter("ownerID", ownerID);
-        return q;
-    }
 }

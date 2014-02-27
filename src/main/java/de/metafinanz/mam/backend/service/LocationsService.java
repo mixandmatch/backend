@@ -46,26 +46,27 @@ public class LocationsService {
 		return locationsController.getLocation(new Long(id));
 	}
 
-	/*@POST
+	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response location_add(Location aLocation) {
-
-		logger.trace("entering location_add");
-		
-		boolean result = false;
-		
-		try{
-			result = locationsController.addLocation(aLocation);
+	public Response locationAdd(Location aLocation) {
+		logger.trace("entering locationAdd");
+		if (aLocation != null) {
+			logger.debug("Adding new location with name: " + aLocation.getLocationName());
 		}
-		catch(Exception e){
+
+		boolean result = false;
+
+		try {
+			result = locationsController.addLocation(aLocation);
+		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}
-		
+
 		if (result) {
 			return Response.ok().status(Status.CREATED).build();
 		}
 
 		return Response.status(Status.FORBIDDEN).build();
-	}*/
+	}
 
 }

@@ -3,7 +3,6 @@ package de.metafinanz.mam.backend.service;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -38,51 +37,49 @@ public class AppointmentsService {
 	public List<Appointment> appointments() {
 		return appointmentsController.getAppointmentsInFuture();
 	}
-	
-	
+
 	@GET
 	@Path("/user")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response appointmentsForUser(@QueryParam("userID") String userID) {
-		try{
-			List<Appointment> result = appointmentsController.getAppointmentsForUser(new Long(userID));
-			return Response.ok(result, MediaType.APPLICATION_JSON).build();		
-		}
-		catch(Exception e){
+		try {
+			List<Appointment> result = appointmentsController.getAppointmentsForUser(new Long(
+					userID));
+			return Response.ok(result, MediaType.APPLICATION_JSON).build();
+		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}
-		
+
 		return Response.status(Status.NOT_FOUND).build();
 	}
-	
+
 	@GET
 	@Path("/location")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response appointmentsForLocation(@QueryParam("locationID") String locationID) {
-		try{
-			List<Appointment> result = appointmentsController.getAppointmentsForLocation(new Long(locationID));
-			return Response.ok(result, MediaType.APPLICATION_JSON).build();		
-		}
-		catch(Exception e){
+		try {
+			List<Appointment> result = appointmentsController.getAppointmentsForLocation(new Long(
+					locationID));
+			return Response.ok(result, MediaType.APPLICATION_JSON).build();
+		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}
-		
+
 		return Response.status(Status.NOT_FOUND).build();
 	}
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response appointments_add(JSONAppointment appointment) {
-		logger.trace("entering appointments_add");
-		try{
+	public Response appointmentsAdd(JSONAppointment appointment) {
+		logger.trace("entering appointmentsAdd");
+		try {
 			Appointment result = appointmentsController.addAppointment(appointment);
 			return Response.ok(result, MediaType.APPLICATION_JSON).status(Status.CREATED).build();
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}
-		return Response.status(Status.FORBIDDEN).build();
+		return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 	}
 
 	/**
@@ -94,7 +91,8 @@ public class AppointmentsService {
 	 *            The new participant. As the client generally uses a JSON like
 	 *            this: {"username":"testuser"}. The resulting User object does
 	 *            not have an id value.
-	 * @return The new appointment. Null if there was an error.
+	 * @return The new appointment. Status.INTERNAL_SERVER_ERROR if there was an
+	 *         error.
 	 */
 	@POST
 	@Path("{id}/addParticipant")
@@ -102,18 +100,19 @@ public class AppointmentsService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response addParticipant(@PathParam("id") String id, User newParticipant) {
 		logger.trace("entering addParticipant");
-		
-		try{
+
+		try {
 			logger.debug("Adding participant: " + newParticipant + " to appointment with id: " + id);
-			Appointment result = appointmentsController.addParticipant(new Long(id), newParticipant);
-			if(result != null){
-				return Response.ok(result, MediaType.APPLICATION_JSON).status(Status.CREATED).build();
+			Appointment result = appointmentsController
+					.addParticipant(new Long(id), newParticipant);
+			if (result != null) {
+				return Response.ok(result, MediaType.APPLICATION_JSON).status(Status.CREATED)
+						.build();
 			}
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}
-		return Response.status(Status.FORBIDDEN).build();
+		return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 	}
 
 	@POST
@@ -122,20 +121,21 @@ public class AppointmentsService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response removeParticipant(@PathParam("id") String id, User aParticipant) {
 		logger.trace("entering removeParticipant");
-		try{
-			logger.debug("Removing participant: " + aParticipant + " from appointment with id: " + id);
+		try {
+			logger.debug("Removing participant: " + aParticipant + " from appointment with id: "
+					+ id);
 
-			Appointment result = appointmentsController.removeParticipant(new Long(id), aParticipant);
+			Appointment result = appointmentsController.removeParticipant(new Long(id),
+					aParticipant);
 			if (result != null) {
 				return Response.ok(result, MediaType.APPLICATION_JSON).build();
 			}
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}
-		
-		return Response.status(Status.FORBIDDEN).build();
+
+		return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 
 	}
-	
+
 }
