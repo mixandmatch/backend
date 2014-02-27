@@ -38,7 +38,7 @@ public class TestAppointments {
 		System.out.println("======== " + TestAppointments.class.getSimpleName() + " ========");
 
 	}
-	
+
 	@Test
 	public void testTime() {
 		Calendar cal = Calendar.getInstance();
@@ -66,7 +66,7 @@ public class TestAppointments {
 		String id = getResourceID(json, "appointmentID");
 
 		json = "{\"username\":\"Marion\"}";
-		ClientResponse response =postParticipant(id, json);
+		ClientResponse response = postParticipant(id, json);
 		System.out.println("response: " + response.toString());
 		Assert.assertEquals(ClientResponse.Status.CREATED, response.getClientResponseStatus());
 
