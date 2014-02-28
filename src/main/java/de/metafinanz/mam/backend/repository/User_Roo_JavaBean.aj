@@ -15,4 +15,12 @@ privileged aspect User_Roo_JavaBean {
         this.username = username;
     }
     
+    public boolean User.isGetOrCreateUserCreated() {
+        return this.getOrCreateUserCreated;
+    }
+    
+    public void User.setGetOrCreateUserCreated(boolean getOrCreateUserCreated) {
+        this.getOrCreateUserCreated = getOrCreateUserCreated;
+    }
+    
 }

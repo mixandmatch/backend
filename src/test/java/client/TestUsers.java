@@ -1,7 +1,6 @@
 package client;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -70,16 +69,39 @@ public class TestUsers {
 		Collection<User> users = User.fromJsonArrayToUsers(result);
 
 		// TODO: Currently this test depends on the generated testdata generated
-		// by the SampleDataGenerator. An addUser functionality would be needed
-		// to fix this.
+		// by the SampleDataGenerator.
 		Assert.assertEquals(users.size(), 10);
+
+		// for (Iterator<User> iterator = users.iterator(); iterator.hasNext();)
+		// {
+		// User user = (User) iterator.next();
+		// System.out.println(user.toString());
+		// }
+
+	}
+
+	@Test
+	public void testCreateOrGetUser() {
+		// Create a new user:
+		String user = "{\"username\":\"Max\"}";
+		ClientResponse result = post(user);
+		Assert.assertEquals(result.getStatus(), 201);
+		System.out.println(result.toString());
 		
+		String returnedUser = result.getEntity(String.class);
+		System.out.println(returnedUser.toString());
 
-		for (Iterator<User> iterator = users.iterator(); iterator.hasNext();) {
-			User user = (User) iterator.next();
-			System.out.println(user.toString());
-		}
-
+		// Existing user with ID:
+		user = "{\"id\":1}";
+		result = post(user);
+		Assert.assertEquals(result.getStatus(), 304);
+		System.out.println(result.toString());
+		
+//		Existing User with username:
+		user = "{\"username\":\"user 1\"}";
+		result = post(user);
+		Assert.assertEquals(result.getStatus(), 304);
+		System.out.println(result.toString());
 	}
 
 	private String getResourceID(String json, String key) {
@@ -108,13 +130,13 @@ public class TestUsers {
 		return json;
 	}
 
-	private String post(String json) {
+	private ClientResponse post(String json) {
 		System.out.println();
 		System.out.println("======== POST ========");
 		System.out.println(json);
-		ClientResponse response = webResource.accept(MediaType.APPLICATION_JSON).post(
-				ClientResponse.class, json);
-		return response.toString();
+		ClientResponse response = webResource.accept(MediaType.APPLICATION_JSON)
+				.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, json);
+		return response;
 	}
 
 	private String put(String id, String json) {

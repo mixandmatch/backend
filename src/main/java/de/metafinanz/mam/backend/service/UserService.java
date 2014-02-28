@@ -31,38 +31,45 @@ public class UserService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<User> users() {
-		logger.trace("entering users()");
+		logger.trace("entering UserService.users()");
 		return userController.getUsers();
 	}
 
+	/**
+	 * Creates or returns a user. If the user does not exist it is created otherwise it is returned.
+	 * @param aUser User JSON with either username or ID. If the user should be created a username has to be supplied.
+	 * @return HTTP Status Created if the user did not exist, NOT_MODIFIED if it did.
+	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getOrCreateUser(User aUser) {
-
+//		TODO: Return a redirect to the specific user URL
+		logger.trace("entering UserService.getOrCreateUser()");
 		User result = null;
 
 		try {
 			result = userController.getOrCreateUser(aUser);
 		} catch (Exception e) {
 			logger.error(e.getMessage());
+			return Response.status(Status.INTERNAL_SERVER_ERROR).type(MediaType.TEXT_HTML)
+					.entity(e.getMessage()).build();
 		}
 
 		if (result == null) {
-			return Response.status(Status.NOT_FOUND).build();
+			// Should never happen
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 		}
 
-		return Response.ok(result, MediaType.APPLICATION_JSON).build();
+		if (result.isGetOrCreateUserCreated()) {
+			// User was created:
+			return Response.status(Status.CREATED).type(MediaType.APPLICATION_JSON).entity(result)
+					.build();
+		} else {
+			// User existed already:
+			return Response.status(Status.NOT_MODIFIED).entity(result).build();
+		}
 
-		// TODO Modify getOrCreateUser so that the corresponding status can be
-		// used:
-		// Return if user was created:
-		// Response.created(location)
-		// return Response.status(Status.CREATED).entity(result).build();
-
-		// Return if user already exists in DB:
-		// Response.notModified()
-		// return Response.status(Status.NOT_MODIFIED).entity(result).build();
 	}
 
 }

@@ -17,11 +17,11 @@ privileged aspect User_Roo_Equals {
             return true;
         }
         User rhs = (User) obj;
-        return new EqualsBuilder().append(id, rhs.id).append(username, rhs.username).isEquals();
+        return new EqualsBuilder().append(getOrCreateUserCreated, rhs.getOrCreateUserCreated).append(id, rhs.id).append(username, rhs.username).isEquals();
     }
     
     public int User.hashCode() {
-        return new HashCodeBuilder().append(id).append(username).toHashCode();
+        return new HashCodeBuilder().append(getOrCreateUserCreated).append(id).append(username).toHashCode();
     }
     
 }
