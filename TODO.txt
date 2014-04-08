@@ -6,14 +6,29 @@
 	Example of logback logging: /src/test/java/de/metafinanz/mam/backend/repository/UserTest.java
 
 Services to implement:
-- Improve Error handling
-- Improve Interfaces (return always a json-Object?)
-
-Update and refactor Test clients (README in doc -> soapui)
-
-Nice to have:
-- removeLocation
-- deleteAppointment:
-	At the moment there is no way available to authenticate the owner
-	-> Simple solution: addAppointment returns a secret to the client
+- addParticipant: Enforce a maximum of 4 (Cristian)
+	- transactional to prevent race conditions
+- Add GPS data to location, Define GPS format (Tobi)
+- removeAppointment: Only by owner? (Cristian)
+	- delete appointment automatically if owner is removed
+		At the moment there is no way available to authenticate the owner
+		-> Simple solution: addAppointment returns a secret to the client
 	   This is needed when the appointment should be deleted
+	- delete appointment automatically if participants list is empty (owner counts as participant, automatically add to list)
+- removeLocation (Alex)
+
+General stuff:
+- MySQL deployment (Phil)
+- Improve Error handling (Tobi)
+- Improve Interfaces (return always a json-Object?)
+- Update and refactor Test clients (README in doc -> soapui) (Tobi)
+
+Security: (Phil)
+	- How to do it?
+	- Spring Security?
+	- User: Add password
+		- Keep alternative without account? (Doodle Style)
+	- Security Token for clients (store as salted hash)
+
+Future:
+- Prevent the creation of new appointments if there is already one with < 4 participants for the location.
