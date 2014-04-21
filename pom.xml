@@ -317,6 +317,7 @@
 				</dependency>
 			</dependencies>
 			<properties>
+				<build.profile.id>dev</build.profile.id>
 				<jdbc.driverClassName>org.h2.Driver</jdbc.driverClassName>
 				<jdbc.url>jdbc\:h2\:mem\:MixMatchDB;DB_CLOSE_DELAY\=-1</jdbc.url>
 				<jdbc.username>sa</jdbc.username>
@@ -337,12 +338,11 @@
 				</dependency>
 			</dependencies>
 			<properties>
-				<!-- Skipping tests in this profile because the mysql database probably isn't accessible -->
+				<build.profile.id>prod</build.profile.id>
+				<!-- Skipping tests in this profile because the mysql database probably 
+					isn't accessible -->
 				<maven.test.skip>true</maven.test.skip>
 				<jdbc.driverClassName>com.mysql.jdbc.Driver</jdbc.driverClassName>
-				<jdbc.url>jdbc:mysql://localhost:3306/mixandmatch</jdbc.url>
-				<jdbc.username>root</jdbc.username>
-				<jdbc.password>password</jdbc.password>
 				<hibernate.dialect>org.hibernate.dialect.MySQLDialect</hibernate.dialect>
 				<hibernate.hbm2ddl.auto>update</hibernate.hbm2ddl.auto>
 				<war.prefix>-prod</war.prefix>
@@ -503,6 +503,10 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<filters>
+			<!-- Path to the profile specific configuration: -->
+			<filter>profiles/${build.profile.id}/config.properties</filter>
+		</filters>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
