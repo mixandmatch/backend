@@ -22,7 +22,7 @@ public class TestAppointments {
 
 	// private static String URL =
 	// "http://ec2-54-246-100-223.eu-west-1.compute.amazonaws.com:8080/MixMatchRooRestTestService";
-	private static String URL = "http://localhost:8080/mam-backend/rest";
+	private static String URL = "http://localhost:8080/mam-backend-0.0.1.BUILD-SNAPSHOT-dev/rest";
 	private static String RESOURCE = "/appointments";
 
 	private WebResource webResource;

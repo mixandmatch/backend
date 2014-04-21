@@ -4,3 +4,4 @@
 target/
 .springBeans
 .DS_Store
+/target
