@@ -39,6 +39,8 @@ public class AppointmentTest {
 		// New User only with username:
 		User newTestParticipant = new User();
 		newTestParticipant.setUsername("newTestParticipant");
+		newTestParticipant.setPassword("newTestPassword");
+		newTestParticipant.setEnabled(true);
 		new AppointmentsControllerImpl().addParticipant(anAppointment.getAppointmentID(),
 				newTestParticipant);
 
@@ -69,6 +71,8 @@ public class AppointmentTest {
 		// New User only with username:
 		User newTestParticipant = new User();
 		newTestParticipant.setUsername("newTestParticipant");
+		newTestParticipant.setPassword("newTestPassword");
+		newTestParticipant.setEnabled(true);
 		new AppointmentsControllerImpl().addParticipant(anAppointment.getAppointmentID(),
 				newTestParticipant);
 

@@ -23,4 +23,20 @@ privileged aspect User_Roo_JavaBean {
         this.getOrCreateUserCreated = getOrCreateUserCreated;
     }
     
+    public String User.getPassword() {
+        return this.password;
+    }
+    
+    public void User.setPassword(String password) {
+        this.password = password;
+    }
+    
+    public Boolean User.getEnabled() {
+        return this.enabled;
+    }
+    
+    public void User.setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+    
 }

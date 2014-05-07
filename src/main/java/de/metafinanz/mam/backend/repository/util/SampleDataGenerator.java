@@ -8,12 +8,14 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.metafinanz.mam.backend.repository.Appointment;
 import de.metafinanz.mam.backend.repository.Location;
 import de.metafinanz.mam.backend.repository.User;
+import de.metafinanz.mam.backend.repository.UserRole;
 
 /**
  * Creates some sample data during application context changes. Should only be
@@ -48,15 +50,35 @@ public class SampleDataGenerator implements ApplicationListener<ContextRefreshed
 		// Random.nextInt(n) is more efficient than Math.random() (Math.random()
 		// uses Random.nextDouble() internally.)
 		final Random rand = new Random();
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		
+		User admin = new User();
+		admin.setUsername("admin");
+		admin.setPassword(passwordEncoder.encode("1234"));
+		admin.setEnabled(true);
+		admin.persist();
+		
+		UserRole adminRole = new UserRole();
+		adminRole.setAuthority("ROLE_ADMIN");
+		adminRole.setUsername(admin.getUsername());
+		adminRole.persist();
 
 		User aUser = null;
 		Location aLocation = null;
 		Appointment anAppointment = null;
+		UserRole aUserRole = null;
 
 		for (int i = 1; i < 11; i++) {
 			aUser = new User();
 			aUser.setUsername("user " + i);
+			aUser.setPassword(passwordEncoder.encode("1234"));
+			aUser.setEnabled(true);
 			aUser.persist();
+			
+			aUserRole = new UserRole();
+			aUserRole.setAuthority("ROLE_USER");
+			aUserRole.setUsername(aUser.getUsername());
+			aUserRole.persist();
 
 			aLocation = new Location();
 			aLocation.setLocationName("location " + i);
