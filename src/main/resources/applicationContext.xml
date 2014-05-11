@@ -75,8 +75,8 @@
  	<security:http auto-config="true">
  		
 		<security:intercept-url pattern="/rest/users/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
-		<security:intercept-url pattern="/rest/appointments/**" access="ROLE_USER" />
-		<security:intercept-url pattern="/rest/locations/**" access="ROLE_ADMIN" />
+		<security:intercept-url pattern="/rest/appointments/**" access="ROLE_USER,ROLE_ADMIN" />
+		<security:intercept-url pattern="/rest/locations/**" access="ROLE_USER,ROLE_ADMIN" />
  
 	</security:http>
  	
@@ -90,5 +90,5 @@
 		    "select username, authority from user_role where username =?  " />
 	  </security:authentication-provider>
 	</security:authentication-manager>
- 	
+ 	 	
 </beans>

@@ -6,6 +6,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.roo.addon.equals.RooEquals;
@@ -13,7 +14,6 @@ import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
 import org.springframework.roo.addon.json.RooJson;
 import org.springframework.roo.addon.tostring.RooToString;
-import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @RooJavaBean
@@ -60,25 +60,25 @@ public class User {
             if (dbUser == null) {
                 throw new IllegalArgumentException("User with ID: " + aUser.getId() + " not found in database");
             }
-            if(!dbUser.getPassword().equals(aUser.getPassword())){
-            	throw new AuthorizationServiceException("Authorization not allowed");
-            }
         } else {
             // The user had no ID. Let's try the username:
             List<User> userResult = User.findUsersByUsernameEquals(aUser.getUsername()).getResultList();
             if (userResult.isEmpty()) {
                 // User does not exist: Create it
+            	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
                 dbUser = new User();
                 dbUser.setUsername(aUser.getUsername());
-                dbUser.setPassword(aUser.getPassword());
+                dbUser.setPassword(encoder.encode(aUser.getPassword()));
                 dbUser.setEnabled(true);
                 dbUser.setGetOrCreateUserCreated(true);
                 dbUser.persist();
+                
+                UserRole aUserRole = new UserRole();
+                aUserRole.setAuthority("ROLE_USER");
+                aUserRole.setUsername(aUser.getUsername());
+                aUserRole.persist();
             } else {
                 dbUser = userResult.get(0);
-                if(!dbUser.getPassword().equals(aUser.getPassword())){
-                	throw new AuthorizationServiceException("Authorization not allowed");
-                }
             }
         }
         return dbUser;
@@ -87,10 +87,22 @@ public class User {
     /**
      */
     @NotNull
+    @JsonIgnore
     private String password;
 
     /**
      */
     @NotNull
+    @JsonIgnore
     private Boolean enabled;
+
+    @JsonIgnore
+	public String getPassword() {
+        return this.password;
+    }
+
+    @JsonProperty
+	public void setPassword(String password) {
+        this.password = password;
+    }
 }

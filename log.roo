@@ -35,3 +35,4 @@ field string --fieldName username --notNull
 // [failed] entity jpa --class ~.backend.repository.User
 field string --fieldName password --notNull 
 field boolean --fieldName enabled --notNull 
+// Spring Roo 1.2.4.RELEASE [rev 75337cf] log closed at 2014-05-07 21:23:29
