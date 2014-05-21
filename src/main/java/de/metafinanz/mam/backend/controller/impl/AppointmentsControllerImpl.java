@@ -18,18 +18,21 @@ import de.metafinanz.mam.backend.repository.json.JSONAppointment;
 
 public class AppointmentsControllerImpl implements AppointmentsController {
 
+	private static final int MAX_PARTICIPANTS = 4;
 	static Logger logger = LoggerFactory.getLogger(LocationsController.class);
 
 	public List<Appointment> getAppointments() {
 		return Appointment.findAllAppointments();
 	}
-	
+
 	public List<Appointment> getAppointmentsInFuture() {
-		return Appointment.findAppointmentsByAppointmentDateGreaterThan(new Date()).getResultList();
+		return Appointment.findAppointmentsByAppointmentDateGreaterThan(
+				new Date()).getResultList();
 	}
 
 	public Appointment addAppointment(JSONAppointment appointment) {
-		Appointment newAppointment = Appointment.fromJsonAppointmentToAppointment(appointment);
+		Appointment newAppointment = Appointment
+				.fromJsonAppointmentToAppointment(appointment);
 		newAppointment.persist();
 		return newAppointment;
 	}
@@ -45,14 +48,18 @@ public class AppointmentsControllerImpl implements AppointmentsController {
 	public Appointment addParticipant(Long appointmentID, User aUser)
 			throws IllegalArgumentException {
 		logger.trace("entering addParticipant");
-		logger.debug("Adding participant with ID: " + aUser + " to appointment with ID: "
-				+ appointmentID);
+		logger.debug("Adding participant with ID: " + aUser
+				+ " to appointment with ID: " + appointmentID);
 
 		aUser = User.getOrCreateUser(aUser);
 
 		Appointment anAppointment = Appointment.findAppointment(appointmentID);
 		logger.debug("Appointment from db: " + anAppointment);
-		anAppointment.getParticipants().add(aUser);
+		Set<User> participants = anAppointment.getParticipants();
+		// TODO: maybe give a detailed error in addition to the null?
+		if (participants.size() >= MAX_PARTICIPANTS)
+			return null;
+		participants.add(aUser);
 		anAppointment.merge();
 		return anAppointment;
 	}
@@ -68,8 +75,8 @@ public class AppointmentsControllerImpl implements AppointmentsController {
 	public Appointment removeParticipant(Long appointmentID, User aUser)
 			throws IllegalArgumentException {
 		logger.trace("entering removeParticipant");
-		logger.debug("Removing participant with ID: " + aUser + " from appointment with ID: "
-				+ appointmentID);
+		logger.debug("Removing participant with ID: " + aUser
+				+ " from appointment with ID: " + appointmentID);
 
 		aUser = User.getOrCreateUser(aUser);
 
@@ -81,7 +88,8 @@ public class AppointmentsControllerImpl implements AppointmentsController {
 
 		Set<User> participants = anAppointment.getParticipants();
 
-		for (Iterator<User> iterator = participants.iterator(); iterator.hasNext();) {
+		for (Iterator<User> iterator = participants.iterator(); iterator
+				.hasNext();) {
 			User user = (User) iterator.next();
 			if (user.getId() == aUser.getId()) {
 				participants.remove(user);
@@ -95,7 +103,8 @@ public class AppointmentsControllerImpl implements AppointmentsController {
 	@Override
 	public List<Appointment> getAppointmentsForLocation(Long locationID) {
 		Location aLocation = Location.findLocation(locationID);
-		return Appointment.findAppointmentsByAppointmentLocation(aLocation).getResultList();
+		return Appointment.findAppointmentsByAppointmentLocation(aLocation)
+				.getResultList();
 	}
 
 	@Override
@@ -107,24 +116,24 @@ public class AppointmentsControllerImpl implements AppointmentsController {
 	@Override
 	public List<Appointment> getAppointmentsForUser(Long userID) {
 		List<Appointment> result = new ArrayList<Appointment>();
-		
+
 		User aUser = User.findUser(userID);
-		
-		List<Appointment> appointmentsByOwner = Appointment.findAppointmentsByOwnerID(aUser).getResultList();
-		List<Appointment> appointmentsByParticipant = Appointment.findAppointmentsByParticipant(aUser).getResultList();
-		
-		if(appointmentsByOwner != null){
+
+		List<Appointment> appointmentsByOwner = Appointment
+				.findAppointmentsByOwnerID(aUser).getResultList();
+		List<Appointment> appointmentsByParticipant = Appointment
+				.findAppointmentsByParticipant(aUser).getResultList();
+
+		if (appointmentsByOwner != null) {
 			result.addAll(appointmentsByOwner);
 		}
-		
-		if(appointmentsByParticipant != null){
+
+		if (appointmentsByParticipant != null) {
 			result.addAll(appointmentsByParticipant);
 		}
-		
-		return result;
-		
-	}
 
-	
+		return result;
+
+	}
 
 }
