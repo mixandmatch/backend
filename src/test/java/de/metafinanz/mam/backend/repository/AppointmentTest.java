@@ -23,14 +23,15 @@ import de.metafinanz.mam.backend.controller.impl.AppointmentsControllerImpl;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath*:applicationContext*.xml")
 // @Transactional
-//TODO: Cleanup
+// TODO: Cleanup
 public class AppointmentTest {
 
 	static Logger logger = LoggerFactory.getLogger(AppointmentTest.class);
 
 	@Test
 	public void testControllerAddParticipant() {
-		System.out.println("All Appointments: " + Appointment.findAllAppointments().toString());
+		System.out.println("All Appointments: "
+				+ Appointment.findAllAppointments().toString());
 
 		// Add non existent User to Appointment:
 		Appointment anAppointment = Appointment.findAppointment(1L);
@@ -41,25 +42,73 @@ public class AppointmentTest {
 		newTestParticipant.setUsername("newTestParticipant");
 		newTestParticipant.setPassword("newTestPassword");
 		newTestParticipant.setEnabled(true);
-		new AppointmentsControllerImpl().addParticipant(anAppointment.getAppointmentID(),
-				newTestParticipant);
+		new AppointmentsControllerImpl().addParticipant(
+				anAppointment.getAppointmentID(), newTestParticipant);
 
 		anAppointment = Appointment.findAppointment(1L);
 		System.out.println("After  Adduser: " + anAppointment.toString());
 
 		Set<User> participants = anAppointment.getParticipants();
-		org.junit.Assert.assertEquals(true, participants.contains(User.findUsersByUsernameEquals(
-				"newTestParticipant").getSingleResult()));
+		org.junit.Assert.assertEquals(
+				true,
+				participants.contains(User.findUsersByUsernameEquals(
+						"newTestParticipant").getSingleResult()));
 
 		System.out.println("Adding an existing user:");
-		new AppointmentsControllerImpl().addParticipant(anAppointment.getAppointmentID(),
-				User.findUser(5L));
+		new AppointmentsControllerImpl().addParticipant(
+				anAppointment.getAppointmentID(), User.findUser(5L));
 
 		anAppointment = Appointment.findAppointment(1L);
 		System.out.println(anAppointment.toString() + "\n");
 
 		participants = anAppointment.getParticipants();
-		org.junit.Assert.assertEquals(true, participants.contains(User.findUser(5L)));
+		org.junit.Assert.assertEquals(true,
+				participants.contains(User.findUser(5L)));
+	}
+
+	@Test
+	public void testControllerAdd5Participants() {
+
+		// Remove appointment 14 if already there
+		Appointment anAppointment = Appointment.findAppointment(14L);
+		if (anAppointment != null)
+			anAppointment.remove();
+
+		anAppointment = new Appointment();
+		anAppointment.setAppointmentID(14L);
+		anAppointment.setOwnerID(User.findAllUsers().get(0));
+		anAppointment
+				.setAppointmentLocation(Location.findAllLocations().get(0));
+		anAppointment.persist();
+
+		System.out.println("\nBefore 4 Adduser: " + anAppointment.toString());
+		// New User only with username:
+		AppointmentsControllerImpl appointmentsControllerImpl = new AppointmentsControllerImpl();
+		for (int i = 0; i < 4; i++) {
+			String username = "newTestParticipant" + i;
+			String password = "newTestPassword" + i;
+
+			org.junit.Assert.assertNotNull(addNewUser(anAppointment,
+					appointmentsControllerImpl, username, password));
+		}
+
+		System.out.println("After 4 Adduser: " + anAppointment.toString());
+
+		// try to add a fifth participant
+		org.junit.Assert.assertNull(addNewUser(anAppointment,
+				appointmentsControllerImpl, "userNotToBeAdded", "aPassword"));
+
+	}
+
+	private Appointment addNewUser(Appointment anAppointment,
+			AppointmentsControllerImpl appointmentsControllerImpl,
+			String username, String password) {
+		User newTestParticipant = new User();
+		newTestParticipant.setUsername(username);
+		newTestParticipant.setPassword(password);
+		newTestParticipant.setEnabled(true);
+		return appointmentsControllerImpl.addParticipant(
+				anAppointment.getAppointmentID(), newTestParticipant);
 	}
 
 	@Test
@@ -73,26 +122,32 @@ public class AppointmentTest {
 		newTestParticipant.setUsername("newTestParticipant");
 		newTestParticipant.setPassword("newTestPassword");
 		newTestParticipant.setEnabled(true);
-		new AppointmentsControllerImpl().addParticipant(anAppointment.getAppointmentID(),
-				newTestParticipant);
+		new AppointmentsControllerImpl().addParticipant(
+				anAppointment.getAppointmentID(), newTestParticipant);
 
 		anAppointment = Appointment.findAppointment(1L);
 		System.out.println("After  Adduser: " + anAppointment.toString());
 
 		Set<User> participants = anAppointment.getParticipants();
-		org.junit.Assert.assertEquals(true, participants.contains(User.findUsersByUsernameEquals(
-				"newTestParticipant").getSingleResult()));
+		org.junit.Assert.assertEquals(
+				true,
+				participants.contains(User.findUsersByUsernameEquals(
+						"newTestParticipant").getSingleResult()));
 
 		// Remove the user again:
-		new AppointmentsControllerImpl().removeParticipant(anAppointment.getAppointmentID(), User
-				.findUsersByUsernameEquals("newTestParticipant").getSingleResult());
+		new AppointmentsControllerImpl().removeParticipant(anAppointment
+				.getAppointmentID(),
+				User.findUsersByUsernameEquals("newTestParticipant")
+						.getSingleResult());
 
 		anAppointment = Appointment.findAppointment(1L);
 		System.out.println("After Remove: " + anAppointment.toString());
 
 		participants = anAppointment.getParticipants();
-		org.junit.Assert.assertEquals(false, participants.contains(User.findUsersByUsernameEquals(
-				"newTestParticipant").getSingleResult()));
+		org.junit.Assert.assertEquals(
+				false,
+				participants.contains(User.findUsersByUsernameEquals(
+						"newTestParticipant").getSingleResult()));
 
 	}
 
@@ -103,11 +158,12 @@ public class AppointmentTest {
 	@Transactional
 	public void testFindAppointmentsByParticipant() {
 		logger.debug("Appointments for User with id 5 before:");
-		List<Appointment> appointments = Appointment.findAppointmentsByParticipant(
-				User.findUser(5L)).getResultList();
+		List<Appointment> appointments = Appointment
+				.findAppointmentsByParticipant(User.findUser(5L))
+				.getResultList();
 
 		Assert.assertEquals(appointments.size(), 0);
-		
+
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(Calendar.YEAR);
 		cal.set(Calendar.YEAR, year + 1);
@@ -134,18 +190,20 @@ public class AppointmentTest {
 		secondAppointment.persist();
 
 		logger.debug("Appointments for User with id 5");
-		appointments = Appointment.findAppointmentsByParticipant(User.findUser(5L)).getResultList();
+		appointments = Appointment.findAppointmentsByParticipant(
+				User.findUser(5L)).getResultList();
 
 		for (int i = 0; i < appointments.size(); i++) {
-			System.out.println("Appointment " + i + " " + appointments.get(i).toString());
+			System.out.println("Appointment " + i + " "
+					+ appointments.get(i).toString());
 		}
 
 		Assert.assertEquals(appointments.size(), 2);
 
-		System.out.println(Appointment.findAppointmentsByOwnerID(User.findUser(10L))
-				.getResultList());
+		System.out.println(Appointment.findAppointmentsByOwnerID(
+				User.findUser(10L)).getResultList());
 
-		System.out.println(Appointment.findAppointmentsByParticipant(User.findUser(1L))
-				.getResultList());
+		System.out.println(Appointment.findAppointmentsByParticipant(
+				User.findUser(1L)).getResultList());
 	}
 }
