@@ -74,7 +74,8 @@
  	
  	<security:http auto-config="true">
  		
-		<security:intercept-url pattern="/rest/users/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<security:intercept-url pattern="/rest/users/**" method="GET" access="ROLE_USER,ROLE_ADMIN" />
+		<security:intercept-url pattern="/rest/users/**" method="POST" access="IS_AUTHENTICATED_ANONYMOUSLY" />
 		<security:intercept-url pattern="/rest/appointments/**" access="ROLE_USER,ROLE_ADMIN" />
 		<security:intercept-url pattern="/rest/locations/**" access="ROLE_USER,ROLE_ADMIN" />
  
