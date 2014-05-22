@@ -37,10 +37,14 @@ public class LocationsControllerImpl implements LocationsController {
 		return true;
 	}
 
-	@Override
-	public boolean removeLocation(Location aLocation) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+    @Override
+    public boolean removeLocation(long id) {
+        Location location = Location.findLocation(id);
+        if (location != null) {
+            location.remove();
+            return true;
+        }
+        return false;
+    }
 
 }

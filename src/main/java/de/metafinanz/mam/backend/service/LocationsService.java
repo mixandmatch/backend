@@ -3,6 +3,7 @@ package de.metafinanz.mam.backend.service;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -68,5 +69,15 @@ public class LocationsService {
 
 		return Response.status(Status.FORBIDDEN).build();
 	}
+    
+	@DELETE
+    @Path("{id}")
+    public Response deleteLocation(@PathParam("id") Long id) {
+        logger.trace("entering deleteLocation");
+        boolean deleted = locationsController.removeLocation(id);
+        return deleted ?
+                Response.ok().build() :
+                Response.status(Status.NOT_FOUND).build();
+    }
 
 }

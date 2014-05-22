@@ -26,6 +26,6 @@ public interface LocationsController {
 	 */
 	boolean addLocation(Location aLocation);
 	
-	boolean removeLocation(Location aLocation);
+	boolean removeLocation(long id);
 
 }
