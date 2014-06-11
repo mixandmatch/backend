@@ -6,3 +6,4 @@ target/
 .DS_Store
 /target
 /profiles/prod/config.properties
+/.apt_generated
