@@ -8,7 +8,6 @@ public class AppointmentDataOnDemand {
         Appointment obj = new Appointment();
         setAppointmentDate(obj, index);
         setAppointmentLocation(obj, index);
-        setOwnerID(obj, index);
         return obj;
     }
 }

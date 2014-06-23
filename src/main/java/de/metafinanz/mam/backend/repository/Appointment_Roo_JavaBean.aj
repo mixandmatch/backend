@@ -27,12 +27,12 @@ privileged aspect Appointment_Roo_JavaBean {
         this.appointmentDate = appointmentDate;
     }
     
-    public User Appointment.getOwnerID() {
-        return this.ownerID;
+    public Appointment Appointment.getRootAppointment() {
+        return this.rootAppointment;
     }
     
-    public void Appointment.setOwnerID(User ownerID) {
-        this.ownerID = ownerID;
+    public void Appointment.setRootAppointment(Appointment rootAppointment) {
+        this.rootAppointment = rootAppointment;
     }
     
     public Location Appointment.getAppointmentLocation() {

@@ -13,27 +13,33 @@ import java.util.List;
 privileged aspect Location_Roo_Json {
     
     public String Location.toJson() {
-        return new JSONSerializer().exclude("*.class").serialize(this);
+        return new JSONSerializer()
+        .exclude("*.class").serialize(this);
     }
     
     public String Location.toJson(String[] fields) {
-        return new JSONSerializer().include(fields).exclude("*.class").serialize(this);
+        return new JSONSerializer()
+        .include(fields).exclude("*.class").serialize(this);
     }
     
     public static Location Location.fromJsonToLocation(String json) {
-        return new JSONDeserializer<Location>().use(null, Location.class).deserialize(json);
+        return new JSONDeserializer<Location>()
+        .use(null, Location.class).deserialize(json);
     }
     
     public static String Location.toJsonArray(Collection<Location> collection) {
-        return new JSONSerializer().exclude("*.class").serialize(collection);
+        return new JSONSerializer()
+        .exclude("*.class").serialize(collection);
     }
     
     public static String Location.toJsonArray(Collection<Location> collection, String[] fields) {
-        return new JSONSerializer().include(fields).exclude("*.class").serialize(collection);
+        return new JSONSerializer()
+        .include(fields).exclude("*.class").serialize(collection);
     }
     
     public static Collection<Location> Location.fromJsonArrayToLocations(String json) {
-        return new JSONDeserializer<List<Location>>().use(null, ArrayList.class).use("values", Location.class).deserialize(json);
+        return new JSONDeserializer<List<Location>>()
+        .use("values", Location.class).deserialize(json);
     }
     
 }

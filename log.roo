@@ -36,3 +36,7 @@ field string --fieldName username --notNull
 field string --fieldName password --notNull 
 field boolean --fieldName enabled --notNull 
 // Spring Roo 1.2.4.RELEASE [rev 75337cf] log closed at 2014-05-07 21:23:29
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log opened at 2014-06-23 15:03:02
+perform clean 
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log closed at 2014-06-23 15:46:45
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log opened at 2014-06-23 15:48:55

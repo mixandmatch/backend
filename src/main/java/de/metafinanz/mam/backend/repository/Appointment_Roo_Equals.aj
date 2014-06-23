@@ -17,11 +17,11 @@ privileged aspect Appointment_Roo_Equals {
             return true;
         }
         Appointment rhs = (Appointment) obj;
-        return new EqualsBuilder().append(appointmentDate, rhs.appointmentDate).append(appointmentID, rhs.appointmentID).append(appointmentLocation, rhs.appointmentLocation).append(ownerID, rhs.ownerID).isEquals();
+        return new EqualsBuilder().append(appointmentDate, rhs.appointmentDate).append(appointmentID, rhs.appointmentID).append(appointmentLocation, rhs.appointmentLocation).append(rootAppointment, rhs.rootAppointment).isEquals();
     }
     
     public int Appointment.hashCode() {
-        return new HashCodeBuilder().append(appointmentDate).append(appointmentID).append(appointmentLocation).append(ownerID).toHashCode();
+        return new HashCodeBuilder().append(appointmentDate).append(appointmentID).append(appointmentLocation).append(rootAppointment).toHashCode();
     }
     
 }

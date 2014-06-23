@@ -9,6 +9,21 @@ import javax.persistence.TypedQuery;
 
 privileged aspect Location_Roo_Finder {
     
+    public static Long Location.countFindLocationsByLocationNameLike(String locationName) {
+        if (locationName == null || locationName.length() == 0) throw new IllegalArgumentException("The locationName argument is required");
+        locationName = locationName.replace('*', '%');
+        if (locationName.charAt(0) != '%') {
+            locationName = "%" + locationName;
+        }
+        if (locationName.charAt(locationName.length() - 1) != '%') {
+            locationName = locationName + "%";
+        }
+        EntityManager em = Location.entityManager();
+        TypedQuery q = em.createQuery("SELECT COUNT(o) FROM Location AS o WHERE LOWER(o.locationName) LIKE LOWER(:locationName)", Long.class);
+        q.setParameter("locationName", locationName);
+        return ((Long) q.getSingleResult());
+    }
+    
     public static TypedQuery<Location> Location.findLocationsByLocationNameLike(String locationName) {
         if (locationName == null || locationName.length() == 0) throw new IllegalArgumentException("The locationName argument is required");
         locationName = locationName.replace('*', '%');
@@ -20,6 +35,28 @@ privileged aspect Location_Roo_Finder {
         }
         EntityManager em = Location.entityManager();
         TypedQuery<Location> q = em.createQuery("SELECT o FROM Location AS o WHERE LOWER(o.locationName) LIKE LOWER(:locationName)", Location.class);
+        q.setParameter("locationName", locationName);
+        return q;
+    }
+    
+    public static TypedQuery<Location> Location.findLocationsByLocationNameLike(String locationName, String sortFieldName, String sortOrder) {
+        if (locationName == null || locationName.length() == 0) throw new IllegalArgumentException("The locationName argument is required");
+        locationName = locationName.replace('*', '%');
+        if (locationName.charAt(0) != '%') {
+            locationName = "%" + locationName;
+        }
+        if (locationName.charAt(locationName.length() - 1) != '%') {
+            locationName = locationName + "%";
+        }
+        EntityManager em = Location.entityManager();
+        String jpaQuery = "SELECT o FROM Location AS o WHERE LOWER(o.locationName) LIKE LOWER(:locationName)";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        TypedQuery<Location> q = em.createQuery(jpaQuery, Location.class);
         q.setParameter("locationName", locationName);
         return q;
     }

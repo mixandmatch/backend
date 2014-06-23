@@ -23,8 +23,6 @@ privileged aspect User_Roo_JavaBean {
         this.getOrCreateUserCreated = getOrCreateUserCreated;
     }
     
-        
-        
     public Boolean User.getEnabled() {
         return this.enabled;
     }

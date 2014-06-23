@@ -76,7 +76,6 @@ public class AppointmentTest {
 
 		anAppointment = new Appointment();
 		anAppointment.setAppointmentID(14L);
-		anAppointment.setOwnerID(User.findAllUsers().get(0));
 		anAppointment
 				.setAppointmentLocation(Location.findAllLocations().get(0));
 		anAppointment.persist();
@@ -170,7 +169,6 @@ public class AppointmentTest {
 		Date appointmentDate = cal.getTime();
 
 		Appointment firstAppointment = new Appointment();
-		firstAppointment.setOwnerID(User.findUser(1L));
 		firstAppointment.setAppointmentLocation(Location.findLocation(1L));
 		firstAppointment.setAppointmentDate(appointmentDate);
 
@@ -180,7 +178,6 @@ public class AppointmentTest {
 		firstAppointment.persist();
 
 		Appointment secondAppointment = new Appointment();
-		secondAppointment.setOwnerID(User.findUser(1L));
 		secondAppointment.setAppointmentLocation(Location.findLocation(1L));
 		secondAppointment.setAppointmentDate(appointmentDate);
 
@@ -199,9 +196,6 @@ public class AppointmentTest {
 		}
 
 		Assert.assertEquals(appointments.size(), 2);
-
-		System.out.println(Appointment.findAppointmentsByOwnerID(
-				User.findUser(10L)).getResultList());
 
 		System.out.println(Appointment.findAppointmentsByParticipant(
 				User.findUser(1L)).getResultList());

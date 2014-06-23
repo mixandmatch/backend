@@ -11,7 +11,7 @@ import de.metafinanz.mam.backend.repository.Appointment;
 
 /**
  * Used for deserialization of an appointment only containing ID references to
- * the owner and location.
+ * the the first participant and location.
  * 
  * @see Appointment#fromJsonToAppointment(String)
  */
@@ -24,7 +24,7 @@ public class JSONAppointment {
 
 	private Date appointmentDate;
 
-	private Long ownerID;
-
+	private Long rootAppointment;
+	
 	private Long appointmentLocation;
 }

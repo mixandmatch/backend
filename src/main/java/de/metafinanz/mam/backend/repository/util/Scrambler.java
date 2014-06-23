@@ -59,9 +59,7 @@ public class Scrambler {
 			}
 			
 			newAppointment.getParticipants().add(participant);
-			if (newAppointment.getParticipants().size() == 1) {
-				newAppointment.setOwnerID(participant);
-			}
+			
 			if (participantStack.size() == 1 && newAppointment.getParticipants().size() == 1) { //last group of two
 				newAppointment.getParticipants().add(participantStack.pop());
 			}

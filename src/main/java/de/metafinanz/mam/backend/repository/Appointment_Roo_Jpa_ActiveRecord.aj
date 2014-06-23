@@ -14,6 +14,8 @@ privileged aspect Appointment_Roo_Jpa_ActiveRecord {
     @PersistenceContext
     transient EntityManager Appointment.entityManager;
     
+    public static final List<String> Appointment.fieldNames4OrderClauseFilter = java.util.Arrays.asList("appointmentID", "appointmentDate", "rootAppointment", "appointmentLocation", "participants");
+    
     public static final EntityManager Appointment.entityManager() {
         EntityManager em = new Appointment().entityManager;
         if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
@@ -28,6 +30,17 @@ privileged aspect Appointment_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery("SELECT o FROM Appointment o", Appointment.class).getResultList();
     }
     
+    public static List<Appointment> Appointment.findAllAppointments(String sortFieldName, String sortOrder) {
+        String jpaQuery = "SELECT o FROM Appointment o";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        return entityManager().createQuery(jpaQuery, Appointment.class).getResultList();
+    }
+    
     public static Appointment Appointment.findAppointment(Long appointmentID) {
         if (appointmentID == null) return null;
         return entityManager().find(Appointment.class, appointmentID);
@@ -35,6 +48,17 @@ privileged aspect Appointment_Roo_Jpa_ActiveRecord {
     
     public static List<Appointment> Appointment.findAppointmentEntries(int firstResult, int maxResults) {
         return entityManager().createQuery("SELECT o FROM Appointment o", Appointment.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
+    }
+    
+    public static List<Appointment> Appointment.findAppointmentEntries(int firstResult, int maxResults, String sortFieldName, String sortOrder) {
+        String jpaQuery = "SELECT o FROM Appointment o";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        return entityManager().createQuery(jpaQuery, Appointment.class).setFirstResult(firstResult).setMaxResults(maxResults).getResultList();
     }
     
     @Transactional

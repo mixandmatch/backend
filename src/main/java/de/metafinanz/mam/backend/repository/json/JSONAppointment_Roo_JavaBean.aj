@@ -24,12 +24,12 @@ privileged aspect JSONAppointment_Roo_JavaBean {
         this.appointmentDate = appointmentDate;
     }
     
-    public Long JSONAppointment.getOwnerID() {
-        return this.ownerID;
+    public Long JSONAppointment.getRootAppointment() {
+        return this.rootAppointment;
     }
     
-    public void JSONAppointment.setOwnerID(Long ownerID) {
-        this.ownerID = ownerID;
+    public void JSONAppointment.setRootAppointment(Long rootAppointment) {
+        this.rootAppointment = rootAppointment;
     }
     
     public Long JSONAppointment.getAppointmentLocation() {

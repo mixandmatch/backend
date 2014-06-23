@@ -34,7 +34,9 @@ public interface AppointmentsController {
 
 	Appointment removeParticipant(Long appointmentID, User aUser) throws IllegalArgumentException;
 
-	// Only allowed for the owner?
+	// Only allowed for the admin?
 	Appointment deleteAppointment();
+	
+	List<Appointment> assignGroupToParticipant(Long appointmentID) throws IllegalArgumentException;
 
 }

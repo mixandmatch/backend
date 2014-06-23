@@ -15,6 +15,7 @@ import de.metafinanz.mam.backend.repository.Appointment;
 import de.metafinanz.mam.backend.repository.Location;
 import de.metafinanz.mam.backend.repository.User;
 import de.metafinanz.mam.backend.repository.json.JSONAppointment;
+import de.metafinanz.mam.backend.repository.util.Scrambler;
 
 public class AppointmentsControllerImpl implements AppointmentsController {
 
@@ -119,14 +120,8 @@ public class AppointmentsControllerImpl implements AppointmentsController {
 
 		User aUser = User.findUser(userID);
 
-		List<Appointment> appointmentsByOwner = Appointment
-				.findAppointmentsByOwnerID(aUser).getResultList();
 		List<Appointment> appointmentsByParticipant = Appointment
 				.findAppointmentsByParticipant(aUser).getResultList();
-
-		if (appointmentsByOwner != null) {
-			result.addAll(appointmentsByOwner);
-		}
 
 		if (appointmentsByParticipant != null) {
 			result.addAll(appointmentsByParticipant);
@@ -134,6 +129,25 @@ public class AppointmentsControllerImpl implements AppointmentsController {
 
 		return result;
 
+	}
+
+	@Override
+	public List<Appointment> assignGroupToParticipant(Long appointmentID)
+			throws IllegalArgumentException {
+		logger.trace("entering assignGroupToParticipant");
+		logger.debug("Assigning participants to groups for appointment with ID: " + appointmentID);
+
+		Appointment anAppointment = Appointment.findAppointment(appointmentID);
+		logger.debug("Appointment from db: " + anAppointment);
+		List<Appointment> result = Scrambler.scrambleUsersOfAppointment(anAppointment);
+		
+		for (Appointment ap : result) {
+			ap.persist();
+		}
+		// called from service?
+		// persist here? 
+		// send notifications here?
+		return result;
 	}
 
 }

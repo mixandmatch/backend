@@ -74,7 +74,6 @@ public class ScramblerTest {
 		Appointment sourceAppointment = new Appointment();
     	sourceAppointment.setAppointmentDate(new Date());
     	sourceAppointment.setAppointmentLocation(new Location());
-		sourceAppointment.setOwnerID(stackParticipants.peek());
 		return sourceAppointment;
 	}
     
@@ -126,7 +125,6 @@ public class ScramblerTest {
     	
     	Appointment sourceAppointment = new Appointment();
     	sourceAppointment.setAppointmentLocation(new Location());
-		sourceAppointment.setOwnerID(stackParticipants.peek());
 		addUsers(sourceAppointment, 1);
 		
 		Scrambler.scrambleUsersOfAppointment(sourceAppointment);

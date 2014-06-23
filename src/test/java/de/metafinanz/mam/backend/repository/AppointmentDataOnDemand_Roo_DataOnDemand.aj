@@ -7,8 +7,6 @@ import de.metafinanz.mam.backend.repository.Appointment;
 import de.metafinanz.mam.backend.repository.AppointmentDataOnDemand;
 import de.metafinanz.mam.backend.repository.Location;
 import de.metafinanz.mam.backend.repository.LocationDataOnDemand;
-import de.metafinanz.mam.backend.repository.User;
-import de.metafinanz.mam.backend.repository.UserDataOnDemand;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,9 +31,6 @@ privileged aspect AppointmentDataOnDemand_Roo_DataOnDemand {
     @Autowired
     LocationDataOnDemand AppointmentDataOnDemand.locationDataOnDemand;
     
-    @Autowired
-    UserDataOnDemand AppointmentDataOnDemand.userDataOnDemand;
-    
     public void AppointmentDataOnDemand.setAppointmentDate(Appointment obj, int index) {
         Date appointmentDate = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH), Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE), Calendar.getInstance().get(Calendar.SECOND) + new Double(Math.random() * 1000).intValue()).getTime();
         obj.setAppointmentDate(appointmentDate);
@@ -46,9 +41,9 @@ privileged aspect AppointmentDataOnDemand_Roo_DataOnDemand {
         obj.setAppointmentLocation(appointmentLocation);
     }
     
-    public void AppointmentDataOnDemand.setOwnerID(Appointment obj, int index) {
-        User ownerID = userDataOnDemand.getRandomUser();
-        obj.setOwnerID(ownerID);
+    public void AppointmentDataOnDemand.setRootAppointment(Appointment obj, int index) {
+        Appointment rootAppointment = obj;
+        obj.setRootAppointment(rootAppointment);
     }
     
     public Appointment AppointmentDataOnDemand.getSpecificAppointment(int index) {

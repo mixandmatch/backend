@@ -9,10 +9,48 @@ import javax.persistence.TypedQuery;
 
 privileged aspect User_Roo_Finder {
     
+    public static Long User.countFindUsersByUsernameEquals(String username) {
+        if (username == null || username.length() == 0) throw new IllegalArgumentException("The username argument is required");
+        EntityManager em = User.entityManager();
+        TypedQuery q = em.createQuery("SELECT COUNT(o) FROM User AS o WHERE o.username = :username", Long.class);
+        q.setParameter("username", username);
+        return ((Long) q.getSingleResult());
+    }
+    
+    public static Long User.countFindUsersByUsernameLike(String username) {
+        if (username == null || username.length() == 0) throw new IllegalArgumentException("The username argument is required");
+        username = username.replace('*', '%');
+        if (username.charAt(0) != '%') {
+            username = "%" + username;
+        }
+        if (username.charAt(username.length() - 1) != '%') {
+            username = username + "%";
+        }
+        EntityManager em = User.entityManager();
+        TypedQuery q = em.createQuery("SELECT COUNT(o) FROM User AS o WHERE LOWER(o.username) LIKE LOWER(:username)", Long.class);
+        q.setParameter("username", username);
+        return ((Long) q.getSingleResult());
+    }
+    
     public static TypedQuery<User> User.findUsersByUsernameEquals(String username) {
         if (username == null || username.length() == 0) throw new IllegalArgumentException("The username argument is required");
         EntityManager em = User.entityManager();
         TypedQuery<User> q = em.createQuery("SELECT o FROM User AS o WHERE o.username = :username", User.class);
+        q.setParameter("username", username);
+        return q;
+    }
+    
+    public static TypedQuery<User> User.findUsersByUsernameEquals(String username, String sortFieldName, String sortOrder) {
+        if (username == null || username.length() == 0) throw new IllegalArgumentException("The username argument is required");
+        EntityManager em = User.entityManager();
+        String jpaQuery = "SELECT o FROM User AS o WHERE o.username = :username";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        TypedQuery<User> q = em.createQuery(jpaQuery, User.class);
         q.setParameter("username", username);
         return q;
     }
@@ -28,6 +66,28 @@ privileged aspect User_Roo_Finder {
         }
         EntityManager em = User.entityManager();
         TypedQuery<User> q = em.createQuery("SELECT o FROM User AS o WHERE LOWER(o.username) LIKE LOWER(:username)", User.class);
+        q.setParameter("username", username);
+        return q;
+    }
+    
+    public static TypedQuery<User> User.findUsersByUsernameLike(String username, String sortFieldName, String sortOrder) {
+        if (username == null || username.length() == 0) throw new IllegalArgumentException("The username argument is required");
+        username = username.replace('*', '%');
+        if (username.charAt(0) != '%') {
+            username = "%" + username;
+        }
+        if (username.charAt(username.length() - 1) != '%') {
+            username = username + "%";
+        }
+        EntityManager em = User.entityManager();
+        String jpaQuery = "SELECT o FROM User AS o WHERE LOWER(o.username) LIKE LOWER(:username)";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        TypedQuery<User> q = em.createQuery(jpaQuery, User.class);
         q.setParameter("username", username);
         return q;
     }

@@ -13,27 +13,33 @@ import java.util.List;
 privileged aspect JSONAppointment_Roo_Json {
     
     public String JSONAppointment.toJson() {
-        return new JSONSerializer().exclude("*.class").serialize(this);
+        return new JSONSerializer()
+        .exclude("*.class").serialize(this);
     }
     
     public String JSONAppointment.toJson(String[] fields) {
-        return new JSONSerializer().include(fields).exclude("*.class").serialize(this);
+        return new JSONSerializer()
+        .include(fields).exclude("*.class").serialize(this);
     }
     
     public static JSONAppointment JSONAppointment.fromJsonToJSONAppointment(String json) {
-        return new JSONDeserializer<JSONAppointment>().use(null, JSONAppointment.class).deserialize(json);
+        return new JSONDeserializer<JSONAppointment>()
+        .use(null, JSONAppointment.class).deserialize(json);
     }
     
     public static String JSONAppointment.toJsonArray(Collection<JSONAppointment> collection) {
-        return new JSONSerializer().exclude("*.class").serialize(collection);
+        return new JSONSerializer()
+        .exclude("*.class").serialize(collection);
     }
     
     public static String JSONAppointment.toJsonArray(Collection<JSONAppointment> collection, String[] fields) {
-        return new JSONSerializer().include(fields).exclude("*.class").serialize(collection);
+        return new JSONSerializer()
+        .include(fields).exclude("*.class").serialize(collection);
     }
     
     public static Collection<JSONAppointment> JSONAppointment.fromJsonArrayToJSONAppointments(String json) {
-        return new JSONDeserializer<List<JSONAppointment>>().use(null, ArrayList.class).use("values", JSONAppointment.class).deserialize(json);
+        return new JSONDeserializer<List<JSONAppointment>>()
+        .use("values", JSONAppointment.class).deserialize(json);
     }
     
 }

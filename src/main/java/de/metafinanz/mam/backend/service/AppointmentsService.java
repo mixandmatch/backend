@@ -41,10 +41,9 @@ public class AppointmentsService {
 	@GET
 	@Path("/user")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response appointmentsForUser(@QueryParam("userID") String userID) {
+	public Response appointmentsForUser(@QueryParam("userID") Long userID) {
 		try {
-			List<Appointment> result = appointmentsController.getAppointmentsForUser(new Long(
-					userID));
+			List<Appointment> result = appointmentsController.getAppointmentsForUser(userID);
 			return Response.ok(result, MediaType.APPLICATION_JSON).build();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
@@ -56,10 +55,9 @@ public class AppointmentsService {
 	@GET
 	@Path("/location")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response appointmentsForLocation(@QueryParam("locationID") String locationID) {
+	public Response appointmentsForLocation(@QueryParam("locationID") Long locationID) {
 		try {
-			List<Appointment> result = appointmentsController.getAppointmentsForLocation(new Long(
-					locationID));
+			List<Appointment> result = appointmentsController.getAppointmentsForLocation(locationID);
 			return Response.ok(result, MediaType.APPLICATION_JSON).build();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
@@ -98,13 +96,12 @@ public class AppointmentsService {
 	@Path("{id}/addParticipant")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addParticipant(@PathParam("id") String id, User newParticipant) {
+	public Response addParticipant(@PathParam("id") Long id, User newParticipant) {
 		logger.trace("entering addParticipant");
 
 		try {
 			logger.debug("Adding participant: " + newParticipant + " to appointment with id: " + id);
-			Appointment result = appointmentsController
-					.addParticipant(new Long(id), newParticipant);
+			Appointment result = appointmentsController.addParticipant(id, newParticipant);
 			if (result != null) {
 				return Response.ok(result, MediaType.APPLICATION_JSON).status(Status.CREATED)
 						.build();
@@ -119,14 +116,13 @@ public class AppointmentsService {
 	@Path("{id}/removeParticipant")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response removeParticipant(@PathParam("id") String id, User aParticipant) {
+	public Response removeParticipant(@PathParam("id") Long id, User aParticipant) {
 		logger.trace("entering removeParticipant");
 		try {
 			logger.debug("Removing participant: " + aParticipant + " from appointment with id: "
 					+ id);
 
-			Appointment result = appointmentsController.removeParticipant(new Long(id),
-					aParticipant);
+			Appointment result = appointmentsController.removeParticipant(id, aParticipant);
 			if (result != null) {
 				return Response.ok(result, MediaType.APPLICATION_JSON).build();
 			}
