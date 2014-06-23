@@ -1,7 +1,10 @@
 package de.metafinanz.mam.backend.repository;
 
+import static org.junit.Assert.*;
+
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -16,6 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.metafinanz.mam.backend.controller.impl.AppointmentsControllerImpl;
+import de.metafinanz.mam.backend.repository.json.JSONAppointment;
 
 //@RunWith(JUnit4.class)
 //@MockStaticEntityMethods
@@ -199,5 +203,62 @@ public class AppointmentTest {
 
 		System.out.println(Appointment.findAppointmentsByParticipant(
 				User.findUser(1L)).getResultList());
+	}
+	
+//	@Test
+//	public void fromJsonToAppointmentTest() {
+//		Date now = new Date();
+//		String source = "{'appointmentDate':"+now.getTime()+",'appointmentID':1,'appointmentLocation':{'locationID':1},'participants':[{'id':1}],'version':1}";
+//		
+//
+//		Appointment expectedApointment = new Appointment();
+//		expectedApointment.setAppointmentDate(now);
+//		expectedApointment.setAppointmentID(1L);
+//		Location location = new Location();
+//		location.setLocationID(1L);
+//		expectedApointment.setAppointmentLocation(location);
+//		Set<User> partici = new HashSet<User>();
+//		User user = new User();
+//		user.setUsername("user1");
+//		user.setId(1L);
+//		partici.add(user);
+//		expectedApointment.setParticipants(partici);
+//		expectedApointment.setVersion(1);
+//		
+//		Appointment result = Appointment.fromJsonToAppointment(source);
+//		
+//		assertEquals(expectedApointment, result);
+//		
+//	}
+	
+	@Test 
+	public void fromJsonAppointmentToAppointmentTest() {
+		Date now = new Date();
+
+		JSONAppointment appointment = new JSONAppointment();
+		appointment.setAppointmentDate(now);
+		appointment.setAppointmentLocation(1L);
+		appointment.setRootAppointment(null);
+		appointment.setParticipant(5L);
+		
+		Appointment expectedApointment = new Appointment();
+		expectedApointment.setAppointmentDate(now);
+		Location location = new Location();
+		location.setLocationID(1L);
+		location.setLocationName("location 1");
+		location.setVersion(0);
+		expectedApointment.setAppointmentLocation(location);
+		Set<User> partici = new HashSet<User>();
+		User user = User.findUser(5L);
+		user.setId(5L);
+		partici.add(user);
+		expectedApointment.setParticipants(partici);
+		
+		Appointment result = Appointment.fromJsonAppointmentToAppointment(appointment);
+		
+		assertTrue(result.getParticipants().contains(user));
+		assertEquals(expectedApointment.getAppointmentLocation(), result.getAppointmentLocation());
+		assertEquals(expectedApointment, result);
+		
 	}
 }

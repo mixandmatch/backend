@@ -40,4 +40,12 @@ privileged aspect JSONAppointment_Roo_JavaBean {
         this.appointmentLocation = appointmentLocation;
     }
     
+    public Long JSONAppointment.getParticipant() {
+        return this.participant;
+    }
+    
+    public void JSONAppointment.setParticipant(Long participant) {
+        this.participant = participant;
+    }
+    
 }

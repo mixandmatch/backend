@@ -22,6 +22,11 @@ privileged aspect Appointment_Roo_Json {
         .include(fields).exclude("*.class").deepSerialize(this);
     }
     
+    public static Appointment Appointment.fromJsonToAppointment(String json) {
+        return new JSONDeserializer<Appointment>()
+        .use(null, Appointment.class).deserialize(json);
+    }
+    
     public static String Appointment.toJsonArray(Collection<Appointment> collection) {
         return new JSONSerializer()
         .exclude("*.class").deepSerialize(collection);
