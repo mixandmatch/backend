@@ -66,6 +66,17 @@ public class AppointmentsService {
 		return Response.status(Status.NOT_FOUND).build();
 	}
 
+	/**
+	 * Creates a new appointment for a given time and adds a location by an existing location ID and an user by an
+	 * existing user ID. The user is optional.
+	 * 
+	 * EXAMPLE-JSON:<br/><br/>
+	 *  
+	 * <code>{"appointmentDate":"2014-12-01T12:00:00.000Z","appointmentLocation":1,"participant":1}</code>
+	 * 
+	 * @param appointment
+	 * @return
+	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -82,6 +93,10 @@ public class AppointmentsService {
 
 	/**
 	 * Adds a new participant to an Appointment.
+	 * <br/><br/>
+	 * EXAMPLE-JSON:<br/><br/>
+	 * 
+	 * <code>{"username":"Benutzer2"}</code>
 	 * 
 	 * @param id
 	 *            The appointment ID derived from the Path
@@ -112,6 +127,12 @@ public class AppointmentsService {
 		return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 	}
 
+	/**
+	 * EXAMPLE-JSON:<br/><br/>
+	 * 
+	 * <code>{"username":"Benutzer2"}</code>
+	 * 
+	 */
 	@POST
 	@Path("{id}/removeParticipant")
 	@Consumes(MediaType.APPLICATION_JSON)

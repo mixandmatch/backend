@@ -34,7 +34,14 @@ public class AppointmentsControllerImpl implements AppointmentsController {
 	public Appointment addAppointment(JSONAppointment appointment) {
 		Appointment newAppointment = Appointment
 				.fromJsonAppointmentToAppointment(appointment);
+		Set<User> setParticipants = newAppointment.getParticipants();
+		newAppointment.setParticipants(null);
 		newAppointment.persist();
+		
+		for (User p : setParticipants) {
+			addParticipant(newAppointment.getAppointmentID(), p);
+		}
+
 		return newAppointment;
 	}
 

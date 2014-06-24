@@ -47,6 +47,14 @@ public class LocationsService {
 		return locationsController.getLocation(new Long(id));
 	}
 
+	/**
+	 * EXAMPLE-JSON:<br/><br/>
+	 * 
+	 * <code>{"locationName":"Kantine 12"}</code>
+	 * 
+	 * @param aLocation
+	 * @return
+	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response locationAdd(Location aLocation) {
