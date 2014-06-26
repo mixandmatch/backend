@@ -3,10 +3,11 @@
 
 package de.metafinanz.mam.backend.repository;
 
-import org.springframework.beans.factory.annotation.Configurable;
+import de.metafinanz.mam.backend.repository.Canteen;
+import javax.persistence.Entity;
 
-privileged aspect AppointmentDataOnDemand_Roo_Configurable {
+privileged aspect Canteen_Roo_Jpa_Entity {
     
-    declare @type: AppointmentDataOnDemand: @Configurable;
+    declare @type: Canteen: @Entity;
     
 }

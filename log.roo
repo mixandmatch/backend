@@ -40,3 +40,58 @@ field boolean --fieldName enabled --notNull
 perform clean 
 // Spring Roo 1.2.5.RELEASE [rev 8341dc2] log closed at 2014-06-23 15:46:45
 // Spring Roo 1.2.5.RELEASE [rev 8341dc2] log opened at 2014-06-23 15:48:55
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log closed at 2014-06-24 17:41:19
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log opened at 2014-06-25 10:19:01
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log closed at 2014-06-25 11:01:10
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log opened at 2014-06-25 11:01:27
+perform clean
+download status
+download accept terms of use
+osgi obr url add --url http://spring-roo-repository.springsource.org/repository.xml
+osgi obr start --bundleSymbolicName org.springframework.roo.addon.entity
+osgi obr url remove --url http://spring-roo-repository.springsource.org/repository.xml
+addon install id --searchResultId 01
+osgi obr url add --url http://spring-roo-repository.springsource.org/repository.xml
+osgi obr start --bundleSymbolicName org.springframework.roo.addon.entity
+osgi obr url remove --url http://spring-roo-repository.springsource.org/repository.xml
+addon install id --searchResultId 01
+addon info id --searchResultId 01
+osgi obr url add --url http://spring-roo-repository.springsource.org/repository.xml
+osgi obr start --bundleSymbolicName org.springframework.roo.addon.entity
+osgi obr url remove --url http://spring-roo-repository.springsource.org/repository.xml
+addon install id --searchResultId 01
+addon search support
+osgi obr url add --url http://spring-roo-repository.springsource.org/repository.xml
+osgi obr start --bundleSymbolicName org.springframework.roo.addon.entity
+osgi obr url remove --url http://spring-roo-repository.springsource.org/repository.xml
+addon install id --searchResultId 02
+addon list 
+osgi obr url add --url http://spring-roo-repository.springsource.org/repository.xml
+osgi obr start --bundleSymbolicName org.springframework.roo.addon.entity
+osgi obr url remove --url http://spring-roo-repository.springsource.org/repository.xml
+addon install id --searchResultId 01
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log closed at 2014-06-25 11:46:26
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log opened at 2014-06-25 11:46:47
+hint
+hint entities
+entity jpa --class ~.repository.Canteen --extends ~.repository.Location --testAutomatically
+entity jpa --class ~.backend.repository.Canteen --extends ~.backend.repository.Location --testAutomatically
+perform clean
+perform clean
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log closed at 2014-06-25 14:28:55
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log opened at 2014-06-25 14:29:08
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log closed at 2014-06-25 14:39:56
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log opened at 2014-06-25 14:41:56
+perform package 
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log closed at 2014-06-25 14:45:43
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log opened at 2014-06-25 14:59:28
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log closed at 2014-06-25 15:10:20
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log opened at 2014-06-25 15:11:01
+entity jpa --class ~.backend.repository.Office --testAutomatically 
+perform tests
+perform tests
+perform tests
+perform tests
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log closed at 2014-06-25 16:03:00
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log opened at 2014-06-26 14:46:03
+perform tests 

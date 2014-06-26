@@ -3,11 +3,11 @@
 
 package de.metafinanz.mam.backend.repository;
 
-import de.metafinanz.mam.backend.repository.LocationDataOnDemand;
+import de.metafinanz.mam.backend.repository.Canteen;
 import org.springframework.beans.factory.annotation.Configurable;
 
-privileged aspect LocationDataOnDemand_Roo_Configurable {
+privileged aspect Canteen_Roo_Configurable {
     
-    declare @type: LocationDataOnDemand: @Configurable;
+    declare @type: Canteen: @Configurable;
     
 }

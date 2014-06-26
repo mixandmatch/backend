@@ -1,6 +1,7 @@
 package de.metafinanz.mam.backend.repository;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -81,7 +82,7 @@ public class AppointmentTest {
 		anAppointment = new Appointment();
 		anAppointment.setAppointmentID(14L);
 		anAppointment
-				.setAppointmentLocation(Location.findAllLocations().get(0));
+				.setAppointmentLocation(Canteen.findAllCanteens().get(0));
 		anAppointment.persist();
 
 		System.out.println("\nBefore 4 Adduser: " + anAppointment.toString());
@@ -173,7 +174,7 @@ public class AppointmentTest {
 		Date appointmentDate = cal.getTime();
 
 		Appointment firstAppointment = new Appointment();
-		firstAppointment.setAppointmentLocation(Location.findLocation(1L));
+		firstAppointment.setAppointmentLocation(Canteen.findCanteen(1L));
 		firstAppointment.setAppointmentDate(appointmentDate);
 
 		Set<User> participants = firstAppointment.getParticipants();
@@ -182,7 +183,7 @@ public class AppointmentTest {
 		firstAppointment.persist();
 
 		Appointment secondAppointment = new Appointment();
-		secondAppointment.setAppointmentLocation(Location.findLocation(1L));
+		secondAppointment.setAppointmentLocation(Canteen.findCanteen(1L));
 		secondAppointment.setAppointmentDate(appointmentDate);
 
 		participants = secondAppointment.getParticipants();
@@ -243,9 +244,11 @@ public class AppointmentTest {
 		
 		Appointment expectedApointment = new Appointment();
 		expectedApointment.setAppointmentDate(now);
-		Location location = new Location();
-		location.setLocationID(1L);
-		location.setLocationName("location 1");
+		Canteen location = new Canteen();
+		location.setId(1L);
+		location.setName("location 1");
+		location.setLatitude(48.1884351);
+		location.setLongitude(11.6491052);
 		location.setVersion(0);
 		expectedApointment.setAppointmentLocation(location);
 		Set<User> partici = new HashSet<User>();

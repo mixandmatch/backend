@@ -3,10 +3,6 @@
 
 package de.metafinanz.mam.backend.repository;
 
-import de.metafinanz.mam.backend.repository.Appointment;
-import de.metafinanz.mam.backend.repository.AppointmentDataOnDemand;
-import de.metafinanz.mam.backend.repository.Location;
-import de.metafinanz.mam.backend.repository.LocationDataOnDemand;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -15,8 +11,10 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -29,7 +27,7 @@ privileged aspect AppointmentDataOnDemand_Roo_DataOnDemand {
     private List<Appointment> AppointmentDataOnDemand.data;
     
     @Autowired
-    LocationDataOnDemand AppointmentDataOnDemand.locationDataOnDemand;
+    CanteenDataOnDemand AppointmentDataOnDemand.canteenDataOnDemand;
     
     public void AppointmentDataOnDemand.setAppointmentDate(Appointment obj, int index) {
         Date appointmentDate = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH), Calendar.getInstance().get(Calendar.HOUR_OF_DAY), Calendar.getInstance().get(Calendar.MINUTE), Calendar.getInstance().get(Calendar.SECOND) + new Double(Math.random() * 1000).intValue()).getTime();
@@ -37,7 +35,7 @@ privileged aspect AppointmentDataOnDemand_Roo_DataOnDemand {
     }
     
     public void AppointmentDataOnDemand.setAppointmentLocation(Appointment obj, int index) {
-        Location appointmentLocation = locationDataOnDemand.getRandomLocation();
+        Canteen appointmentLocation = canteenDataOnDemand.getRandomCanteen();
         obj.setAppointmentLocation(appointmentLocation);
     }
     

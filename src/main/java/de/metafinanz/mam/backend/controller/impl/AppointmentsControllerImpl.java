@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.metafinanz.mam.backend.controller.AppointmentsController;
-import de.metafinanz.mam.backend.controller.LocationsController;
 import de.metafinanz.mam.backend.repository.Appointment;
 import de.metafinanz.mam.backend.repository.Location;
 import de.metafinanz.mam.backend.repository.User;
@@ -20,7 +19,7 @@ import de.metafinanz.mam.backend.repository.util.Scrambler;
 public class AppointmentsControllerImpl implements AppointmentsController {
 
 	private static final int MAX_PARTICIPANTS = 4;
-	static Logger logger = LoggerFactory.getLogger(LocationsController.class);
+	static Logger logger = LoggerFactory.getLogger(AppointmentsControllerImpl.class);
 
 	public List<Appointment> getAppointments() {
 		return Appointment.findAllAppointments();

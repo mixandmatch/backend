@@ -3,7 +3,6 @@
 
 package de.metafinanz.mam.backend.repository;
 
-import de.metafinanz.mam.backend.repository.AppointmentIntegrationTest;
 import org.springframework.beans.factory.annotation.Configurable;
 
 privileged aspect AppointmentIntegrationTest_Roo_Configurable {

@@ -5,8 +5,8 @@ package de.metafinanz.mam.backend.repository;
 
 import org.springframework.beans.factory.annotation.Configurable;
 
-privileged aspect AppointmentDataOnDemand_Roo_Configurable {
+privileged aspect OfficeDataOnDemand_Roo_Configurable {
     
-    declare @type: AppointmentDataOnDemand: @Configurable;
+    declare @type: OfficeDataOnDemand: @Configurable;
     
 }

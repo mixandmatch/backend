@@ -14,10 +14,11 @@ privileged aspect Location_Roo_Jpa_ActiveRecord {
     @PersistenceContext
     transient EntityManager Location.entityManager;
     
-    public static final List<String> Location.fieldNames4OrderClauseFilter = java.util.Arrays.asList("locationName", "locationID");
+    public static final List<String> Location.fieldNames4OrderClauseFilter = java.util.Arrays.asList("name", "id", "address", "postalCode", "city", "longitude", "latitude");
     
     public static final EntityManager Location.entityManager() {
-        EntityManager em = new Location().entityManager;
+        EntityManager em = new Location() {
+        }.entityManager;
         if (em == null) throw new IllegalStateException("Entity manager has not been injected (is the Spring Aspects JAR configured as an AJC/AJDT aspects library?)");
         return em;
     }
@@ -41,9 +42,9 @@ privileged aspect Location_Roo_Jpa_ActiveRecord {
         return entityManager().createQuery(jpaQuery, Location.class).getResultList();
     }
     
-    public static Location Location.findLocation(Long locationID) {
-        if (locationID == null) return null;
-        return entityManager().find(Location.class, locationID);
+    public static Location Location.findLocation(Long id) {
+        if (id == null) return null;
+        return entityManager().find(Location.class, id);
     }
     
     public static List<Location> Location.findLocationEntries(int firstResult, int maxResults) {
@@ -73,7 +74,7 @@ privileged aspect Location_Roo_Jpa_ActiveRecord {
         if (this.entityManager.contains(this)) {
             this.entityManager.remove(this);
         } else {
-            Location attached = Location.findLocation(this.locationID);
+            Location attached = Location.findLocation(this.id);
             this.entityManager.remove(attached);
         }
     }

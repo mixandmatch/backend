@@ -4,7 +4,7 @@
 package de.metafinanz.mam.backend.repository;
 
 import de.metafinanz.mam.backend.repository.Appointment;
-import de.metafinanz.mam.backend.repository.Location;
+import de.metafinanz.mam.backend.repository.Canteen;
 import java.util.Date;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -19,7 +19,7 @@ privileged aspect Appointment_Roo_Finder {
         return ((Long) q.getSingleResult());
     }
     
-    public static Long Appointment.countFindAppointmentsByAppointmentLocation(Location appointmentLocation) {
+    public static Long Appointment.countFindAppointmentsByAppointmentLocation(Canteen appointmentLocation) {
         if (appointmentLocation == null) throw new IllegalArgumentException("The appointmentLocation argument is required");
         EntityManager em = Appointment.entityManager();
         TypedQuery q = em.createQuery("SELECT COUNT(o) FROM Appointment AS o WHERE o.appointmentLocation = :appointmentLocation", Long.class);
@@ -50,7 +50,15 @@ privileged aspect Appointment_Roo_Finder {
         return q;
     }
     
-    public static TypedQuery<Appointment> Appointment.findAppointmentsByAppointmentLocation(Location appointmentLocation, String sortFieldName, String sortOrder) {
+    public static TypedQuery<Appointment> Appointment.findAppointmentsByAppointmentLocation(Canteen appointmentLocation) {
+        if (appointmentLocation == null) throw new IllegalArgumentException("The appointmentLocation argument is required");
+        EntityManager em = Appointment.entityManager();
+        TypedQuery<Appointment> q = em.createQuery("SELECT o FROM Appointment AS o WHERE o.appointmentLocation = :appointmentLocation", Appointment.class);
+        q.setParameter("appointmentLocation", appointmentLocation);
+        return q;
+    }
+    
+    public static TypedQuery<Appointment> Appointment.findAppointmentsByAppointmentLocation(Canteen appointmentLocation, String sortFieldName, String sortOrder) {
         if (appointmentLocation == null) throw new IllegalArgumentException("The appointmentLocation argument is required");
         EntityManager em = Appointment.entityManager();
         String jpaQuery = "SELECT o FROM Appointment AS o WHERE o.appointmentLocation = :appointmentLocation";

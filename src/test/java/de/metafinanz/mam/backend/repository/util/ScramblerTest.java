@@ -15,7 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import de.metafinanz.mam.backend.repository.Appointment;
-import de.metafinanz.mam.backend.repository.Location;
+import de.metafinanz.mam.backend.repository.Canteen;
 import de.metafinanz.mam.backend.repository.User;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -73,7 +73,7 @@ public class ScramblerTest {
 	private Appointment prepareAppointment() {
 		Appointment sourceAppointment = new Appointment();
     	sourceAppointment.setAppointmentDate(new Date());
-    	sourceAppointment.setAppointmentLocation(new Location());
+    	sourceAppointment.setAppointmentLocation(new Canteen());
 		return sourceAppointment;
 	}
     
@@ -124,7 +124,7 @@ public class ScramblerTest {
     	logger.error("testScambleValidationNoDate");
     	
     	Appointment sourceAppointment = new Appointment();
-    	sourceAppointment.setAppointmentLocation(new Location());
+    	sourceAppointment.setAppointmentLocation(new Canteen());
 		addUsers(sourceAppointment, 1);
 		
 		Scrambler.scrambleUsersOfAppointment(sourceAppointment);

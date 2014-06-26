@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.metafinanz.mam.backend.repository.Appointment;
+import de.metafinanz.mam.backend.repository.Canteen;
 import de.metafinanz.mam.backend.repository.Location;
 import de.metafinanz.mam.backend.repository.User;
 import de.metafinanz.mam.backend.repository.UserRole;
@@ -64,7 +65,7 @@ public class SampleDataGenerator implements ApplicationListener<ContextRefreshed
 		adminRole.persist();
 
 		User aUser = null;
-		Location aLocation = null;
+		Canteen aLocation = null;
 		Appointment anAppointment = null;
 		UserRole aUserRole = null;
 
@@ -80,8 +81,10 @@ public class SampleDataGenerator implements ApplicationListener<ContextRefreshed
 			aUserRole.setUsername(aUser.getUsername());
 			aUserRole.persist();
 
-			aLocation = new Location();
-			aLocation.setLocationName("location " + i);
+			aLocation = new Canteen();
+			aLocation.setName("location " + i);
+			aLocation.setLatitude(48.1884351);
+			aLocation.setLongitude(11.6491052);
 			aLocation.persist();
 		}
 

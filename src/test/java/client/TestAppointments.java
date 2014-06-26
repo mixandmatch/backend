@@ -1,7 +1,6 @@
 package client;
 
 import java.util.Calendar;
-import java.util.Date;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;

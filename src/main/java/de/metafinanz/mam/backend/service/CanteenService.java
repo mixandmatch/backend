@@ -18,21 +18,21 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import de.metafinanz.mam.backend.controller.LocationsController;
-import de.metafinanz.mam.backend.repository.Location;
+import de.metafinanz.mam.backend.controller.CanteenController;
+import de.metafinanz.mam.backend.repository.Canteen;
 
 @Component
-@Path("locations")
-public class LocationsService {
+@Path("canteen")
+public class CanteenService implements ILocationService<Canteen> {
 
 	@Autowired
-	LocationsController locationsController;
+	CanteenController locationsController;
 
-	static Logger logger = LoggerFactory.getLogger(LocationsService.class);
+	static Logger logger = LoggerFactory.getLogger(CanteenService.class);
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Location> locations() {
+	public List<Canteen> locations() {
 		logger.trace("entering locations()");
 		return locationsController.getLocations();
 		// return Response.status(200).entity(result).build();
@@ -41,7 +41,7 @@ public class LocationsService {
 	@GET
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Location getLocation(@PathParam("id") String id) {
+	public Canteen getLocation(@PathParam("id") String id) {
 		logger.trace("entering getLocation");
 		logger.debug("find Location with id: " + id);
 		return locationsController.getLocation(new Long(id));
@@ -50,17 +50,17 @@ public class LocationsService {
 	/**
 	 * EXAMPLE-JSON:<br/><br/>
 	 * 
-	 * <code>{"locationName":"Kantine 12"}</code>
+	 * <code>{"locationName":"Kantine 12","logitude":11.6491052,"latitude":48.1884351}</code>
 	 * 
 	 * @param aLocation
 	 * @return
 	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response locationAdd(Location aLocation) {
+	public Response locationAdd(Canteen aLocation) {
 		logger.trace("entering locationAdd");
 		if (aLocation != null) {
-			logger.debug("Adding new location with name: " + aLocation.getLocationName());
+			logger.debug("Adding new location with name: " + aLocation.getName());
 		}
 
 		boolean result = false;

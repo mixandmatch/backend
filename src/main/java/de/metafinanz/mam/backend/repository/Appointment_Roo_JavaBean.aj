@@ -4,7 +4,7 @@
 package de.metafinanz.mam.backend.repository;
 
 import de.metafinanz.mam.backend.repository.Appointment;
-import de.metafinanz.mam.backend.repository.Location;
+import de.metafinanz.mam.backend.repository.Canteen;
 import de.metafinanz.mam.backend.repository.User;
 import java.util.Date;
 import java.util.Set;
@@ -35,11 +35,11 @@ privileged aspect Appointment_Roo_JavaBean {
         this.rootAppointment = rootAppointment;
     }
     
-    public Location Appointment.getAppointmentLocation() {
+    public Canteen Appointment.getAppointmentLocation() {
         return this.appointmentLocation;
     }
     
-    public void Appointment.setAppointmentLocation(Location appointmentLocation) {
+    public void Appointment.setAppointmentLocation(Canteen appointmentLocation) {
         this.appointmentLocation = appointmentLocation;
     }
     

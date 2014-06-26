@@ -3,24 +3,24 @@
 
 package de.metafinanz.mam.backend.repository;
 
-import de.metafinanz.mam.backend.repository.Location;
+import de.metafinanz.mam.backend.repository.Canteen;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-privileged aspect Location_Roo_Equals {
+privileged aspect Canteen_Roo_Equals {
     
-    public boolean Location.equals(Object obj) {
-        if (!(obj instanceof Location)) {
+    public boolean Canteen.equals(Object obj) {
+        if (!(obj instanceof Canteen)) {
             return false;
         }
         if (this == obj) {
             return true;
         }
-        Location rhs = (Location) obj;
+        Canteen rhs = (Canteen) obj;
         return new EqualsBuilder().append(address, rhs.address).append(city, rhs.city).append(id, rhs.id).append(latitude, rhs.latitude).append(longitude, rhs.longitude).append(name, rhs.name).append(postalCode, rhs.postalCode).isEquals();
     }
     
-    public int Location.hashCode() {
+    public int Canteen.hashCode() {
         return new HashCodeBuilder().append(address).append(city).append(id).append(latitude).append(longitude).append(name).append(postalCode).toHashCode();
     }
     

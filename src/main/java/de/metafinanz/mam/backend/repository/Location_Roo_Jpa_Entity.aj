@@ -5,12 +5,9 @@ package de.metafinanz.mam.backend.repository;
 
 import de.metafinanz.mam.backend.repository.Location;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.Version;
 
 privileged aspect Location_Roo_Jpa_Entity {
-    
-    declare @type: Location: @Entity;
     
     @Version
     @Column(name = "version")

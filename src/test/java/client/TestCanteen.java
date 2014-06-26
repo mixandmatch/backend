@@ -14,12 +14,12 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
-public class TestLocations {
+public class TestCanteen {
 
 	// private static String URL =
 	// "http://ec2-54-246-100-223.eu-west-1.compute.amazonaws.com:8080/MixMatchRooRestTestService";
 	private static String URL = "http://localhost:8080/mam-backend-0.0.1.BUILD-SNAPSHOT-dev/rest";
-	private static String RESOURCE = "/locations";
+	private static String RESOURCE = "/cantenn";
 
 	private WebResource webResource;
 
@@ -31,18 +31,18 @@ public class TestLocations {
 
 	@Test
 	public void test() {
-		System.out.println("======== " + TestLocations.class.getSimpleName() + " ========");
+		System.out.println("======== " + TestCanteen.class.getSimpleName() + " ========");
 
 		get();
 
-		String json = "{\"locationName\":\"Berlin\"}";
+		String json = "{\"name\":\"Berlin\"}";
 		System.out.println(post(json));
 
 		json = get();
 
-		String id = getResourceID(json, "locationID");
+		String id = getResourceID(json, "id");
 
-		json = "{\"locationID\":" + id + ",\"locationName\":\"Dresden\",\"version\":0}";
+		json = "{\"id\":" + id + ",\"name\":\"Dresden\",\"version\":0}";
 		put(id, json);
 
 		get();
@@ -107,7 +107,7 @@ public class TestLocations {
 		System.out.println("search: " + locationName);
 		MultivaluedMap queryParams = new MultivaluedMapImpl();
 		queryParams.add("find", "ByLocationNameLike");
-		queryParams.add("locationName", locationName);
+		queryParams.add("name", locationName);
 		String json = webResource.queryParams(queryParams).accept(MediaType.APPLICATION_JSON)
 				.get(String.class);
 		System.out.println(json);

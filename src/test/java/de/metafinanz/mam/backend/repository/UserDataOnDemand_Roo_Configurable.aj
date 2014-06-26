@@ -3,7 +3,6 @@
 
 package de.metafinanz.mam.backend.repository;
 
-import de.metafinanz.mam.backend.repository.UserDataOnDemand;
 import org.springframework.beans.factory.annotation.Configurable;
 
 privileged aspect UserDataOnDemand_Roo_Configurable {

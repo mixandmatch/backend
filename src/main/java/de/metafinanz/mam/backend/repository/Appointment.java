@@ -75,7 +75,7 @@ public class Appointment {
      */
 	@NotNull
 	@ManyToOne
-	private Location appointmentLocation;
+	private Canteen appointmentLocation;
 
 	/**
      */
@@ -92,13 +92,14 @@ public class Appointment {
 		// newAppointment.setAppointmentID(aJSONAppointment.getAppointmentID());
 		newAppointment.setAppointmentDate(aJSONAppointment.getAppointmentDate());
 		newAppointment.setRootAppointment(Appointment.findAppointment(aJSONAppointment.getRootAppointment()));
-		newAppointment.setAppointmentLocation(Location.findLocation(aJSONAppointment
+		newAppointment.setAppointmentLocation(Canteen.findCanteen(aJSONAppointment
 				.getAppointmentLocation()));
 		Set<User> participant = new HashSet<User>();
 		participant.add(User.findUser(aJSONAppointment.getParticipant()));
 		newAppointment.setParticipants(participant);
 		return newAppointment;
 	}
+
 
 	public static TypedQuery<Appointment> findAppointmentsByParticipant(User aParticipant) {
 		if (aParticipant == null)

@@ -1,36 +1,54 @@
 package de.metafinanz.mam.backend.repository;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.roo.addon.equals.RooEquals;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.jpa.activerecord.RooJpaActiveRecord;
+import org.springframework.roo.addon.json.RooJson;
 import org.springframework.roo.addon.tostring.RooToString;
 
-import javax.validation.constraints.NotNull;
-
-import org.springframework.roo.addon.json.RooJson;
-
+@Entity
 @RooJavaBean
 @RooToString
 @RooJson
 @RooEquals
-@RooJpaActiveRecord(finders = { "findLocationsByLocationNameLike" })
-public class Location {
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@RooJpaActiveRecord
+abstract public class Location {
 
     /**
      */
     @NotNull
     @Column(unique = true)
-    private String locationName;
+    protected String name;
 
     /**
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     @Column(name = "id", unique = true)
-    private Long locationID;
+    protected Long id;
+
+    @Size(max=200)
+    protected String address;
+    
+    protected Integer postalCode;
+    
+    @Size(max=100)
+    protected String city;
+
+    @NotNull
+    protected Double longitude;
+
+    @NotNull
+    protected Double latitude;
     
 }

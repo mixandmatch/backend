@@ -69,7 +69,8 @@
     </bean>
     
     <bean id="appointmentsController" class="de.metafinanz.mam.backend.controller.impl.AppointmentsControllerImpl" />
- 	<bean id="locationsController" class="de.metafinanz.mam.backend.controller.impl.LocationsControllerImpl" />
+ 	<bean id="canteenController" class="de.metafinanz.mam.backend.controller.impl.CanteenControllerImpl" />
+ 	<bean id="officeController" class="de.metafinanz.mam.backend.controller.impl.OfficeControllerImpl" />
  	<bean id="matchesController" class="de.metafinanz.mam.backend.controller.impl.UserControllerImpl" />
  	
  	<security:http auto-config="true">
@@ -77,7 +78,8 @@
 		<security:intercept-url pattern="/rest/users/**" method="GET" access="ROLE_USER,ROLE_ADMIN" />
 		<security:intercept-url pattern="/rest/users/**" method="POST" access="IS_AUTHENTICATED_ANONYMOUSLY" />
 		<security:intercept-url pattern="/rest/appointments/**" access="ROLE_USER,ROLE_ADMIN" />
-		<security:intercept-url pattern="/rest/locations/**" access="ROLE_USER,ROLE_ADMIN" />
+		<security:intercept-url pattern="/rest/canteen/**" access="ROLE_USER,ROLE_ADMIN" />
+		<security:intercept-url pattern="/rest/office/**" access="ROLE_USER,ROLE_ADMIN" />
  
 	</security:http>
  	

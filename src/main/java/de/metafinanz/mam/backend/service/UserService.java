@@ -37,6 +37,12 @@ public class UserService {
 
 	/**
 	 * Creates or returns a user. If the user does not exist it is created otherwise it is returned.
+	 * 	 
+	 * EXAMPLE-JSON:<br/><br/>
+	 * 
+	 * <code>{"username":"Random","password":"1234"}</code>
+	 * 
+	 * 
 	 * @param aUser User JSON with either username or ID. If the user should be created a username has to be supplied.
 	 * @return HTTP Status Created if the user did not exist, NOT_MODIFIED if it did.
 	 */

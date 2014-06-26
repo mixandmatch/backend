@@ -7,20 +7,60 @@ import de.metafinanz.mam.backend.repository.Location;
 
 privileged aspect Location_Roo_JavaBean {
     
-    public String Location.getLocationName() {
-        return this.locationName;
+    public String Location.getName() {
+        return this.name;
     }
     
-    public void Location.setLocationName(String locationName) {
-        this.locationName = locationName;
+    public void Location.setName(String name) {
+        this.name = name;
     }
     
-    public Long Location.getLocationID() {
-        return this.locationID;
+    public Long Location.getId() {
+        return this.id;
     }
     
-    public void Location.setLocationID(Long locationID) {
-        this.locationID = locationID;
+    public void Location.setId(Long id) {
+        this.id = id;
+    }
+    
+    public String Location.getAddress() {
+        return this.address;
+    }
+    
+    public void Location.setAddress(String address) {
+        this.address = address;
+    }
+    
+    public Integer Location.getPostalCode() {
+        return this.postalCode;
+    }
+    
+    public void Location.setPostalCode(Integer postalCode) {
+        this.postalCode = postalCode;
+    }
+    
+    public String Location.getCity() {
+        return this.city;
+    }
+    
+    public void Location.setCity(String city) {
+        this.city = city;
+    }
+    
+    public Double Location.getLongitude() {
+        return this.longitude;
+    }
+    
+    public void Location.setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+    
+    public Double Location.getLatitude() {
+        return this.latitude;
+    }
+    
+    public void Location.setLatitude(Double latitude) {
+        this.latitude = latitude;
     }
     
 }
