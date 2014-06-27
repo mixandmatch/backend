@@ -24,7 +24,7 @@ import de.metafinanz.mam.backend.repository.User;
 import de.metafinanz.mam.backend.repository.json.JSONAppointment;
 
 @Component
-@Path("appointments")
+@Path("event")
 public class AppointmentsService {
 
 	@Autowired
@@ -53,11 +53,11 @@ public class AppointmentsService {
 	}
 
 	@GET
-	@Path("/location")
+	@Path("/byOffice")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response appointmentsForLocation(@QueryParam("locationID") Long locationID) {
+	public Response appointmentsForLocation(@QueryParam("officeId") Long officeId) {
 		try {
-			List<Appointment> result = appointmentsController.getAppointmentsForLocation(locationID);
+			List<Appointment> result = appointmentsController.getAppointmentsForOffice(officeId);
 			return Response.ok(result, MediaType.APPLICATION_JSON).build();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
@@ -108,7 +108,7 @@ public class AppointmentsService {
 	 *         error.
 	 */
 	@POST
-	@Path("{id}/addParticipant")
+	@Path("{id}/join")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response addParticipant(@PathParam("id") Long id, User newParticipant) {
@@ -134,7 +134,7 @@ public class AppointmentsService {
 	 * 
 	 */
 	@POST
-	@Path("{id}/removeParticipant")
+	@Path("{id}/leave")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response removeParticipant(@PathParam("id") Long id, User aParticipant) {

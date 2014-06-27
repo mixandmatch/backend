@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import de.metafinanz.mam.backend.controller.AppointmentsController;
 import de.metafinanz.mam.backend.repository.Appointment;
 import de.metafinanz.mam.backend.repository.Location;
+import de.metafinanz.mam.backend.repository.Office;
 import de.metafinanz.mam.backend.repository.User;
 import de.metafinanz.mam.backend.repository.json.JSONAppointment;
 import de.metafinanz.mam.backend.repository.util.Scrambler;
@@ -108,8 +109,8 @@ public class AppointmentsControllerImpl implements AppointmentsController {
 	}
 
 	@Override
-	public List<Appointment> getAppointmentsForLocation(Long locationID) {
-		Location aLocation = Location.findLocation(locationID);
+	public List<Appointment> getAppointmentsForOffice(Long officeId) {
+		Office aLocation = Office.findOffice(officeId);
 		return Appointment.findAppointmentsByAppointmentLocation(aLocation)
 				.getResultList();
 	}

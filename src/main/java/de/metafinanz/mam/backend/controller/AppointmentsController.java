@@ -12,7 +12,7 @@ public interface AppointmentsController {
 	
 	List<Appointment> getAppointmentsInFuture();
 	
-	List<Appointment> getAppointmentsForLocation(Long locationID);
+	List<Appointment> getAppointmentsForOffice(Long officeId);
 	
 	List<Appointment> getAppointmentsForUser(Long userID);
 	

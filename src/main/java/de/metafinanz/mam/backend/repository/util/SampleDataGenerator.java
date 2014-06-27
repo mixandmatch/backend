@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.metafinanz.mam.backend.repository.Appointment;
 import de.metafinanz.mam.backend.repository.Canteen;
-import de.metafinanz.mam.backend.repository.Location;
+import de.metafinanz.mam.backend.repository.Office;
 import de.metafinanz.mam.backend.repository.User;
 import de.metafinanz.mam.backend.repository.UserRole;
 
@@ -33,7 +33,7 @@ public class SampleDataGenerator implements ApplicationListener<ContextRefreshed
 	public final void onApplicationEvent(final ContextRefreshedEvent event) {
 		if (event.getApplicationContext().getParent() == null) {
 			// Only add the sample data when the database is empty
-			if (User.countUsers() == 0 && Location.countLocations() == 0 && Appointment.countAppointments() == 0) {
+			if (User.countUsers() == 0 && Office.countLocations() == 0 && Canteen.countLocations() == 0 && Appointment.countAppointments() == 0) {
 				logger.info("Parent started: generating sample data");
 				this.insertSampleData();
 				logger.trace("Sample data generated: ");
@@ -65,7 +65,8 @@ public class SampleDataGenerator implements ApplicationListener<ContextRefreshed
 		adminRole.persist();
 
 		User aUser = null;
-		Canteen aLocation = null;
+		Canteen aCanteen = null;
+		Office aOffice = null;
 		Appointment anAppointment = null;
 		UserRole aUserRole = null;
 
@@ -81,11 +82,17 @@ public class SampleDataGenerator implements ApplicationListener<ContextRefreshed
 			aUserRole.setUsername(aUser.getUsername());
 			aUserRole.persist();
 
-			aLocation = new Canteen();
-			aLocation.setName("location " + i);
-			aLocation.setLatitude(48.1884351);
-			aLocation.setLongitude(11.6491052);
-			aLocation.persist();
+			aCanteen = new Canteen();
+			aCanteen.setName("Canteen " + i);
+			aCanteen.setLatitude(48.1884351);
+			aCanteen.setLongitude(11.6491052);
+			aCanteen.persist();
+
+			aOffice = new Office();
+			aOffice.setName("Office " + i);
+			aOffice.setLatitude(48.1884351);
+			aOffice.setLongitude(11.6491052);
+			aOffice.persist();
 		}
 
 		// Add one sample appointment with the last user and location
@@ -96,7 +103,7 @@ public class SampleDataGenerator implements ApplicationListener<ContextRefreshed
 		Date date = cal.getTime();
 		anAppointment.setAppointmentDate(date);
 
-		anAppointment.setAppointmentLocation(aLocation);
+		anAppointment.setAppointmentLocation(aCanteen);
 		
 		Set<User> participants = anAppointment.getParticipants();
 		participants.add(User.findUser(1L));

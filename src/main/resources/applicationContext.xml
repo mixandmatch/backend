@@ -73,15 +73,27 @@
  	<bean id="officeController" class="de.metafinanz.mam.backend.controller.impl.OfficeControllerImpl" />
  	<bean id="matchesController" class="de.metafinanz.mam.backend.controller.impl.UserControllerImpl" />
  	
- 	<security:http auto-config="true">
+    <bean id="mySuccessHandler" class="de.metafinanz.mam.backend.repository.util.MySavedRequestAwareAuthenticationSuccessHandler" />
+    <bean id="myFailureHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler" />
+    
+    <bean id="authService" class="de.metafinanz.mam.backend.service.AuthService" />
+    
+ 	<security:http entry-point-ref="authService">
  		
-		<security:intercept-url pattern="/rest/users/**" method="GET" access="ROLE_USER,ROLE_ADMIN" />
-		<security:intercept-url pattern="/rest/users/**" method="POST" access="IS_AUTHENTICATED_ANONYMOUSLY" />
-		<security:intercept-url pattern="/rest/appointments/**" access="ROLE_USER,ROLE_ADMIN" />
+		<security:intercept-url pattern="/rest/user/**" method="GET" access="ROLE_USER,ROLE_ADMIN" />
+		<security:intercept-url pattern="/rest/user/**" method="POST" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<security:intercept-url pattern="/rest/event/**" access="ROLE_USER,ROLE_ADMIN" />
 		<security:intercept-url pattern="/rest/canteen/**" access="ROLE_USER,ROLE_ADMIN" />
 		<security:intercept-url pattern="/rest/office/**" access="ROLE_USER,ROLE_ADMIN" />
- 
+		
+		<security:form-login
+         authentication-success-handler-ref="mySuccessHandler"
+         authentication-failure-handler-ref="myFailureHandler"
+      	/>
+      
 	</security:http>
+	
+	
  	
  	<security:authentication-manager>
 	  <security:authentication-provider>

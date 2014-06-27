@@ -246,7 +246,7 @@ public class AppointmentTest {
 		expectedApointment.setAppointmentDate(now);
 		Canteen location = new Canteen();
 		location.setId(1L);
-		location.setName("location 1");
+		location.setName("Canteen 1");
 		location.setLatitude(48.1884351);
 		location.setLongitude(11.6491052);
 		location.setVersion(0);
