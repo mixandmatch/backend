@@ -103,7 +103,7 @@ public class SampleDataGenerator implements ApplicationListener<ContextRefreshed
 		Date date = cal.getTime();
 		anAppointment.setAppointmentDate(date);
 
-		anAppointment.setAppointmentLocation(aCanteen);
+		anAppointment.setCanteen(aCanteen);
 		
 		Set<User> participants = anAppointment.getParticipants();
 		participants.add(User.findUser(1L));

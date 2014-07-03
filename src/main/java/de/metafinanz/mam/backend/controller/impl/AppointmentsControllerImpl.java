@@ -11,8 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import de.metafinanz.mam.backend.controller.AppointmentsController;
 import de.metafinanz.mam.backend.repository.Appointment;
-import de.metafinanz.mam.backend.repository.Location;
-import de.metafinanz.mam.backend.repository.Office;
+import de.metafinanz.mam.backend.repository.Canteen;
 import de.metafinanz.mam.backend.repository.User;
 import de.metafinanz.mam.backend.repository.json.JSONAppointment;
 import de.metafinanz.mam.backend.repository.util.Scrambler;
@@ -35,7 +34,7 @@ public class AppointmentsControllerImpl implements AppointmentsController {
 		Appointment newAppointment = Appointment
 				.fromJsonAppointmentToAppointment(appointment);
 		Set<User> setParticipants = newAppointment.getParticipants();
-		newAppointment.setParticipants(null);
+		newAppointment.setParticipants(null); 
 		newAppointment.persist();
 		
 		for (User p : setParticipants) {
@@ -59,7 +58,17 @@ public class AppointmentsControllerImpl implements AppointmentsController {
 		logger.debug("Adding participant with ID: " + aUser
 				+ " to appointment with ID: " + appointmentID);
 
-		aUser = User.getOrCreateUser(aUser);
+		List<User> listUserFromDB = User.findUsersByUsernameLike(aUser.getUsername()).getResultList();
+		User userFromDB = null;
+		if (listUserFromDB.size() > 1) {
+			 
+		} else if (listUserFromDB.size() == 1) {
+			userFromDB = listUserFromDB.get(0);
+		}
+		
+		if (userFromDB == null) {
+			throw new IllegalArgumentException();
+		}
 
 		Appointment anAppointment = Appointment.findAppointment(appointmentID);
 		logger.debug("Appointment from db: " + anAppointment);
@@ -67,7 +76,7 @@ public class AppointmentsControllerImpl implements AppointmentsController {
 		// TODO: maybe give a detailed error in addition to the null?
 		if (participants.size() >= MAX_PARTICIPANTS)
 			return null;
-		participants.add(aUser);
+		participants.add(userFromDB);
 		anAppointment.merge();
 		return anAppointment;
 	}
@@ -109,9 +118,9 @@ public class AppointmentsControllerImpl implements AppointmentsController {
 	}
 
 	@Override
-	public List<Appointment> getAppointmentsForOffice(Long officeId) {
-		Office aLocation = Office.findOffice(officeId);
-		return Appointment.findAppointmentsByAppointmentLocation(aLocation)
+	public List<Appointment> getAppointmentsForCanteen(Long canteenId) {
+		Canteen aLocation = Canteen.findCanteen(canteenId);
+		return Appointment.findAppointmentsByCanteen(aLocation)
 				.getResultList();
 	}
 

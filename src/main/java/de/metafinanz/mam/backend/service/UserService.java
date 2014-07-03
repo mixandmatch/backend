@@ -10,6 +10,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -57,7 +58,7 @@ public class UserService {
 	public Response createUser(User aUser) {
 
 		try {
-			User result = userController.getOrCreateUser(aUser);
+			User result = userController.createUser(aUser);
 			if (result != null) {
 				return Response.status(Status.CREATED)
 						.type(MediaType.APPLICATION_JSON).entity(result)
@@ -77,9 +78,10 @@ public class UserService {
 	}
 	
 	@GET
-	public Response resetPwd(@QueryParam("username") String username) {
+	@Path("{id}/resetPwd")
+	public Response resetPwd(@PathParam("id") Long id) {
 		try {
-			userController.resetPwd(username);
+			userController.resetPwd(id);
 			return Response.status(Status.OK).build();
 		} catch (IllegalArgumentException e) {
 			Map<String, String> responseObj = new HashMap<String, String>();

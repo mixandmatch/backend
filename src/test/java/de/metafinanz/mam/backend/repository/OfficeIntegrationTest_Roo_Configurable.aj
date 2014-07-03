@@ -3,6 +3,7 @@
 
 package de.metafinanz.mam.backend.repository;
 
+import de.metafinanz.mam.backend.repository.OfficeIntegrationTest;
 import org.springframework.beans.factory.annotation.Configurable;
 
 privileged aspect OfficeIntegrationTest_Roo_Configurable {

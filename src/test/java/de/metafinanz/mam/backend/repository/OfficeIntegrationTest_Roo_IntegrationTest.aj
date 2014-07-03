@@ -3,12 +3,13 @@
 
 package de.metafinanz.mam.backend.repository;
 
+import de.metafinanz.mam.backend.repository.Office;
+import de.metafinanz.mam.backend.repository.OfficeDataOnDemand;
+import de.metafinanz.mam.backend.repository.OfficeIntegrationTest;
 import java.util.Iterator;
 import java.util.List;
-
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

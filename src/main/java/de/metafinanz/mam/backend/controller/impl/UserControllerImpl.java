@@ -35,14 +35,12 @@ public class UserControllerImpl implements UserController {
 	}
 
 	@Override
-	public void resetPwd(String username) {
-		List<User> listUsers = User.findUsersByUsernameEquals(username).getResultList();
-		if (listUsers.size() > 0) {
-			throw new IllegalArgumentException("No specific user found.");
-		} else if (listUsers.size() == 0) {
+	public void resetPwd(Long id) {
+		User user = User.findUser(id);
+		if (user == null) {
 			throw new IllegalArgumentException("User not found.");
 		} else {
-			resetPwd(listUsers.get(0));
+			resetPwd(user);
 		}
 	}
 
@@ -51,7 +49,7 @@ public class UserControllerImpl implements UserController {
 	 * @param user
 	 */
 	private void resetPwd(User user) {
-		
+		// @TODO
 	}
 
 }

@@ -3,6 +3,7 @@
 
 package de.metafinanz.mam.backend.repository;
 
+import de.metafinanz.mam.backend.repository.CanteenDataOnDemand;
 import org.springframework.beans.factory.annotation.Configurable;
 
 privileged aspect CanteenDataOnDemand_Roo_Configurable {

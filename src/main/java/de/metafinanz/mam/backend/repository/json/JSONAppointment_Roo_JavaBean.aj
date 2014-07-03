@@ -32,12 +32,12 @@ privileged aspect JSONAppointment_Roo_JavaBean {
         this.rootAppointment = rootAppointment;
     }
     
-    public Long JSONAppointment.getAppointmentLocation() {
-        return this.appointmentLocation;
+    public Long JSONAppointment.getCanteen() {
+        return this.canteen;
     }
     
-    public void JSONAppointment.setAppointmentLocation(Long appointmentLocation) {
-        this.appointmentLocation = appointmentLocation;
+    public void JSONAppointment.setCanteen(Long canteen) {
+        this.canteen = canteen;
     }
     
     public Long JSONAppointment.getParticipant() {

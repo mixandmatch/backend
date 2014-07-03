@@ -26,7 +26,7 @@ public class JSONAppointment {
 
 	private Long rootAppointment;
 	
-	private Long appointmentLocation;
+	private Long canteen;
 	
 	private Long participant;
 }

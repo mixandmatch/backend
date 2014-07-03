@@ -53,11 +53,11 @@ public class AppointmentsService {
 	}
 
 	@GET
-	@Path("/byOffice")
+	@Path("/byCanteen")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response appointmentsForLocation(@QueryParam("officeId") Long officeId) {
+	public Response appointmentsForLocation(@QueryParam("canteenId") Long canteenId) {
 		try {
-			List<Appointment> result = appointmentsController.getAppointmentsForOffice(officeId);
+			List<Appointment> result = appointmentsController.getAppointmentsForCanteen(canteenId);
 			return Response.ok(result, MediaType.APPLICATION_JSON).build();
 		} catch (Exception e) {
 			logger.error(e.getMessage());

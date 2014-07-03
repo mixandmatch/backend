@@ -19,11 +19,11 @@ privileged aspect Appointment_Roo_Finder {
         return ((Long) q.getSingleResult());
     }
     
-    public static Long Appointment.countFindAppointmentsByAppointmentLocation(Canteen appointmentLocation) {
-        if (appointmentLocation == null) throw new IllegalArgumentException("The appointmentLocation argument is required");
+    public static Long Appointment.countFindAppointmentsByCanteen(Canteen canteen) {
+        if (canteen == null) throw new IllegalArgumentException("The canteen argument is required");
         EntityManager em = Appointment.entityManager();
-        TypedQuery q = em.createQuery("SELECT COUNT(o) FROM Appointment AS o WHERE o.appointmentLocation = :appointmentLocation", Long.class);
-        q.setParameter("appointmentLocation", appointmentLocation);
+        TypedQuery q = em.createQuery("SELECT COUNT(o) FROM Appointment AS o WHERE o.canteen = :canteen", Long.class);
+        q.setParameter("canteen", canteen);
         return ((Long) q.getSingleResult());
     }
     
@@ -50,18 +50,10 @@ privileged aspect Appointment_Roo_Finder {
         return q;
     }
     
-    public static TypedQuery<Appointment> Appointment.findAppointmentsByAppointmentLocation(Canteen appointmentLocation) {
-        if (appointmentLocation == null) throw new IllegalArgumentException("The appointmentLocation argument is required");
+    public static TypedQuery<Appointment> Appointment.findAppointmentsByCanteen(Canteen canteen, String sortFieldName, String sortOrder) {
+        if (canteen == null) throw new IllegalArgumentException("The canteen argument is required");
         EntityManager em = Appointment.entityManager();
-        TypedQuery<Appointment> q = em.createQuery("SELECT o FROM Appointment AS o WHERE o.appointmentLocation = :appointmentLocation", Appointment.class);
-        q.setParameter("appointmentLocation", appointmentLocation);
-        return q;
-    }
-    
-    public static TypedQuery<Appointment> Appointment.findAppointmentsByAppointmentLocation(Canteen appointmentLocation, String sortFieldName, String sortOrder) {
-        if (appointmentLocation == null) throw new IllegalArgumentException("The appointmentLocation argument is required");
-        EntityManager em = Appointment.entityManager();
-        String jpaQuery = "SELECT o FROM Appointment AS o WHERE o.appointmentLocation = :appointmentLocation";
+        String jpaQuery = "SELECT o FROM Appointment AS o WHERE o.canteen = :canteen";
         if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
             jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
             if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
@@ -69,7 +61,7 @@ privileged aspect Appointment_Roo_Finder {
             }
         }
         TypedQuery<Appointment> q = em.createQuery(jpaQuery, Appointment.class);
-        q.setParameter("appointmentLocation", appointmentLocation);
+        q.setParameter("canteen", canteen);
         return q;
     }
     

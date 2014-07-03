@@ -12,6 +12,6 @@ public interface UserController{
 	User findUserByID(Long userID);
 	List<User> searchUser(String username);
 	User createUser(User aUser);
-	void resetPwd(String username);
+	void resetPwd(Long id);
  
 }

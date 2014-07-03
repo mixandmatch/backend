@@ -55,7 +55,7 @@ public class Scrambler {
 			if (newAppointment == null) {
 				newAppointment =  new Appointment();
 				newAppointment.setAppointmentDate(sourceAppointment.getAppointmentDate());
-				newAppointment.setAppointmentLocation(sourceAppointment.getAppointmentLocation());
+				newAppointment.setCanteen(sourceAppointment.getCanteen());
 			}
 			
 			newAppointment.getParticipants().add(participant);
@@ -82,7 +82,7 @@ public class Scrambler {
 			return false;
 		} else if (sourceAppointment.getAppointmentDate() == null) {
 			return false;
-		} else if (sourceAppointment.getAppointmentLocation() == null) {
+		} else if (sourceAppointment.getCanteen() == null) {
 			return false;
 		}
 		return true;

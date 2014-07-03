@@ -95,3 +95,16 @@ perform tests
 // Spring Roo 1.2.5.RELEASE [rev 8341dc2] log closed at 2014-06-25 16:03:00
 // Spring Roo 1.2.5.RELEASE [rev 8341dc2] log opened at 2014-06-26 14:46:03
 perform tests 
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log opened at 2014-06-30 09:58:15
+perform clean 
+perform clean 
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log closed at 2014-06-30 10:15:59
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log opened at 2014-06-30 10:16:11
+process manager debug 
+perform tests 
+perform package 
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log closed at 2014-06-30 11:34:23
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log opened at 2014-06-30 13:14:27
+perform package
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log closed at 2014-07-01 10:22:04
+// Spring Roo 1.2.5.RELEASE [rev 8341dc2] log opened at 2014-07-03 15:51:31

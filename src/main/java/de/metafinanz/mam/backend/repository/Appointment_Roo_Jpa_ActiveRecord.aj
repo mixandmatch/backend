@@ -14,7 +14,7 @@ privileged aspect Appointment_Roo_Jpa_ActiveRecord {
     @PersistenceContext
     transient EntityManager Appointment.entityManager;
     
-    public static final List<String> Appointment.fieldNames4OrderClauseFilter = java.util.Arrays.asList("appointmentID", "appointmentDate", "rootAppointment", "appointmentLocation", "participants");
+    public static final List<String> Appointment.fieldNames4OrderClauseFilter = java.util.Arrays.asList("appointmentID", "appointmentDate", "rootAppointment", "canteen", "participants");
     
     public static final EntityManager Appointment.entityManager() {
         EntityManager em = new Appointment().entityManager;

@@ -3,6 +3,7 @@
 
 package de.metafinanz.mam.backend.repository;
 
+import de.metafinanz.mam.backend.repository.UserIntegrationTest;
 import org.springframework.beans.factory.annotation.Configurable;
 
 privileged aspect UserIntegrationTest_Roo_Configurable {

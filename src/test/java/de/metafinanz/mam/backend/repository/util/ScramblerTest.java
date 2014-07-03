@@ -73,7 +73,7 @@ public class ScramblerTest {
 	private Appointment prepareAppointment() {
 		Appointment sourceAppointment = new Appointment();
     	sourceAppointment.setAppointmentDate(new Date());
-    	sourceAppointment.setAppointmentLocation(new Canteen());
+    	sourceAppointment.setCanteen(new Canteen());
 		return sourceAppointment;
 	}
     
@@ -124,7 +124,7 @@ public class ScramblerTest {
     	logger.error("testScambleValidationNoDate");
     	
     	Appointment sourceAppointment = new Appointment();
-    	sourceAppointment.setAppointmentLocation(new Canteen());
+    	sourceAppointment.setCanteen(new Canteen());
 		addUsers(sourceAppointment, 1);
 		
 		Scrambler.scrambleUsersOfAppointment(sourceAppointment);

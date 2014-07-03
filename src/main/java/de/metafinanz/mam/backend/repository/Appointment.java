@@ -46,14 +46,14 @@ import de.metafinanz.mam.backend.repository.json.JSONAppointment;
 @RooEquals
 @RooJson(deepSerialize = true)
 @RooJpaActiveRecord(entityName = "Appointment", 
-		finders = { "findAppointmentsByAppointmentLocation", "findAppointmentsByAppointmentDateGreaterThan" })
+		finders = { "findAppointmentsByCanteen", "findAppointmentsByAppointmentDateGreaterThan" })
 public class Appointment {
 
 	/**
      */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id", unique = true)
+	@Column(name = "id", unique = true) 
 	private Long appointmentID;
 
 	/**
@@ -75,7 +75,7 @@ public class Appointment {
      */
 	@NotNull
 	@ManyToOne
-	private Canteen appointmentLocation;
+	private Canteen canteen;
 
 	/**
      */
@@ -92,8 +92,7 @@ public class Appointment {
 		// newAppointment.setAppointmentID(aJSONAppointment.getAppointmentID());
 		newAppointment.setAppointmentDate(aJSONAppointment.getAppointmentDate());
 		newAppointment.setRootAppointment(Appointment.findAppointment(aJSONAppointment.getRootAppointment()));
-		newAppointment.setAppointmentLocation(Canteen.findCanteen(aJSONAppointment
-				.getAppointmentLocation()));
+		newAppointment.setCanteen(Canteen.findCanteen(aJSONAppointment.getCanteen()));
 		Set<User> participant = new HashSet<User>();
 		participant.add(User.findUser(aJSONAppointment.getParticipant()));
 		newAppointment.setParticipants(participant);
@@ -118,17 +117,17 @@ public class Appointment {
 
 	}
 
-	public static TypedQuery<Appointment> findAppointmentsByAppointmentLocation(
-			Location appointmentLocation) {
-		if (appointmentLocation == null)
-			throw new IllegalArgumentException("The appointmentLocation argument is required");
+	public static TypedQuery<Appointment> findAppointmentsByCanteen(
+			Canteen canteen) {
+		if (canteen == null)
+			throw new IllegalArgumentException("The canteen argument is required");
 		EntityManager em = Appointment.entityManager();
 		TypedQuery<Appointment> q = em
 				.createQuery(
-						"SELECT o FROM Appointment AS o WHERE o.appointmentLocation = :appointmentLocation AND o.appointmentDate > :appointmentDate AND o.rootAppointment IS NULL",
+						"SELECT o FROM Appointment AS o WHERE o.appointmentLocation = :canteen AND o.appointmentDate > :startDate AND o.rootAppointment IS NULL",
 						Appointment.class);
-		q.setParameter("appointmentLocation", appointmentLocation);
-		q.setParameter("appointmentDate", new Date());
+		q.setParameter("canteen", canteen);
+		q.setParameter("startDate", new Date());
 		return q;
 	}
 

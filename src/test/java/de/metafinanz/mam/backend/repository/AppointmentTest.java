@@ -20,6 +20,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import de.metafinanz.mam.backend.controller.impl.AppointmentsControllerImpl;
+import de.metafinanz.mam.backend.controller.impl.UserControllerImpl;
 import de.metafinanz.mam.backend.repository.json.JSONAppointment;
 
 //@RunWith(JUnit4.class)
@@ -44,9 +45,11 @@ public class AppointmentTest {
 
 		// New User only with username:
 		User newTestParticipant = new User();
-		newTestParticipant.setUsername("newTestParticipant");
+		newTestParticipant.setUsername("testControllerAddParticipant");
 		newTestParticipant.setPassword("newTestPassword");
 		newTestParticipant.setEnabled(true);
+		newTestParticipant.persist();
+				
 		new AppointmentsControllerImpl().addParticipant(
 				anAppointment.getAppointmentID(), newTestParticipant);
 
@@ -57,7 +60,7 @@ public class AppointmentTest {
 		org.junit.Assert.assertEquals(
 				true,
 				participants.contains(User.findUsersByUsernameEquals(
-						"newTestParticipant").getSingleResult()));
+						"testControllerAddParticipant").getSingleResult()));
 
 		System.out.println("Adding an existing user:");
 		new AppointmentsControllerImpl().addParticipant(
@@ -82,7 +85,7 @@ public class AppointmentTest {
 		anAppointment = new Appointment();
 		anAppointment.setAppointmentID(14L);
 		anAppointment
-				.setAppointmentLocation(Canteen.findAllCanteens().get(0));
+				.setCanteen(Canteen.findAllCanteens().get(0));
 		anAppointment.persist();
 
 		System.out.println("\nBefore 4 Adduser: " + anAppointment.toString());
@@ -111,6 +114,7 @@ public class AppointmentTest {
 		newTestParticipant.setUsername(username);
 		newTestParticipant.setPassword(password);
 		newTestParticipant.setEnabled(true);
+		newTestParticipant.persist();
 		return appointmentsControllerImpl.addParticipant(
 				anAppointment.getAppointmentID(), newTestParticipant);
 	}
@@ -126,6 +130,7 @@ public class AppointmentTest {
 		newTestParticipant.setUsername("newTestParticipant");
 		newTestParticipant.setPassword("newTestPassword");
 		newTestParticipant.setEnabled(true);
+		newTestParticipant.persist();
 		new AppointmentsControllerImpl().addParticipant(
 				anAppointment.getAppointmentID(), newTestParticipant);
 
@@ -174,7 +179,7 @@ public class AppointmentTest {
 		Date appointmentDate = cal.getTime();
 
 		Appointment firstAppointment = new Appointment();
-		firstAppointment.setAppointmentLocation(Canteen.findCanteen(1L));
+		firstAppointment.setCanteen(Canteen.findCanteen(1L));
 		firstAppointment.setAppointmentDate(appointmentDate);
 
 		Set<User> participants = firstAppointment.getParticipants();
@@ -183,7 +188,7 @@ public class AppointmentTest {
 		firstAppointment.persist();
 
 		Appointment secondAppointment = new Appointment();
-		secondAppointment.setAppointmentLocation(Canteen.findCanteen(1L));
+		secondAppointment.setCanteen(Canteen.findCanteen(1L));
 		secondAppointment.setAppointmentDate(appointmentDate);
 
 		participants = secondAppointment.getParticipants();
@@ -217,7 +222,7 @@ public class AppointmentTest {
 //		expectedApointment.setAppointmentID(1L);
 //		Location location = new Location();
 //		location.setLocationID(1L);
-//		expectedApointment.setAppointmentLocation(location);
+//		expectedApointment.setCanteen(location);
 //		Set<User> partici = new HashSet<User>();
 //		User user = new User();
 //		user.setUsername("user1");
@@ -238,7 +243,7 @@ public class AppointmentTest {
 
 		JSONAppointment appointment = new JSONAppointment();
 		appointment.setAppointmentDate(now);
-		appointment.setAppointmentLocation(1L);
+		appointment.setCanteen(1L);
 		appointment.setRootAppointment(null);
 		appointment.setParticipant(5L);
 		
@@ -250,7 +255,7 @@ public class AppointmentTest {
 		location.setLatitude(48.1884351);
 		location.setLongitude(11.6491052);
 		location.setVersion(0);
-		expectedApointment.setAppointmentLocation(location);
+		expectedApointment.setCanteen(location);
 		Set<User> partici = new HashSet<User>();
 		User user = User.findUser(5L);
 		user.setId(5L);
@@ -260,7 +265,7 @@ public class AppointmentTest {
 		Appointment result = Appointment.fromJsonAppointmentToAppointment(appointment);
 		
 		assertTrue(result.getParticipants().contains(user));
-		assertEquals(expectedApointment.getAppointmentLocation(), result.getAppointmentLocation());
+		assertEquals(expectedApointment.getCanteen(), result.getCanteen());
 		assertEquals(expectedApointment, result);
 		
 	}

@@ -7,7 +7,7 @@ public class AppointmentDataOnDemand {
 	public Appointment getNewTransientAppointment(int index) {
         Appointment obj = new Appointment();
         setAppointmentDate(obj, index);
-        setAppointmentLocation(obj, index);
+        setCanteen(obj, index);
         return obj;
     }
 }

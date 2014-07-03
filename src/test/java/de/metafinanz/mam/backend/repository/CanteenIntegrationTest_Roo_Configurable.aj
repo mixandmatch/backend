@@ -3,6 +3,7 @@
 
 package de.metafinanz.mam.backend.repository;
 
+import de.metafinanz.mam.backend.repository.CanteenIntegrationTest;
 import org.springframework.beans.factory.annotation.Configurable;
 
 privileged aspect CanteenIntegrationTest_Roo_Configurable {

@@ -3,6 +3,10 @@
 
 package de.metafinanz.mam.backend.repository;
 
+import de.metafinanz.mam.backend.repository.Appointment;
+import de.metafinanz.mam.backend.repository.AppointmentDataOnDemand;
+import de.metafinanz.mam.backend.repository.Canteen;
+import de.metafinanz.mam.backend.repository.CanteenDataOnDemand;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -11,10 +15,8 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,9 +36,9 @@ privileged aspect AppointmentDataOnDemand_Roo_DataOnDemand {
         obj.setAppointmentDate(appointmentDate);
     }
     
-    public void AppointmentDataOnDemand.setAppointmentLocation(Appointment obj, int index) {
-        Canteen appointmentLocation = canteenDataOnDemand.getRandomCanteen();
-        obj.setAppointmentLocation(appointmentLocation);
+    public void AppointmentDataOnDemand.setCanteen(Appointment obj, int index) {
+        Canteen canteen = canteenDataOnDemand.getRandomCanteen();
+        obj.setCanteen(canteen);
     }
     
     public void AppointmentDataOnDemand.setRootAppointment(Appointment obj, int index) {

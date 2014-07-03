@@ -35,12 +35,12 @@ privileged aspect Appointment_Roo_JavaBean {
         this.rootAppointment = rootAppointment;
     }
     
-    public Canteen Appointment.getAppointmentLocation() {
-        return this.appointmentLocation;
+    public Canteen Appointment.getCanteen() {
+        return this.canteen;
     }
     
-    public void Appointment.setAppointmentLocation(Canteen appointmentLocation) {
-        this.appointmentLocation = appointmentLocation;
+    public void Appointment.setCanteen(Canteen canteen) {
+        this.canteen = canteen;
     }
     
     public Set<User> Appointment.getParticipants() {
