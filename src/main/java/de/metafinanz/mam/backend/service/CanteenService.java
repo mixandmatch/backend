@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 
 import de.metafinanz.mam.backend.controller.CanteenController;
 import de.metafinanz.mam.backend.repository.Canteen;
+import de.metafinanz.mam.backend.repository.Location;
 
 @Component
 @Path("canteen")
@@ -32,19 +33,21 @@ public class CanteenService implements ILocationService<Canteen> {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Canteen> locations() {
+	public Response locations() {
 		logger.trace("entering locations()");
-		return locationsController.getLocations();
-		// return Response.status(200).entity(result).build();
+		List<Canteen> result = locationsController.getLocations();
+		//http://stackoverflow.com/questions/6081546/jersey-can-produce-listt-but-cannot-response-oklistt-build
+		return Response.ok().type(MediaType.APPLICATION_JSON).entity(result.toArray(new Canteen[result.size()])).build();
 	}
 
 	@GET
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Canteen getLocation(@PathParam("id") String id) {
+	public Response getLocation(@PathParam("id") String id) {
 		logger.trace("entering getLocation");
 		logger.debug("find Location with id: " + id);
-		return locationsController.getLocation(new Long(id));
+		Canteen result = locationsController.getLocation(new Long(id));
+		return Response.ok().type(MediaType.APPLICATION_JSON).entity(result).build();
 	}
 
 	/**
@@ -63,7 +66,7 @@ public class CanteenService implements ILocationService<Canteen> {
 			logger.debug("Adding new location with name: " + aLocation.getName());
 		}
 
-		boolean result = false;
+		Location result = null;
 
 		try {
 			result = locationsController.addLocation(aLocation);
@@ -71,11 +74,10 @@ public class CanteenService implements ILocationService<Canteen> {
 			logger.error(e.getMessage());
 		}
 
-		if (result) {
-			return Response.ok().status(Status.CREATED).build();
+		if (result != null) {
+			return Response.status(Status.CREATED).type(MediaType.APPLICATION_JSON).entity(result).build();
 		}
-
-		return Response.status(Status.FORBIDDEN).build();
+		return Response.status(Status.CONFLICT).build();
 	}
     
 	@DELETE

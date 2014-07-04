@@ -25,7 +25,7 @@ public interface LocationsController<T extends Location> {
 	 * @param aLocation Location object with the locationName.
 	 * @return true if the location was successfully added, false if there was any error.
 	 */
-	boolean addLocation(T aLocation);
+	Location addLocation(T aLocation);
 	
 	boolean removeLocation(long id);
 

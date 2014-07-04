@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import de.metafinanz.mam.backend.controller.CanteenController;
 import de.metafinanz.mam.backend.controller.LocationsController;
 import de.metafinanz.mam.backend.repository.Canteen;
+import de.metafinanz.mam.backend.repository.Office;
 
 public class CanteenControllerImpl implements CanteenController {
 
@@ -27,7 +28,7 @@ public class CanteenControllerImpl implements CanteenController {
 	}
 
 	@Override
-	public boolean addLocation(Canteen aLocation) {
+	public Canteen addLocation(Canteen aLocation) {
 		logger.trace("entering addLocation");
 		logger.debug("Adding new location with name "
 				+ aLocation.getName());
@@ -39,8 +40,12 @@ public class CanteenControllerImpl implements CanteenController {
 		newLocation.setCity(aLocation.getCity());
 		newLocation.setPostalCode(aLocation.getPostalCode());
 		newLocation.persist();
-		// TODO: Error Handling
-		return true;
+		List<Canteen> result = Canteen.findCanteensByName(aLocation.getName()).getResultList();
+		if (result == null || result.size() > 1 || result.size() == 0) {
+			throw new IllegalArgumentException("Invalid location name.");
+		} else {
+			return result.get(0);
+		}
 	}
 
     @Override

@@ -9,6 +9,6 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooToString
 @RooJson
 @RooEquals
-@RooJpaActiveRecord(finders = { "findCanteensByNameLike" })
+@RooJpaActiveRecord(finders = { "findCanteensByNameLike", "findCanteensByName" })
 public class Canteen extends Location {
 }

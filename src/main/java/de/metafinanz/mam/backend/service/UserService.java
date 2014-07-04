@@ -109,6 +109,7 @@ public class UserService {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	@Deprecated
 	public Response getOrCreateUser(User aUser) {
 		// TODO: Return a redirect to the specific user URL
 		logger.trace("entering UserService.getOrCreateUser()");

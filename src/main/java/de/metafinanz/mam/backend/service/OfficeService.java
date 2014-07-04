@@ -5,7 +5,7 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import de.metafinanz.mam.backend.controller.OfficeController;
+import de.metafinanz.mam.backend.repository.Location;
 import de.metafinanz.mam.backend.repository.Office;
 
 @Component
@@ -33,20 +34,22 @@ public class OfficeService implements ILocationService<Office> {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public List<Office> locations() {
+	public Response locations() {
 		logger.trace("entering office locations()");
-		return locationsController.getLocations();
-		// return Response.status(200).entity(result).build();
+		List<Office> result = locationsController.getLocations();
+		//http://stackoverflow.com/questions/6081546/jersey-can-produce-listt-but-cannot-response-oklistt-build
+		return Response.ok().type(MediaType.APPLICATION_JSON).entity(result.toArray(new Office[result.size()])).build();
 	}
 
 	@GET
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public Office getLocation(@PathParam("id") String id) {
+	public Response getLocation(@PathParam("id") String id) {
 		logger.trace("entering getLocation");
 		logger.debug("find Location with id: " + id);
-		return locationsController.getLocation(new Long(id));
+		Office result = locationsController.getLocation(new Long(id));
+		return Response.ok().type(MediaType.APPLICATION_JSON).entity(result).build();
 	}
 
 	/**
@@ -57,8 +60,9 @@ public class OfficeService implements ILocationService<Office> {
 	 * @param aLocation
 	 * @return
 	 */
-	@POST
+	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public Response locationAdd(Office aLocation) {
 		logger.trace("entering locationAdd");
@@ -66,7 +70,7 @@ public class OfficeService implements ILocationService<Office> {
 			logger.debug("Adding new location with name: " + aLocation.getName());
 		}
 
-		boolean result = false;
+		Location result = null;
 
 		try {
 			result = locationsController.addLocation(aLocation);
@@ -74,11 +78,10 @@ public class OfficeService implements ILocationService<Office> {
 			logger.error(e.getMessage());
 		}
 
-		if (result) {
-			return Response.ok().status(Status.CREATED).build();
+		if (result != null) {
+			return Response.status(Status.CREATED).type(MediaType.APPLICATION_JSON).entity(result).build();
 		}
-
-		return Response.status(Status.FORBIDDEN).build();
+		return Response.status(Status.CONFLICT).build();
 	}
     
 	@DELETE

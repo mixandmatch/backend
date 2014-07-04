@@ -8,6 +8,6 @@ import javax.persistence.Entity;
 
 privileged aspect Office_Roo_Jpa_Entity {
     
-    declare @type: Office: @Entity;
+    declare @type: Office: @Entity(name = "Office");
     
 }

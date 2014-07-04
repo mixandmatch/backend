@@ -27,7 +27,7 @@ public class OfficeControllerImpl implements OfficeController {
 	}
 
 	@Override
-	public boolean addLocation(Office aLocation) {
+	public Office addLocation(Office aLocation) {
 		logger.trace("entering addLocation");
 		logger.debug("Adding new location with name "
 				+ aLocation.getName());
@@ -39,8 +39,12 @@ public class OfficeControllerImpl implements OfficeController {
 		newLocation.setCity(aLocation.getCity());
 		newLocation.setPostalCode(aLocation.getPostalCode());
 		newLocation.persist();
-		// TODO: Error Handling
-		return true;
+		List<Office> result = Office.findOfficesByName(aLocation.getName()).getResultList();
+		if (result == null || result.size() > 1 || result.size() == 0) {
+			throw new IllegalArgumentException("Invalid location name.");
+		} else {
+			return result.get(0);
+		}
 	}
 
     @Override
