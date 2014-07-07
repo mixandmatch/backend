@@ -47,7 +47,7 @@ public class OfficeService implements ILocationService<Office> {
 	@Override
 	public Response getLocation(@PathParam("id") String id) {
 		logger.trace("entering getLocation");
-		logger.debug("find Location with id: " + id);
+		logger.debug("find Location with id: {}", id);
 		Office result = locationsController.getLocation(new Long(id));
 		return Response.ok().type(MediaType.APPLICATION_JSON).entity(result).build();
 	}
@@ -67,7 +67,7 @@ public class OfficeService implements ILocationService<Office> {
 	public Response locationAdd(Office aLocation) {
 		logger.trace("entering locationAdd");
 		if (aLocation != null) {
-			logger.debug("Adding new location with name: " + aLocation.getName());
+			logger.debug("Adding new location with name: {}", aLocation.getName());
 		}
 
 		Location result = null;

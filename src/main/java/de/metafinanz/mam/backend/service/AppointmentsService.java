@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -36,6 +37,22 @@ public class AppointmentsService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Appointment> appointments() {
 		return appointmentsController.getAppointmentsInFuture();
+	}
+	
+	@POST
+	@Path("{id}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getAppointment(@PathParam("id") Long id) {
+		logger.trace("entering getAppointment");
+		Appointment result = appointmentsController.getAppointment(id);
+		if (result != null) {
+			logger.info("Found appointment with id = {}.", id);
+			return Response.ok().type(MediaType.APPLICATION_JSON).entity(result).build();
+		} else {
+			logger.warn("Appointment with id = {} not found.", id);
+			return Response.status(Status.NOT_FOUND).build();
+		}
 	}
 
 	@GET
@@ -77,7 +94,7 @@ public class AppointmentsService {
 	 * @param appointment
 	 * @return
 	 */
-	@POST
+	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response appointmentsAdd(JSONAppointment appointment) {
@@ -115,7 +132,7 @@ public class AppointmentsService {
 		logger.trace("entering addParticipant");
 
 		try {
-			logger.debug("Adding participant: " + newParticipant + " to appointment with id: " + id);
+			logger.debug("Adding participant: {} to appointment with id: {}", newParticipant, id);
 			Appointment result = appointmentsController.addParticipant(id, newParticipant);
 			if (result != null) {
 				return Response.ok(result, MediaType.APPLICATION_JSON).status(Status.CREATED)
@@ -140,8 +157,7 @@ public class AppointmentsService {
 	public Response removeParticipant(@PathParam("id") Long id, User aParticipant) {
 		logger.trace("entering removeParticipant");
 		try {
-			logger.debug("Removing participant: " + aParticipant + " from appointment with id: "
-					+ id);
+			logger.debug("Removing participant: {} from appointment with id: {}", aParticipant , id);
 
 			Appointment result = appointmentsController.removeParticipant(id, aParticipant);
 			if (result != null) {

@@ -23,15 +23,14 @@ public class CanteenControllerImpl implements CanteenController {
 		// TODO Handle locationID not found
 		logger.trace("entering getLocation");
 		Canteen aLocation = Canteen.findCanteen(aLocationID);
-		logger.trace("return find Location result: " + aLocation);
+		logger.trace("return find Location result: {}", aLocation);
 		return aLocation;
 	}
 
 	@Override
 	public Canteen addLocation(Canteen aLocation) {
 		logger.trace("entering addLocation");
-		logger.debug("Adding new location with name "
-				+ aLocation.getName());
+		logger.debug("Adding new location with name {}", aLocation.getName());
 		Canteen newLocation = new Canteen();
 		newLocation.setName(aLocation.getName());
 		newLocation.setLatitude(aLocation.getLatitude());

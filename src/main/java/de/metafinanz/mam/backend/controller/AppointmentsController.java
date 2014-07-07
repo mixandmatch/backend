@@ -10,6 +10,8 @@ public interface AppointmentsController {
 
 	List<Appointment> getAppointments();
 	
+	Appointment getAppointment(Long id);
+	
 	List<Appointment> getAppointmentsInFuture();
 	
 	List<Appointment> getAppointmentsForCanteen(Long canteenId);

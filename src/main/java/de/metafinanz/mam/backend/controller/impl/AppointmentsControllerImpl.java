@@ -18,7 +18,6 @@ import de.metafinanz.mam.backend.repository.util.Scrambler;
 
 public class AppointmentsControllerImpl implements AppointmentsController {
 
-	private static final int MAX_PARTICIPANTS = 4;
 	static Logger logger = LoggerFactory.getLogger(AppointmentsControllerImpl.class);
 
 	public List<Appointment> getAppointments() {
@@ -28,6 +27,13 @@ public class AppointmentsControllerImpl implements AppointmentsController {
 	public List<Appointment> getAppointmentsInFuture() {
 		return Appointment.findAppointmentsByAppointmentDateGreaterThan(
 				new Date()).getResultList();
+	}
+	
+	public Appointment getAppointment(Long id) {
+		logger.trace("entering getAppointment");
+		Appointment app = Appointment.findAppointment(id);
+		logger.trace("return find Appointment result: {}", app);
+		return app;
 	}
 
 	public Appointment addAppointment(JSONAppointment appointment) {
@@ -58,25 +64,13 @@ public class AppointmentsControllerImpl implements AppointmentsController {
 		logger.debug("Adding participant with ID: " + aUser
 				+ " to appointment with ID: " + appointmentID);
 
-		List<User> listUserFromDB = User.findUsersByUsernameLike(aUser.getUsername()).getResultList();
-		User userFromDB = null;
-		if (listUserFromDB.size() > 1) {
-			 
-		} else if (listUserFromDB.size() == 1) {
-			userFromDB = listUserFromDB.get(0);
-		}
-		
-		if (userFromDB == null) {
-			throw new IllegalArgumentException();
-		}
+		aUser = getUserFromDB(aUser);
 
-		Appointment anAppointment = Appointment.findAppointment(appointmentID);
-		logger.debug("Appointment from db: " + anAppointment);
+		Appointment anAppointment = getFutureAppointment(appointmentID);
+		
 		Set<User> participants = anAppointment.getParticipants();
-		// TODO: maybe give a detailed error in addition to the null?
-		if (participants.size() >= MAX_PARTICIPANTS)
-			return null;
-		participants.add(userFromDB);
+
+		participants.add(aUser);
 		anAppointment.merge();
 		return anAppointment;
 	}
@@ -92,13 +86,11 @@ public class AppointmentsControllerImpl implements AppointmentsController {
 	public Appointment removeParticipant(Long appointmentID, User aUser)
 			throws IllegalArgumentException {
 		logger.trace("entering removeParticipant");
-		logger.debug("Removing participant with ID: " + aUser
-				+ " from appointment with ID: " + appointmentID);
+		logger.debug("Removing participant with ID: {} from appointment with ID: {}", aUser, appointmentID);
 
-		aUser = User.getOrCreateUser(aUser);
+		aUser = getUserFromDB(aUser);
 
-		Appointment anAppointment = Appointment.findAppointment(appointmentID);
-		logger.debug("Appointment from db: " + anAppointment);
+		Appointment anAppointment = getFutureAppointment(appointmentID);
 
 		// Possible:?
 		// anAppointment.getParticipants().remove(aUser);
@@ -115,6 +107,33 @@ public class AppointmentsControllerImpl implements AppointmentsController {
 		}
 		anAppointment.merge();
 		return anAppointment;
+	}
+
+	private Appointment getFutureAppointment(Long appointmentID) {
+		Appointment anAppointment = Appointment.findAppointment(appointmentID);
+		if (new Date().after(anAppointment.getAppointmentDate())) {
+			String msg = "Appointments in the past can not be edited.";
+			logger.error(msg);
+			throw new IllegalStateException(msg);
+		}
+		logger.debug("Appointment from db: {}", anAppointment);
+		return anAppointment;
+	}
+
+	private User getUserFromDB(User aUser) {
+		if (aUser == null || aUser.getId() == null) {
+			String msg = "User object not valid or has no user id.";
+			logger.warn(msg);
+			throw new IllegalArgumentException(msg);
+		}
+		aUser = User.findUser(aUser.getId());
+		
+		if (aUser == null) {
+			String msg = "No user found for given user ID.";
+			logger.warn(msg);
+			throw new IllegalArgumentException(msg);
+		}
+		return aUser;
 	}
 
 	@Override
@@ -151,10 +170,10 @@ public class AppointmentsControllerImpl implements AppointmentsController {
 	public List<Appointment> assignGroupToParticipant(Long appointmentID)
 			throws IllegalArgumentException {
 		logger.trace("entering assignGroupToParticipant");
-		logger.debug("Assigning participants to groups for appointment with ID: " + appointmentID);
+		logger.debug("Assigning participants to groups for appointment with ID: {}", appointmentID);
 
 		Appointment anAppointment = Appointment.findAppointment(appointmentID);
-		logger.debug("Appointment from db: " + anAppointment);
+		logger.debug("Appointment from db: {}", anAppointment);
 		List<Appointment> result = Scrambler.scrambleUsersOfAppointment(anAppointment);
 		
 		for (Appointment ap : result) {

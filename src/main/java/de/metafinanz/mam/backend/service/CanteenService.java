@@ -5,7 +5,7 @@ import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -45,7 +45,7 @@ public class CanteenService implements ILocationService<Canteen> {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getLocation(@PathParam("id") String id) {
 		logger.trace("entering getLocation");
-		logger.debug("find Location with id: " + id);
+		logger.debug("find Location with id: {}", id);
 		Canteen result = locationsController.getLocation(new Long(id));
 		return Response.ok().type(MediaType.APPLICATION_JSON).entity(result).build();
 	}
@@ -58,12 +58,12 @@ public class CanteenService implements ILocationService<Canteen> {
 	 * @param aLocation
 	 * @return
 	 */
-	@POST
+	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response locationAdd(Canteen aLocation) {
 		logger.trace("entering locationAdd");
 		if (aLocation != null) {
-			logger.debug("Adding new location with name: " + aLocation.getName());
+			logger.debug("Adding new location with name: {}", aLocation.getName());
 		}
 
 		Location result = null;
@@ -79,6 +79,7 @@ public class CanteenService implements ILocationService<Canteen> {
 		}
 		return Response.status(Status.CONFLICT).build();
 	}
+	
     
 	@DELETE
     @Path("{id}")

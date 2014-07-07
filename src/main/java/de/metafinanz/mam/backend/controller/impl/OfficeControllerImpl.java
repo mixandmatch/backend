@@ -29,8 +29,7 @@ public class OfficeControllerImpl implements OfficeController {
 	@Override
 	public Office addLocation(Office aLocation) {
 		logger.trace("entering addLocation");
-		logger.debug("Adding new location with name "
-				+ aLocation.getName());
+		logger.debug("Adding new location with name {}", aLocation.getName());
 		Office newLocation = new Office();
 		newLocation.setName(aLocation.getName());
 		newLocation.setLatitude(aLocation.getLatitude());
