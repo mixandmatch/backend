@@ -111,11 +111,17 @@ public class AppointmentsControllerImpl implements AppointmentsController {
 
 	private Appointment getFutureAppointment(Long appointmentID) {
 		Appointment anAppointment = Appointment.findAppointment(appointmentID);
-		if (new Date().after(anAppointment.getAppointmentDate())) {
+		if (anAppointment == null) {
+			logger.debug("No appointment found");
+			return null;
+		}
+		
+		if (anAppointment.getAppointmentDate() != null && new Date().after(anAppointment.getAppointmentDate())) {
 			String msg = "Appointments in the past can not be edited.";
 			logger.error(msg);
 			throw new IllegalStateException(msg);
 		}
+		
 		logger.debug("Appointment from db: {}", anAppointment);
 		return anAppointment;
 	}

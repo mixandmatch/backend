@@ -11,6 +11,7 @@ import java.util.Set;
 
 import junit.framework.Assert;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -74,6 +75,7 @@ public class AppointmentTest {
 				participants.contains(User.findUser(5L)));
 	}
 
+	@Ignore("Adding is possible. Scrambler will sort into groups")
 	@Test
 	public void testControllerAdd5Participants() {
 
