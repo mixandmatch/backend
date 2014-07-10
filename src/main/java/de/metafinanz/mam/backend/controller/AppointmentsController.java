@@ -19,7 +19,7 @@ public interface AppointmentsController {
 	List<Appointment> getAppointmentsForUser(Long userID);
 	
 	// TODO: Return Appointment:
-	Appointment addAppointment(JSONAppointment appointment);
+	Appointment addAppointment(JSONAppointment appointment, User user);
 
 	/**
 	 * Add a new participant to an appointment. The User has to either contain
@@ -37,7 +37,7 @@ public interface AppointmentsController {
 	Appointment removeParticipant(Long appointmentID, User aUser) throws IllegalArgumentException;
 
 	// Only allowed for the admin?
-	Appointment deleteAppointment();
+	boolean deleteAppointment(Appointment appointment);
 	
 	List<Appointment> assignGroupToParticipant(Long appointmentID) throws IllegalArgumentException;
 

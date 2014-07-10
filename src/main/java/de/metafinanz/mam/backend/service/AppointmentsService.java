@@ -17,6 +17,8 @@ import javax.ws.rs.core.Response.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import de.metafinanz.mam.backend.controller.AppointmentsController;
@@ -39,7 +41,7 @@ public class AppointmentsService {
 		return appointmentsController.getAppointmentsInFuture();
 	}
 	
-	@POST
+	@GET
 	@Path("{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -84,12 +86,12 @@ public class AppointmentsService {
 	}
 
 	/**
-	 * Creates a new appointment for a given time and adds a location by an existing location ID and an user by an
-	 * existing user ID. The user is optional.
+	 * Creates a new appointment for a given time and adds a location by an existing location ID.
+	 * The current logged in user joins automatically.
 	 * 
 	 * EXAMPLE-JSON:<br/><br/>
 	 *  
-	 * <code>{"appointmentDate":"2014-12-01T12:00:00.000Z","appointmentLocation":1,"participant":1}</code>
+	 * <code>{"appointmentDate":"2014-12-01T12:00:00.000Z","appointmentLocation":1}</code>
 	 * 
 	 * @param appointment
 	 * @return
@@ -99,9 +101,11 @@ public class AppointmentsService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response appointmentsAdd(JSONAppointment appointment) {
 		logger.trace("entering appointmentsAdd");
+		User user = getCurrentUser();
+		
 		try {
-			Appointment result = appointmentsController.addAppointment(appointment);
-			return Response.ok(result, MediaType.APPLICATION_JSON).status(Status.CREATED).build();
+			Appointment result = appointmentsController.addAppointment(appointment, user);
+			return Response.status(Status.CREATED).entity(result).type(MediaType.APPLICATION_JSON).build();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}
@@ -109,31 +113,25 @@ public class AppointmentsService {
 	}
 
 	/**
-	 * Adds a new participant to an Appointment.
+	 * Current logged in user joins appointment
 	 * <br/><br/>
-	 * EXAMPLE-JSON:<br/><br/>
-	 * 
-	 * <code>{"username":"Benutzer2"}</code>
 	 * 
 	 * @param id
 	 *            The appointment ID derived from the Path
-	 * @param newParticipant
-	 *            The new participant. As the client generally uses a JSON like
-	 *            this: {"username":"testuser"}. The resulting User object does
-	 *            not have an id value.
+	 * 
 	 * @return The new appointment. Status.INTERNAL_SERVER_ERROR if there was an
 	 *         error.
 	 */
 	@POST
 	@Path("{id}/join")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addParticipant(@PathParam("id") Long id, User newParticipant) {
+	public Response addParticipant(@PathParam("id") Long id) {
 		logger.trace("entering addParticipant");
+		User user = getCurrentUser();
 
 		try {
-			logger.debug("Adding participant: {} to appointment with id: {}", newParticipant, id);
-			Appointment result = appointmentsController.addParticipant(id, newParticipant);
+			logger.debug("Adding participant '{}' to appointment with id={}", user.getUsername(), id);
+			Appointment result = appointmentsController.addParticipant(id, user);
 			if (result != null) {
 				return Response.ok(result, MediaType.APPLICATION_JSON).status(Status.CREATED)
 						.build();
@@ -145,23 +143,23 @@ public class AppointmentsService {
 	}
 
 	/**
-	 * EXAMPLE-JSON:<br/><br/>
-	 * 
-	 * <code>{"username":"Benutzer2"}</code>
+	 * Current logged in user leaves appointment.
 	 * 
 	 */
 	@POST
 	@Path("{id}/leave")
-	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response removeParticipant(@PathParam("id") Long id, User aParticipant) {
+	public Response removeParticipant(@PathParam("id") Long id) {
 		logger.trace("entering removeParticipant");
+		User user = getCurrentUser();
 		try {
-			logger.debug("Removing participant: {} from appointment with id: {}", aParticipant , id);
+			logger.debug("Removing participant '{}' from appointment with id={}", user.getUsername() , id);
 
-			Appointment result = appointmentsController.removeParticipant(id, aParticipant);
-			if (result != null) {
-				return Response.ok(result, MediaType.APPLICATION_JSON).build();
+			Appointment result = appointmentsController.removeParticipant(id, user);
+			if (result != null && result.getParticipants() != null && result.getParticipants().size() > 0) {
+				return Response.ok().type(MediaType.APPLICATION_JSON).entity(result).build();
+			} else {
+				return Response.status(Status.GONE).build();
 			}
 		} catch (Exception e) {
 			logger.error(e.getMessage());
@@ -171,4 +169,12 @@ public class AppointmentsService {
 
 	}
 
+
+	private User getCurrentUser() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    String name = auth.getName(); //get logged in username
+	    
+	    User user = User.findUsersByUsernameEquals(name).getSingleResult();
+		return user;
+	}
 }

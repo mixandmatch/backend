@@ -39,7 +39,7 @@ import de.metafinanz.mam.backend.repository.json.JSONAppointment;
  * has a root appointment. Participants can not add or remove themselves from this type because it is fixed.  
  *  
  * @author tsp
- *
+ * 
  */
 @RooJavaBean
 @RooToString
@@ -91,10 +91,8 @@ public class Appointment {
 		Appointment newAppointment = new Appointment();
 		// newAppointment.setAppointmentID(aJSONAppointment.getAppointmentID());
 		newAppointment.setAppointmentDate(aJSONAppointment.getAppointmentDate());
-		newAppointment.setRootAppointment(Appointment.findAppointment(aJSONAppointment.getRootAppointment()));
 		newAppointment.setCanteen(Canteen.findCanteen(aJSONAppointment.getCanteen()));
 		Set<User> participant = new HashSet<User>();
-		participant.add(User.findUser(aJSONAppointment.getParticipant()));
 		newAppointment.setParticipants(participant);
 		return newAppointment;
 	}

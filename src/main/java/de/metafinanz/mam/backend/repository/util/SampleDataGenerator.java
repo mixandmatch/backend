@@ -107,6 +107,7 @@ public class SampleDataGenerator implements ApplicationListener<ContextRefreshed
 		
 		Set<User> participants = anAppointment.getParticipants();
 		participants.add(User.findUser(1L));
+		participants.add(User.findUser(2L));
 		anAppointment.setParticipants(participants);
 		
 		anAppointment.persist();

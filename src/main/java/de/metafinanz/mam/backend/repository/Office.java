@@ -10,6 +10,6 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooJson
 @RooEquals
 @RooJpaActiveRecord(entityName = "Office", 
-					finders = { "findOfficesByName" })
+					finders = { "findOfficesByName", "findOfficesByNameLike" })
 public class Office extends Location {
 }

@@ -20,13 +20,8 @@ import de.metafinanz.mam.backend.repository.Appointment;
 @RooJson
 public class JSONAppointment {
 
-	private Long appointmentID;
-
 	private Date appointmentDate;
 
-	private Long rootAppointment;
-	
 	private Long canteen;
 	
-	private Long participant;
 }

@@ -8,14 +8,6 @@ import java.util.Date;
 
 privileged aspect JSONAppointment_Roo_JavaBean {
     
-    public Long JSONAppointment.getAppointmentID() {
-        return this.appointmentID;
-    }
-    
-    public void JSONAppointment.setAppointmentID(Long appointmentID) {
-        this.appointmentID = appointmentID;
-    }
-    
     public Date JSONAppointment.getAppointmentDate() {
         return this.appointmentDate;
     }
@@ -24,28 +16,12 @@ privileged aspect JSONAppointment_Roo_JavaBean {
         this.appointmentDate = appointmentDate;
     }
     
-    public Long JSONAppointment.getRootAppointment() {
-        return this.rootAppointment;
-    }
-    
-    public void JSONAppointment.setRootAppointment(Long rootAppointment) {
-        this.rootAppointment = rootAppointment;
-    }
-    
     public Long JSONAppointment.getCanteen() {
         return this.canteen;
     }
     
     public void JSONAppointment.setCanteen(Long canteen) {
         this.canteen = canteen;
-    }
-    
-    public Long JSONAppointment.getParticipant() {
-        return this.participant;
-    }
-    
-    public void JSONAppointment.setParticipant(Long participant) {
-        this.participant = participant;
     }
     
 }

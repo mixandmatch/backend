@@ -8,6 +8,8 @@ import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import de.metafinanz.mam.backend.controller.AppointmentsController;
 import de.metafinanz.mam.backend.repository.Appointment;
@@ -36,19 +38,17 @@ public class AppointmentsControllerImpl implements AppointmentsController {
 		return app;
 	}
 
-	public Appointment addAppointment(JSONAppointment appointment) {
+	public Appointment addAppointment(JSONAppointment appointment, User user) {
 		Appointment newAppointment = Appointment
 				.fromJsonAppointmentToAppointment(appointment);
-		Set<User> setParticipants = newAppointment.getParticipants();
-		newAppointment.setParticipants(null); 
 		newAppointment.persist();
+		Set<User> setParticipants = newAppointment.getParticipants();
+		setParticipants.add(user); 
+		newAppointment.merge();
 		
-		for (User p : setParticipants) {
-			addParticipant(newAppointment.getAppointmentID(), p);
-		}
-
 		return newAppointment;
 	}
+
 
 	/**
 	 * Ads a new participant to the appointment. Automatically persists the
@@ -85,10 +85,9 @@ public class AppointmentsControllerImpl implements AppointmentsController {
 	@Override
 	public Appointment removeParticipant(Long appointmentID, User aUser)
 			throws IllegalArgumentException {
+
 		logger.trace("entering removeParticipant");
 		logger.debug("Removing participant with ID: {} from appointment with ID: {}", aUser, appointmentID);
-
-		aUser = getUserFromDB(aUser);
 
 		Appointment anAppointment = getFutureAppointment(appointmentID);
 
@@ -106,6 +105,10 @@ public class AppointmentsControllerImpl implements AppointmentsController {
 			}
 		}
 		anAppointment.merge();
+		if (anAppointment.getParticipants() == null || anAppointment.getParticipants().size() == 0) {
+			deleteAppointment(anAppointment);
+			return null;
+		}
 		return anAppointment;
 	}
 
@@ -150,9 +153,9 @@ public class AppointmentsControllerImpl implements AppointmentsController {
 	}
 
 	@Override
-	public Appointment deleteAppointment() {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean deleteAppointment(Appointment appointment) {
+		appointment.remove();
+		return true;
 	}
 
 	@Override

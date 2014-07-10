@@ -10,8 +10,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
-@Component("restAuthenticationEntryPoint")
-@Path("login")
+//@Component("restAuthenticationEntryPoint")
+@Component
+//@Path("login") // default is "/j_spring_security_check" without "/rest"
 public class AuthService implements AuthenticationEntryPoint {
 
 	@Override
