@@ -31,4 +31,12 @@ privileged aspect User_Roo_JavaBean {
         this.enabled = enabled;
     }
     
+    public byte[] User.getPicture() {
+        return this.picture;
+    }
+    
+    public void User.setPicture(byte[] picture) {
+        this.picture = picture;
+    }
+    
 }

@@ -27,7 +27,7 @@ import de.metafinanz.mam.backend.repository.User;
 
 @Component
 @Path("user")
-public class UserService {
+public class UserService extends BaseService{
 
 	@Autowired
 	UserController userController;
@@ -78,16 +78,33 @@ public class UserService {
 	}
 	
 	@GET
-	@Path("{id}/resetPwd")
-	public Response resetPwd(@PathParam("id") Long id) {
+	@Path("/resetPwd")
+	public Response resetPwd() {
+		User user = getCurrentUser();
 		try {
-			userController.resetPwd(id);
+			userController.resetPwd(user);
 			return Response.status(Status.OK).build();
 		} catch (IllegalArgumentException e) {
 			Map<String, String> responseObj = new HashMap<String, String>();
 			responseObj.put("error", e.getMessage());
 			return Response.status(Status.CONFLICT).entity(responseObj).build();
 		}
+	}
+	
+
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/picture")
+	public Response uploadPicture(byte[] picture) {
+		User user = getCurrentUser();
+
+		User result = userController.uploadPicture(picture, user);
+		if (result != null) {
+			return Response.ok().entity(result).build();
+		}
+
+		return Response.status(Status.CONFLICT).build();
 	}
 
 	/**

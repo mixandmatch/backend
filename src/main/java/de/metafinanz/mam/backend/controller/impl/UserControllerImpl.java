@@ -2,10 +2,15 @@ package de.metafinanz.mam.backend.controller.impl;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.metafinanz.mam.backend.controller.UserController;
 import de.metafinanz.mam.backend.repository.User;
 
 public class UserControllerImpl implements UserController {
+
+	static Logger logger = LoggerFactory.getLogger(UserControllerImpl.class);
 
 	@Override
 	public User findUserByID(Long userID) {
@@ -35,21 +40,36 @@ public class UserControllerImpl implements UserController {
 	}
 
 	@Override
-	public void resetPwd(Long id) {
-		User user = User.findUser(id);
-		if (user == null) {
-			throw new IllegalArgumentException("User not found.");
-		} else {
-			resetPwd(user);
-		}
-	}
-
 	/**
 	 * Generate new Password and send Email.
 	 * @param user
 	 */
-	private void resetPwd(User user) {
-		// @TODO
+	public void resetPwd(User user) {
+		if (user == null) {
+			throw new IllegalArgumentException("Empty user not possible.");
+		} else {
+//			resetPwd
+		}
+	}
+
+
+	@Override
+	/**
+	 * 
+	 * @param picture User's avatar
+	 * @param aUser User-Object
+	 */
+	public User uploadPicture(byte[] picture, User aUser) {
+		User user = User.findUser(aUser.getId());
+		if (user != null) {
+			user.setPicture(picture);
+			user.merge();
+			
+			logger.debug("Picture of user {} got updated.", user.getId());
+			return user;
+		}
+		logger.warn("User with id={} not found.", aUser.getId());
+		throw new IllegalArgumentException("User not found.");
 	}
 
 }

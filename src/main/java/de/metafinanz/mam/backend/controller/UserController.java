@@ -12,6 +12,7 @@ public interface UserController{
 	User findUserByID(Long userID);
 	List<User> searchUser(String username);
 	User createUser(User aUser);
-	void resetPwd(Long id);
+	void resetPwd(User user);
+	User uploadPicture(byte[] picture, User aUser);
  
 }

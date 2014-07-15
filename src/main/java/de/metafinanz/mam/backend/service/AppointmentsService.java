@@ -28,7 +28,7 @@ import de.metafinanz.mam.backend.repository.json.JSONAppointment;
 
 @Component
 @Path("event")
-public class AppointmentsService {
+public class AppointmentsService extends BaseService {
 
 	@Autowired
 	AppointmentsController appointmentsController;
@@ -169,12 +169,4 @@ public class AppointmentsService {
 
 	}
 
-
-	private User getCurrentUser() {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	    String name = auth.getName(); //get logged in username
-	    
-	    User user = User.findUsersByUsernameEquals(name).getSingleResult();
-		return user;
-	}
 }

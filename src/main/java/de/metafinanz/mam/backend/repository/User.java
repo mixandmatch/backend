@@ -3,6 +3,7 @@ package de.metafinanz.mam.backend.repository;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Lob;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
@@ -112,6 +113,9 @@ public class User {
 	@NotNull
 	@JsonIgnore
 	private Boolean enabled;
+	
+	@Lob
+	private byte[] picture;
 
 	@JsonIgnore
 	public String getPassword() {
