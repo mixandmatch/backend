@@ -90,16 +90,13 @@ public class UserService extends BaseService{
 	public Response setNewPassword( @FormDataParam("token") String token,  @FormDataParam("newPassword") String newPassword) {
 		try {
 			userController.setNewPassword(token, newPassword);
-			return Response.status(Status.OK).location(new URI("OK.html")).build();
+			return Response.status(Status.OK).build();
 		} catch (IllegalArgumentException e) {
 			logger.error("Fehler beim setzen des neuen Passworts.", e);
 			Map<String, String> responseObj = new HashMap<String, String>();
 			responseObj.put("error", e.getMessage());
 			return Response.status(Status.PRECONDITION_FAILED).build();
-		} catch (URISyntaxException e) {
-			logger.error("Fehler beim setzen der Ziel-URL");
-			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
-		}
+		} 
 	}
 	
 	@GET

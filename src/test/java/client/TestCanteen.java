@@ -1,5 +1,7 @@
 package client;
 
+import static org.junit.Assert.*;
+
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -8,6 +10,8 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
@@ -15,6 +19,7 @@ import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 public class TestCanteen {
+	static Logger logger = LoggerFactory.getLogger(TestCanteen.class);
 
 	// private static String URL =
 	// "http://ec2-54-246-100-223.eu-west-1.compute.amazonaws.com:8080/MixMatchRooRestTestService";
@@ -31,12 +36,12 @@ public class TestCanteen {
 
 	@Test
 	public void test() {
-		System.out.println("======== " + TestCanteen.class.getSimpleName() + " ========");
+		logger.info("======== " + TestCanteen.class.getSimpleName() + " ========");
 
 		get();
 
 		String json = "{\"name\":\"Berlin\"}";
-		System.out.println(post(json));
+		logger.info(post(json));
 
 		json = get();
 
@@ -66,59 +71,55 @@ public class TestCanteen {
 	}
 
 	private String get() {
-		System.out.println();
-		System.out.println("======== GET ========");
+		logger.info("======== GET ========");
 		String json = webResource.accept(MediaType.APPLICATION_JSON).get(String.class);
-		System.out.println(json);
+		logger.info(json);
 		return json;
 	}
 
 	private String getById(String id) {
-		System.out.println();
-		System.out.println("======== GET BY ID ========");
-		System.out.println("id: " + id);
+		logger.info("======== GET BY ID ========");
+		logger.info("id: " + id);
 		String json = webResource.path("/" + id).accept(MediaType.APPLICATION_JSON)
 				.get(String.class);
-		System.out.println(json);
+		logger.info(json);
 		return json;
 	}
 
 	private String post(String json) {
-		System.out.println();
-		System.out.println("======== POST ========");
-		System.out.println(json);
+		logger.info("======== POST ========");
+		logger.info(json);
 		ClientResponse response = webResource.accept(MediaType.APPLICATION_JSON)
 				.type(MediaType.APPLICATION_JSON).post(ClientResponse.class, json);
 		return response.toString();
 	}
 
 	private String put(String id, String json) {
-		System.out.println();
-		System.out.println("======== PUT ========");
-		System.out.println(json);
+		logger.info("======== PUT ========");
+		logger.info(json);
 		ClientResponse response = webResource.path("/" + id).accept(MediaType.APPLICATION_JSON)
 				.put(ClientResponse.class, json);
 		return response.toString();
 	}
 
 	private String getByLocationName(String locationName) {
-		System.out.println();
-		System.out.println("======== GET BY LOCATIONNAME ========");
-		System.out.println("search: " + locationName);
+		logger.info("======== GET BY LOCATIONNAME ========");
+		logger.info("search: " + locationName);
 		MultivaluedMap queryParams = new MultivaluedMapImpl();
 		queryParams.add("find", "ByLocationNameLike");
 		queryParams.add("name", locationName);
 		String json = webResource.queryParams(queryParams).accept(MediaType.APPLICATION_JSON)
 				.get(String.class);
-		System.out.println(json);
+		logger.info(json);
 		return json;
 	}
 
 	private String delete(String id) {
-		System.out.println();
-		System.out.println("======== DELETE ========");
-		System.out.println("resourceID: " + id);
+		logger.info("======== DELETE ========");
+		logger.info("resourceID: " + id);
 		ClientResponse response = webResource.path("/" + id).delete(ClientResponse.class);
 		return response.toString();
 	}
+	
+	
 }

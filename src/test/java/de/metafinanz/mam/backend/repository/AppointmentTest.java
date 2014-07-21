@@ -41,7 +41,7 @@ public class AppointmentTest {
 
 		// Add non existent User to Appointment:
 		Appointment anAppointment = Appointment.findAppointment(1L);
-		System.out.println("\nBefore Adduser: " + anAppointment.toString());
+		logger.info("\nBefore Adduser: " + anAppointment.toString());
 
 		// New User only with username:
 		User newTestParticipant = new User();

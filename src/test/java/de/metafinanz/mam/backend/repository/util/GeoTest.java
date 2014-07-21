@@ -18,7 +18,7 @@ public class GeoTest {
 
 	@Test
 	public void testGetDistance() {
-		double result = Geo.getDistance(32.9697, -96.80322, 29.46786, -98.53506, 'K');
+		double result = Geo.getDistance(32.9697, -96.80322, 29.46786, -98.53506, Geo.Distance.KILOMETERS);
 		double expect = 422.73893139401383;
 		double delta = 0.0;
 		assertEquals("Entfernung anders als erwartet", expect, result, delta);

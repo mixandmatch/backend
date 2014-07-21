@@ -60,21 +60,17 @@ public class Geo {
 	 * @return
 	 */
 	public static double getDistance(double lat1, double lon1, double lat2,
-			double lon2, char unit) {
+			double lon2, Distance unit) {
 		double theta = lon1 - lon2;
 		double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2))
 				+ Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2))
 				* Math.cos(deg2rad(theta));
 		dist = Math.acos(dist);
 		dist = rad2deg(dist);
-		dist = dist * 60 * 1.1515;
-		if (unit == 'K') {
-			dist = dist * 1.609344;
-		} else if (unit == 'N') {
-			dist = dist * 0.8684;
-		}
+		dist = dist * 60 * 1.1515; // miles
+		dist = dist * unit.getMultiplier();
 
-		logger.info("distance (32.9697, -96.80322, 29.46786, -98.53506, '{}'): {}", unit, dist);
+		logger.info("distance ({}, {}, {}, {}, '{}'): {}", lat1, lon1, lat2, lon2, unit.name(), dist);
 
 		return (dist);
 	}
@@ -91,6 +87,24 @@ public class Geo {
 	/* ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: */
 	private static double rad2deg(double rad) {
 		return (rad * 180 / Math.PI);
+	}
+	
+	
+	public enum Distance {
+		MILES(1.0),
+		KILOMETERS(1.609344),
+		NAUTIC_MILES(0.8684),
+		METERS(1.609344*1000);
+		
+		private final double multiplier;
+		
+		Distance(double multi) {
+			multiplier = multi;
+		}
+		
+		public double getMultiplier() {
+			return multiplier;
+		}
 	}
 
 }

@@ -1,14 +1,15 @@
 package de.metafinanz.mam.backend.controller.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.metafinanz.mam.backend.controller.CanteenController;
-import de.metafinanz.mam.backend.controller.LocationsController;
 import de.metafinanz.mam.backend.repository.Canteen;
 import de.metafinanz.mam.backend.repository.Office;
+import de.metafinanz.mam.backend.repository.util.Geo;
 
 public class CanteenControllerImpl implements CanteenController {
 
@@ -56,5 +57,38 @@ public class CanteenControllerImpl implements CanteenController {
         }
         return false;
     }
+
+	@Override
+	public List<Canteen> getLocationByOffice(Long id) {
+		logger.info("Getting canteens for office '{}'.", id);
+		List<Canteen> canteens = Canteen.findAllCanteens();
+		List<Canteen> resultCanteens = new ArrayList<Canteen>();
+
+		Office office = Office.findOffice(id);
+		
+		if (office == null) {
+			throw new IllegalArgumentException("The id provided is not valid. No Office found.");
+		}
+		
+		double maxDistance = 1000.0; //meters
+		
+		for (Canteen canteen : canteens) {
+			if (distanceToOfficeIsBelow(maxDistance, canteen, office)) {
+				logger.debug("Canteen '{}' added to result.", canteen.getName());
+				resultCanteens.add(canteen);
+			}
+		}
+		
+		logger.trace("found {} canteens for office {}.", resultCanteens.size(), office.getName());
+		
+		return resultCanteens;
+	}
+
+	private boolean distanceToOfficeIsBelow(double maxDistance, Canteen canteen, Office office) {
+		double distance = Geo.getDistance(canteen.getLatitude(), canteen.getLongitude(), office.getLatitude(), office.getLongitude(), Geo.Distance.METERS);
+		logger.debug("Canteen '{}' has a distance of {} {} to office '{}'.", canteen.getName(), distance, Geo.Distance.METERS.name(), office.getName()); 
+		
+		return distance <= maxDistance;
+	}
 
 }

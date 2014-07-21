@@ -1,5 +1,6 @@
 package de.metafinanz.mam.backend.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -9,6 +10,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -60,6 +62,7 @@ public class CanteenService implements ILocationService<Canteen> {
 	 */
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response locationAdd(Canteen aLocation) {
 		logger.trace("entering locationAdd");
 		if (aLocation != null) {
@@ -90,5 +93,25 @@ public class CanteenService implements ILocationService<Canteen> {
                 Response.ok().build() :
                 Response.status(Status.NOT_FOUND).build();
     }
+	
+	@GET
+	@Path("byOffice")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getByOffice(@QueryParam("id") Long id) {
+		logger.trace("entering getByOffice");
+
+		List<Canteen> result;
+		try {
+			result = locationsController.getLocationByOffice(id);
+		} catch (IllegalArgumentException e) {
+			logger.warn("Could not get canteens for office "+id+".", e);
+			return Response.status(Status.NOT_FOUND).build();
+		}
+		if (result == null) {
+			result = new ArrayList<Canteen>();
+		}
+		//http://stackoverflow.com/questions/6081546/jersey-can-produce-listt-but-cannot-response-oklistt-build
+		return Response.ok().type(MediaType.APPLICATION_JSON).entity(result.toArray(new Canteen[result.size()])).build();
+	}
 
 }
