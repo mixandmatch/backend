@@ -57,6 +57,7 @@ public class SampleDataGenerator implements ApplicationListener<ContextRefreshed
 		admin.setUsername("admin");
 		admin.setPassword(passwordEncoder.encode("1234"));
 		admin.setEnabled(true);
+		admin.setEMail("tsp@metafinanz.de");
 		admin.persist();
 		
 		UserRole adminRole = new UserRole();
@@ -75,6 +76,7 @@ public class SampleDataGenerator implements ApplicationListener<ContextRefreshed
 			aUser.setUsername("user " + i);
 			aUser.setPassword(passwordEncoder.encode("1234"));
 			aUser.setEnabled(true);
+			aUser.setEMail("tsp@metafinanz.de");
 			aUser.persist();
 			
 			aUserRole = new UserRole();

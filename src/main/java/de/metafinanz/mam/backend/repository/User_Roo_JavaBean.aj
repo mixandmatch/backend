@@ -15,6 +15,14 @@ privileged aspect User_Roo_JavaBean {
         this.username = username;
     }
     
+    public String User.getEMail() {
+        return this.eMail;
+    }
+    
+    public void User.setEMail(String eMail) {
+        this.eMail = eMail;
+    }
+    
     public boolean User.isGetOrCreateUserCreated() {
         return this.getOrCreateUserCreated;
     }

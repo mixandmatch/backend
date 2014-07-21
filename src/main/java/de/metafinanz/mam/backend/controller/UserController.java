@@ -1,8 +1,10 @@
 package de.metafinanz.mam.backend.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import de.metafinanz.mam.backend.repository.User;
+import de.metafinanz.mam.backend.repository.json.JSONNewPassword;
  
 public interface UserController{
  
@@ -12,7 +14,8 @@ public interface UserController{
 	User findUserByID(Long userID);
 	List<User> searchUser(String username);
 	User createUser(User aUser);
-	void resetPwd(User user);
+	void resetPwd(String username) throws IOException;
 	User uploadPicture(byte[] picture, User aUser);
+	void setNewPassword(String token, String newPassword);
  
 }

@@ -13,11 +13,6 @@ public class ACSTest {
 	@Before
 	public void init() {
 		acs = ACS.getInstance();
-//		acs.setAPI_USR("VkqmqNRXbjTeXXzP8DQhTiiSTNFE20PH");
-//		acs.setAPI_PAS("HhIXVoaTnqMCr4Qi25GfLJivWSawTCbc");
-		acs.setAPI_USR("tobias.schnupp@metafinanz.de");
-		acs.setAPI_PAS("1qayxsw2");
-		acs.setAPI_KEY("VkqmqNRXbjTeXXzP8DQhTiiSTNFE20PH");
 	}
 	
 	@Ignore

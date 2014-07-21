@@ -17,11 +17,11 @@ privileged aspect User_Roo_Equals {
             return true;
         }
         User rhs = (User) obj;
-        return new EqualsBuilder().append(enabled, rhs.enabled).append(getOrCreateUserCreated, rhs.getOrCreateUserCreated).append(id, rhs.id).append(password, rhs.password).append(username, rhs.username).isEquals();
+        return new EqualsBuilder().append(eMail, rhs.eMail).append(enabled, rhs.enabled).append(getOrCreateUserCreated, rhs.getOrCreateUserCreated).append(id, rhs.id).append(password, rhs.password).append(username, rhs.username).isEquals();
     }
     
     public int User.hashCode() {
-        return new HashCodeBuilder().append(enabled).append(getOrCreateUserCreated).append(id).append(password).append(username).toHashCode();
+        return new HashCodeBuilder().append(eMail).append(enabled).append(getOrCreateUserCreated).append(id).append(password).append(username).toHashCode();
     }
     
 }

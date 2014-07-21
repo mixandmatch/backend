@@ -24,11 +24,17 @@ privileged aspect UserDataOnDemand_Roo_DataOnDemand {
     
     public User UserDataOnDemand.getNewTransientUser(int index) {
         User obj = new User();
+        setEMail(obj, index);
         setEnabled(obj, index);
         setPassword(obj, index);
         setPicture(obj, index);
         setUsername(obj, index);
         return obj;
+    }
+    
+    public void UserDataOnDemand.setEMail(User obj, int index) {
+        String eMail = "foo" + index + "@bar.com";
+        obj.setEMail(eMail);
     }
     
     public void UserDataOnDemand.setEnabled(User obj, int index) {

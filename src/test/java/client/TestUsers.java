@@ -11,14 +11,22 @@ import org.json.JSONTokener;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
+import de.metafinanz.mam.backend.controller.UserController;
+import de.metafinanz.mam.backend.controller.impl.UserControllerImpl;
+import de.metafinanz.mam.backend.repository.Token;
 import de.metafinanz.mam.backend.repository.User;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = "classpath*:applicationContext*.xml")
 public class TestUsers {
 
 	// private static String URL =
@@ -27,11 +35,23 @@ public class TestUsers {
 	private static String RESOURCE = "/users";
 
 	private WebResource webResource;
+	private Token token;
+	private User user;
 
 	@Before
 	public void before() {
 		Client client = Client.create();
 		webResource = client.resource(URL + RESOURCE);
+		
+		user = new User();
+		user.setEMail("bla@Blub.de");
+		user.setEnabled(true);
+		user.setUsername("tester");
+		user.setPassword("123");
+		user.persist();
+		
+		token = new Token(user);
+		token.persist();
 	}
 
 	@Test
@@ -167,5 +187,18 @@ public class TestUsers {
 		System.out.println("resourceID: " + id);
 		ClientResponse response = webResource.path("/" + id).delete(ClientResponse.class);
 		return response.toString();
+	}
+	
+	@Test
+	public void testSetNewPassword() {
+		User user = User.findUsersByUsernameEquals("tester").getSingleResult();
+		if (user != null) {
+			String oldEncryptedPassword = user.getPassword();
+			UserController ctrl = new UserControllerImpl();
+			ctrl.setNewPassword(token.getTokenString(), "111");
+
+			user = User.findUsersByUsernameEquals("tester").getSingleResult();
+			Assert.assertNotEquals(oldEncryptedPassword, user.getPassword());
+		}
 	}
 }

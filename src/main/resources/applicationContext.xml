@@ -81,8 +81,11 @@
  	<security:http entry-point-ref="authService">
  		<security:http-basic />
  		
- 		<security:intercept-url pattern="/login" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-		<security:intercept-url pattern="/rest/login/**" method="POST" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+ 		<security:intercept-url pattern="/*.html" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+ 		<security:intercept-url pattern="/rest/user/resetPwd" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+ 		<security:intercept-url pattern="/rest/user/setNewPassword" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+ 		<!-- security:intercept-url pattern="/login" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<security:intercept-url pattern="/rest/login/**" method="POST" access="IS_AUTHENTICATED_ANONYMOUSLY" /-->
 		<security:intercept-url pattern="/**" access="ROLE_USER,ROLE_ADMIN" />
 		<!--security:intercept-url pattern="/rest/user/**" access="ROLE_USER,ROLE_ADMIN" />
 		<security:intercept-url pattern="/rest/event/**" access="ROLE_USER,ROLE_ADMIN" />

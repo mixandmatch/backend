@@ -33,6 +33,12 @@ public class User {
 	@NotNull
 	@Column(unique = true)
 	private String username;
+	
+	/**
+     */
+	@NotNull
+	@Column
+	private String eMail;
 
 	/**
 	 * Helper field used by the userService to return the correct HTTP Status.

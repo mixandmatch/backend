@@ -48,6 +48,7 @@ public class AppointmentTest {
 		newTestParticipant.setUsername("testControllerAddParticipant");
 		newTestParticipant.setPassword("newTestPassword");
 		newTestParticipant.setEnabled(true);
+		newTestParticipant.setEMail("Bla@Blub.de");
 		newTestParticipant.persist();
 				
 		new AppointmentsControllerImpl().addParticipant(
@@ -131,6 +132,7 @@ public class AppointmentTest {
 		newTestParticipant.setUsername("newTestParticipant");
 		newTestParticipant.setPassword("newTestPassword");
 		newTestParticipant.setEnabled(true);
+		newTestParticipant.setEMail("Bla@Blub.de");
 		newTestParticipant.persist();
 		new AppointmentsControllerImpl().addParticipant(
 				anAppointment.getAppointmentID(), newTestParticipant);

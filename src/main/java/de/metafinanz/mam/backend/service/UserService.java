@@ -1,11 +1,15 @@
 package de.metafinanz.mam.backend.service;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -22,8 +26,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.sun.jersey.multipart.FormDataParam;
+
 import de.metafinanz.mam.backend.controller.UserController;
 import de.metafinanz.mam.backend.repository.User;
+import de.metafinanz.mam.backend.repository.json.JSONNewPassword;
 
 @Component
 @Path("user")
@@ -77,17 +84,38 @@ public class UserService extends BaseService{
 		}
 	}
 	
+	@POST
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Path("/setNewPassword")
+	public Response setNewPassword( @FormDataParam("token") String token,  @FormDataParam("newPassword") String newPassword) {
+		try {
+			userController.setNewPassword(token, newPassword);
+			return Response.status(Status.OK).location(new URI("OK.html")).build();
+		} catch (IllegalArgumentException e) {
+			logger.error("Fehler beim setzen des neuen Passworts.", e);
+			Map<String, String> responseObj = new HashMap<String, String>();
+			responseObj.put("error", e.getMessage());
+			return Response.status(Status.PRECONDITION_FAILED).build();
+		} catch (URISyntaxException e) {
+			logger.error("Fehler beim setzen der Ziel-URL");
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+	
 	@GET
 	@Path("/resetPwd")
-	public Response resetPwd() {
-		User user = getCurrentUser();
+	public Response resetPwd(@QueryParam("username") String username) {
 		try {
-			userController.resetPwd(user);
+			userController.resetPwd(username);
 			return Response.status(Status.OK).build();
 		} catch (IllegalArgumentException e) {
+			logger.error("Fehler beim versenden des Token für Password Reset.", e);
 			Map<String, String> responseObj = new HashMap<String, String>();
 			responseObj.put("error", e.getMessage());
 			return Response.status(Status.CONFLICT).entity(responseObj).build();
+		} catch (IOException e) {
+			logger.error("Fehler beim versenden des Token für Password Reset.", e);
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 	
