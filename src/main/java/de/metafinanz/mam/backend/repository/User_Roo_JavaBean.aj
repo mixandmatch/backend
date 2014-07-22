@@ -3,7 +3,6 @@
 
 package de.metafinanz.mam.backend.repository;
 
-import de.metafinanz.mam.backend.repository.User;
 
 privileged aspect User_Roo_JavaBean {
     

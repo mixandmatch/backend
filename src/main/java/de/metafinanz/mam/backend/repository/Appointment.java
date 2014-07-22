@@ -46,7 +46,7 @@ import de.metafinanz.mam.backend.repository.json.JSONAppointment;
 @RooEquals
 @RooJson(deepSerialize = true)
 @RooJpaActiveRecord(entityName = "Appointment", 
-		finders = { "findAppointmentsByCanteen", "findAppointmentsByAppointmentDateGreaterThan" })
+		finders = { "findAppointmentsByCanteen", "findAppointmentsByAppointmentDateGreaterThan", "findAppointmentsByAppointmentDate" })
 public class Appointment {
 
 	/**

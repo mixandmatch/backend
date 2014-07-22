@@ -3,7 +3,6 @@
 
 package de.metafinanz.mam.backend.repository;
 
-import de.metafinanz.mam.backend.repository.Location;
 import org.springframework.beans.factory.annotation.Configurable;
 
 privileged aspect Location_Roo_Configurable {

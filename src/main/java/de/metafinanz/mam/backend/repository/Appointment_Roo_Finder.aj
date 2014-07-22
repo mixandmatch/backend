@@ -3,13 +3,20 @@
 
 package de.metafinanz.mam.backend.repository;
 
-import de.metafinanz.mam.backend.repository.Appointment;
-import de.metafinanz.mam.backend.repository.Canteen;
 import java.util.Date;
+
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 privileged aspect Appointment_Roo_Finder {
+    
+    public static Long Appointment.countFindAppointmentsByAppointmentDate(Date appointmentDate) {
+        if (appointmentDate == null) throw new IllegalArgumentException("The appointmentDate argument is required");
+        EntityManager em = Appointment.entityManager();
+        TypedQuery q = em.createQuery("SELECT COUNT(o) FROM Appointment AS o WHERE o.appointmentDate = :appointmentDate", Long.class);
+        q.setParameter("appointmentDate", appointmentDate);
+        return ((Long) q.getSingleResult());
+    }
     
     public static Long Appointment.countFindAppointmentsByAppointmentDateGreaterThan(Date appointmentDate) {
         if (appointmentDate == null) throw new IllegalArgumentException("The appointmentDate argument is required");
@@ -25,6 +32,29 @@ privileged aspect Appointment_Roo_Finder {
         TypedQuery q = em.createQuery("SELECT COUNT(o) FROM Appointment AS o WHERE o.canteen = :canteen", Long.class);
         q.setParameter("canteen", canteen);
         return ((Long) q.getSingleResult());
+    }
+    
+    public static TypedQuery<Appointment> Appointment.findAppointmentsByAppointmentDate(Date appointmentDate) {
+        if (appointmentDate == null) throw new IllegalArgumentException("The appointmentDate argument is required");
+        EntityManager em = Appointment.entityManager();
+        TypedQuery<Appointment> q = em.createQuery("SELECT o FROM Appointment AS o WHERE o.appointmentDate = :appointmentDate", Appointment.class);
+        q.setParameter("appointmentDate", appointmentDate);
+        return q;
+    }
+    
+    public static TypedQuery<Appointment> Appointment.findAppointmentsByAppointmentDate(Date appointmentDate, String sortFieldName, String sortOrder) {
+        if (appointmentDate == null) throw new IllegalArgumentException("The appointmentDate argument is required");
+        EntityManager em = Appointment.entityManager();
+        String jpaQuery = "SELECT o FROM Appointment AS o WHERE o.appointmentDate = :appointmentDate";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        TypedQuery<Appointment> q = em.createQuery(jpaQuery, Appointment.class);
+        q.setParameter("appointmentDate", appointmentDate);
+        return q;
     }
     
     public static TypedQuery<Appointment> Appointment.findAppointmentsByAppointmentDateGreaterThan(Date appointmentDate) {

@@ -33,6 +33,9 @@ public class CanteenService implements ILocationService<Canteen> {
 
 	static Logger logger = LoggerFactory.getLogger(CanteenService.class);
 
+	/**
+	 * Gets all canteen locations.
+	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response locations() {
@@ -42,6 +45,9 @@ public class CanteenService implements ILocationService<Canteen> {
 		return Response.ok().type(MediaType.APPLICATION_JSON).entity(result.toArray(new Canteen[result.size()])).build();
 	}
 
+	/**
+	 * Get's a canteen location by it's id or 404 if the canteen could not be found.
+	 */
 	@GET
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -49,10 +55,16 @@ public class CanteenService implements ILocationService<Canteen> {
 		logger.trace("entering getLocation");
 		logger.debug("find Location with id: {}", id);
 		Canteen result = locationsController.getLocation(new Long(id));
-		return Response.ok().type(MediaType.APPLICATION_JSON).entity(result).build();
+		if (result != null) {
+			return Response.ok().type(MediaType.APPLICATION_JSON).entity(result).build();
+		}
+		return Response.status(Status.NOT_FOUND).build();
+		
 	}
 
 	/**
+	 * Adds a canteen location.
+	 * 
 	 * EXAMPLE-JSON:<br/><br/>
 	 * 
 	 * <code>{"locationName":"Kantine 12","logitude":11.6491052,"latitude":48.1884351}</code>
@@ -84,6 +96,10 @@ public class CanteenService implements ILocationService<Canteen> {
 	}
 	
     
+	/**
+	 * Deletes a canteen location by it's id if found. If not then 404 is returned.
+	 * 
+	 */
 	@DELETE
     @Path("{id}")
     public Response deleteLocation(@PathParam("id") Long id) {
@@ -94,6 +110,11 @@ public class CanteenService implements ILocationService<Canteen> {
                 Response.status(Status.NOT_FOUND).build();
     }
 	
+	/**
+	 * Gets all canteen locations that are near the specified office (by it's id). The maximum distance is 1000 meters. 
+	 * @param id of the office
+	 * @return List of canteen locations or 404 if office was not found.
+	 */
 	@GET
 	@Path("byOffice")
 	@Produces(MediaType.APPLICATION_JSON)

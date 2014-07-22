@@ -3,7 +3,6 @@
 
 package de.metafinanz.mam.backend.repository;
 
-import de.metafinanz.mam.backend.repository.Token;
 import org.springframework.beans.factory.annotation.Configurable;
 
 privileged aspect Token_Roo_Configurable {

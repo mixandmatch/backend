@@ -3,8 +3,8 @@
 
 package de.metafinanz.mam.backend.repository;
 
-import de.metafinanz.mam.backend.repository.Office;
 import java.util.List;
+
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect Office_Roo_Jpa_ActiveRecord {

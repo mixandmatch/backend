@@ -1,20 +1,16 @@
 package de.metafinanz.mam.backend.service;
 
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -30,7 +26,6 @@ import com.sun.jersey.multipart.FormDataParam;
 
 import de.metafinanz.mam.backend.controller.UserController;
 import de.metafinanz.mam.backend.repository.User;
-import de.metafinanz.mam.backend.repository.json.JSONNewPassword;
 
 @Component
 @Path("user")
@@ -41,6 +36,10 @@ public class UserService extends BaseService{
 
 	static Logger logger = LoggerFactory.getLogger(UserService.class);
 
+	/**
+	 * Gets all users.
+	 * @return List of Type User
+	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<User> users() {
@@ -48,6 +47,12 @@ public class UserService extends BaseService{
 		return userController.getUsers();
 	}
 
+	/**
+	 * Search for a user by his username where the username is compared with the 'like' operator. So the search string
+	 * 'foo' will match 'Barefoot' and 'NoFood'.
+	 * @param username
+	 * @return List of users.
+	 */
 	@GET
 	@Path("/search")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -59,6 +64,11 @@ public class UserService extends BaseService{
 		return new ArrayList<User>();
 	}
 
+	/**
+	 * This method creates a user if the username does not exists.
+	 * @param aUser
+	 * @return The user object as JSON string or return code 409 if the username already exists.
+	 */
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -84,6 +94,12 @@ public class UserService extends BaseService{
 		}
 	}
 	
+	/**
+	 * This function will reset the password of a user if the token is valid.  
+	 * @param token
+	 * @param newPassword
+	 * @return Returns http code 200 if OK or 412 if something went wrong, like the token is not valid or does no exist.
+	 */
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Path("/setNewPassword")
@@ -99,6 +115,11 @@ public class UserService extends BaseService{
 		} 
 	}
 	
+	/**
+	 * This method will send a token to the email address of a user if the user can be found. 
+	 * @param username
+	 * @return Return code 200 if mail was send or 409 if the user can not be found. 
+	 */
 	@GET
 	@Path("/resetPwd")
 	public Response resetPwd(@QueryParam("username") String username) {
@@ -117,6 +138,11 @@ public class UserService extends BaseService{
 	}
 	
 
+	/**
+	 * The user can upload a picture for his user account.
+	 * @param picture
+	 * @return Returns the user object as JSON string if all is well.
+	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)

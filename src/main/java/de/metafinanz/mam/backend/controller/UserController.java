@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import de.metafinanz.mam.backend.repository.User;
-import de.metafinanz.mam.backend.repository.json.JSONNewPassword;
  
 public interface UserController{
  

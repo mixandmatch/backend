@@ -3,12 +3,11 @@
 
 package de.metafinanz.mam.backend.repository;
 
-import de.metafinanz.mam.backend.repository.User;
-import flexjson.JSONDeserializer;
-import flexjson.JSONSerializer;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import flexjson.JSONDeserializer;
+import flexjson.JSONSerializer;
 
 privileged aspect User_Roo_Json {
     

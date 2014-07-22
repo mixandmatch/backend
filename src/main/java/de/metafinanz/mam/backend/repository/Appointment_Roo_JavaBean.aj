@@ -3,9 +3,6 @@
 
 package de.metafinanz.mam.backend.repository;
 
-import de.metafinanz.mam.backend.repository.Appointment;
-import de.metafinanz.mam.backend.repository.Canteen;
-import de.metafinanz.mam.backend.repository.User;
 import java.util.Date;
 import java.util.Set;
 

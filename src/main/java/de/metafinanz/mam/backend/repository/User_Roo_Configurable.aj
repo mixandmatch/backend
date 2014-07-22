@@ -3,7 +3,6 @@
 
 package de.metafinanz.mam.backend.repository;
 
-import de.metafinanz.mam.backend.repository.User;
 import org.springframework.beans.factory.annotation.Configurable;
 
 privileged aspect User_Roo_Configurable {

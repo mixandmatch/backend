@@ -7,6 +7,10 @@ import de.metafinanz.mam.backend.repository.User;
 
 public class BaseService {
 
+	/**
+	 * Gets the currently logged in user.
+	 * @return
+	 */
 	protected User getCurrentUser() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	    String name = auth.getName(); //get logged in username

@@ -3,8 +3,8 @@
 
 package de.metafinanz.mam.backend.repository;
 
-import de.metafinanz.mam.backend.repository.Canteen;
 import java.util.List;
+
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect Canteen_Roo_Jpa_ActiveRecord {

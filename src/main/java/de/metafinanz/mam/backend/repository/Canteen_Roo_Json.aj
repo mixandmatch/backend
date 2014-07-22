@@ -3,12 +3,11 @@
 
 package de.metafinanz.mam.backend.repository;
 
-import de.metafinanz.mam.backend.repository.Canteen;
-import flexjson.JSONDeserializer;
-import flexjson.JSONSerializer;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import flexjson.JSONDeserializer;
+import flexjson.JSONSerializer;
 
 privileged aspect Canteen_Roo_Json {
     

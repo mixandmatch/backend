@@ -3,8 +3,6 @@
 
 package de.metafinanz.mam.backend.repository;
 
-import de.metafinanz.mam.backend.repository.Token;
-import de.metafinanz.mam.backend.repository.User;
 import java.util.Date;
 
 privileged aspect Token_Roo_JavaBean {

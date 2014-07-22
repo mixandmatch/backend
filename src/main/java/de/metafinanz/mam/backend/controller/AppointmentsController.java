@@ -40,5 +40,5 @@ public interface AppointmentsController {
 	boolean deleteAppointment(Appointment appointment);
 	
 	List<Appointment> assignGroupToParticipant(Long appointmentID) throws IllegalArgumentException;
-
+	
 }

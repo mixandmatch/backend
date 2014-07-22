@@ -3,12 +3,11 @@
 
 package de.metafinanz.mam.backend.repository.json;
 
-import de.metafinanz.mam.backend.repository.json.ResetPasswordTemplate;
-import flexjson.JSONDeserializer;
-import flexjson.JSONSerializer;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import flexjson.JSONDeserializer;
+import flexjson.JSONSerializer;
 
 privileged aspect ResetPasswordTemplate_Roo_Json {
     

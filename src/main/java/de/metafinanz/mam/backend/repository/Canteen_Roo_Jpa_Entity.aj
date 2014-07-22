@@ -3,7 +3,6 @@
 
 package de.metafinanz.mam.backend.repository;
 
-import de.metafinanz.mam.backend.repository.Canteen;
 import javax.persistence.Entity;
 
 privileged aspect Canteen_Roo_Jpa_Entity {

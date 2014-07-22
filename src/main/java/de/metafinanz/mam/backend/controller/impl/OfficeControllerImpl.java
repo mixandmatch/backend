@@ -5,7 +5,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.metafinanz.mam.backend.controller.LocationsController;
 import de.metafinanz.mam.backend.controller.OfficeController;
 import de.metafinanz.mam.backend.repository.Office;
 

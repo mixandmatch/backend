@@ -31,6 +31,9 @@ public class OfficeService implements ILocationService<Office> {
 
 	static Logger logger = LoggerFactory.getLogger(OfficeService.class);
 
+	/**
+	 * Get all office locations.
+	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
@@ -41,6 +44,9 @@ public class OfficeService implements ILocationService<Office> {
 		return Response.ok().type(MediaType.APPLICATION_JSON).entity(result.toArray(new Office[result.size()])).build();
 	}
 
+	/**
+	 * Gets a office location by it's id or 404 if the office could not be found. 
+	 */
 	@GET
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -49,16 +55,20 @@ public class OfficeService implements ILocationService<Office> {
 		logger.trace("entering getLocation");
 		logger.debug("find Location with id: {}", id);
 		Office result = locationsController.getLocation(new Long(id));
-		return Response.ok().type(MediaType.APPLICATION_JSON).entity(result).build();
+		if (result != null) {
+			return Response.ok().type(MediaType.APPLICATION_JSON).entity(result).build();
+		}
+		return Response.status(Status.NOT_FOUND).build();
 	}
 
 	/**
+	 * This method allows to add a office location.
 	 * EXAMPLE-JSON:<br/><br/>
 	 * 
 	 * <code>{"locationName":"Kantine 12","logitude":11.6491052,"latitude":48.1884351}</code>
 	 * 
 	 * @param aLocation
-	 * @return
+	 * @return Return HTTP code 201 if created successful or 409 if the location name already exists.
 	 */
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -84,6 +94,9 @@ public class OfficeService implements ILocationService<Office> {
 		return Response.status(Status.CONFLICT).build();
 	}
     
+	/**
+	 * Deletes a office location by it's id.
+	 */
 	@DELETE
     @Path("{id}")
 	@Override

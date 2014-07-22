@@ -3,7 +3,6 @@
 
 package de.metafinanz.mam.backend.repository;
 
-import de.metafinanz.mam.backend.repository.Appointment;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Version;

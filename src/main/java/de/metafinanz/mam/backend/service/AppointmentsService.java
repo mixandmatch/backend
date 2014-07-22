@@ -17,8 +17,6 @@ import javax.ws.rs.core.Response.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import de.metafinanz.mam.backend.controller.AppointmentsController;
@@ -35,12 +33,21 @@ public class AppointmentsService extends BaseService {
 
 	static Logger logger = LoggerFactory.getLogger(AppointmentsService.class);
 
+	/**
+	 * Get all events that are stating in the future.
+	 * @return List of events.
+	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Appointment> appointments() {
 		return appointmentsController.getAppointmentsInFuture();
 	}
 	
+	/**
+	 * Get one event specified by it's id.
+	 * @param id of the event.
+	 * @return Event as JSON string or 404.
+	 */
 	@GET
 	@Path("{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -57,6 +64,11 @@ public class AppointmentsService extends BaseService {
 		}
 	}
 
+	/**
+	 * Get all events where a user is registered.
+	 * @param userID which specified the user.
+	 * @return Event as JSON string or 404 if user was not found.
+	 */
 	@GET
 	@Path("/user")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -71,6 +83,11 @@ public class AppointmentsService extends BaseService {
 		return Response.status(Status.NOT_FOUND).build();
 	}
 
+	/**
+	 * Gets all appointments of a canteen location.
+	 * @param canteenId 
+	 * @return List of events or 404 if canteen location was not found.  
+	 */
 	@GET
 	@Path("/byCanteen")
 	@Produces(MediaType.APPLICATION_JSON)
