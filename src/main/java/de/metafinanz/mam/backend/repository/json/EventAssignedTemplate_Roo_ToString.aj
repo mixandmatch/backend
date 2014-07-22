@@ -3,13 +3,13 @@
 
 package de.metafinanz.mam.backend.repository.json;
 
-import de.metafinanz.mam.backend.repository.json.JSONAppointment;
+import de.metafinanz.mam.backend.repository.json.EventAssignedTemplate;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-privileged aspect JSONAppointment_Roo_ToString {
+privileged aspect EventAssignedTemplate_Roo_ToString {
     
-    public String JSONAppointment.toString() {
+    public String EventAssignedTemplate.toString() {
         return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
     

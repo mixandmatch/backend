@@ -3,6 +3,7 @@
 
 package de.metafinanz.mam.backend.repository.json;
 
+import de.metafinanz.mam.backend.repository.json.MailTemplate;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 

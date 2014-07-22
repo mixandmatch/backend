@@ -3,6 +3,7 @@
 
 package de.metafinanz.mam.backend.repository.json;
 
+import de.metafinanz.mam.backend.repository.json.MailTemplate;
 
 privileged aspect MailTemplate_Roo_JavaBean {
     

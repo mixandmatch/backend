@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Random;
 import java.util.Set;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -114,6 +115,28 @@ public class SampleDataGenerator implements ApplicationListener<ContextRefreshed
 		
 		anAppointment.persist();
 
+		// Add one sample appointment with the last user and location for a scheduler test
+		anAppointment = new Appointment();
+
+		cal = Calendar.getInstance();
+		cal = DateUtils.truncate(cal, Calendar.MINUTE);
+		int unroundedMinutes = cal.get(Calendar.MINUTE);
+		int mod = unroundedMinutes / 5;
+		cal.set(Calendar.MINUTE, (mod+1)*5);
+		cal.add(Calendar.MINUTE,  15);
+		
+		date = cal.getTime();
+		anAppointment.setAppointmentDate(date);
+
+		anAppointment.setCanteen(aCanteen);
+		
+		participants = anAppointment.getParticipants();
+		participants.add(User.findUser(1L));
+		participants.add(User.findUser(2L));
+		anAppointment.setParticipants(participants);
+		
+		anAppointment.persist();
+		
 	}
 
 }

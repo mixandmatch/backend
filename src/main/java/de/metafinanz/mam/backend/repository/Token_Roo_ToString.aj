@@ -3,6 +3,7 @@
 
 package de.metafinanz.mam.backend.repository;
 
+import de.metafinanz.mam.backend.repository.Token;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 

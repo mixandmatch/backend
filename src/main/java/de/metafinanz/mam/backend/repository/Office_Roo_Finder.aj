@@ -3,6 +3,7 @@
 
 package de.metafinanz.mam.backend.repository;
 
+import de.metafinanz.mam.backend.repository.Office;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 

@@ -3,6 +3,7 @@
 
 package de.metafinanz.mam.backend.repository;
 
+import de.metafinanz.mam.backend.repository.Location;
 import javax.persistence.Column;
 import javax.persistence.Version;
 

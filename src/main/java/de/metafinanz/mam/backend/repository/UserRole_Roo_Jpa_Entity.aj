@@ -3,6 +3,7 @@
 
 package de.metafinanz.mam.backend.repository;
 
+import de.metafinanz.mam.backend.repository.UserRole;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

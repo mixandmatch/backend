@@ -3,6 +3,7 @@
 
 package de.metafinanz.mam.backend.repository;
 
+import de.metafinanz.mam.backend.repository.Office;
 import javax.persistence.Entity;
 
 privileged aspect Office_Roo_Jpa_Entity {

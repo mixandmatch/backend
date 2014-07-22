@@ -3,6 +3,7 @@
 
 package de.metafinanz.mam.backend.repository;
 
+import de.metafinanz.mam.backend.repository.Location;
 
 privileged aspect Location_Roo_JavaBean {
     

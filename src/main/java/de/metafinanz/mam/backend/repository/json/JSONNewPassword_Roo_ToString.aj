@@ -3,6 +3,7 @@
 
 package de.metafinanz.mam.backend.repository.json;
 
+import de.metafinanz.mam.backend.repository.json.JSONNewPassword;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 

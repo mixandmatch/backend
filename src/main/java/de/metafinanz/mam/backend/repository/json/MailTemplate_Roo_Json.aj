@@ -3,11 +3,12 @@
 
 package de.metafinanz.mam.backend.repository.json;
 
-import java.util.Collection;
-import java.util.List;
-
+import de.metafinanz.mam.backend.repository.json.MailTemplate;
 import flexjson.JSONDeserializer;
 import flexjson.JSONSerializer;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 privileged aspect MailTemplate_Roo_Json {
     

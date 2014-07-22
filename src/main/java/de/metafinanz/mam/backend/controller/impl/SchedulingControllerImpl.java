@@ -21,7 +21,7 @@ public class SchedulingControllerImpl implements ScheduleingController {
 	static Logger logger = LoggerFactory.getLogger(SchedulingControllerImpl.class);
 
 	@Override
-	@Scheduled(cron="*/5 9-14 * * * MON-FRI")
+	@Scheduled(cron="0 */5 7-20 * * MON-FRI")
 	public void runManageAppointments() {
 		logger.info("Starting scheduled job runManageAppointments() at {}", new Date());
 		AppointmentsController appController = new AppointmentsControllerImpl();
@@ -30,6 +30,7 @@ public class SchedulingControllerImpl implements ScheduleingController {
 		cal.set(Calendar.SECOND, 0);
 		cal.add(Calendar.MINUTE, 15);
 		List<Appointment> result = Appointment.findAppointmentsByAppointmentDate(cal.getTime()).getResultList();
+		logger.info("Found {} event(s). Preparing assignment.", result.size());
 		for (Appointment app : result) {
 			logger.info("preparing appointment: {}", app.toString());
 			appController.assignGroupToParticipant(app.getAppointmentID());

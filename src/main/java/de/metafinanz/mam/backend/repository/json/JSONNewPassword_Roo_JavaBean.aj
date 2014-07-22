@@ -3,6 +3,7 @@
 
 package de.metafinanz.mam.backend.repository.json;
 
+import de.metafinanz.mam.backend.repository.json.JSONNewPassword;
 
 privileged aspect JSONNewPassword_Roo_JavaBean {
     

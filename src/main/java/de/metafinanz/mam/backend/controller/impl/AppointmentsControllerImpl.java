@@ -1,5 +1,6 @@
 package de.metafinanz.mam.backend.controller.impl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -13,7 +14,9 @@ import de.metafinanz.mam.backend.controller.AppointmentsController;
 import de.metafinanz.mam.backend.repository.Appointment;
 import de.metafinanz.mam.backend.repository.Canteen;
 import de.metafinanz.mam.backend.repository.User;
+import de.metafinanz.mam.backend.repository.json.EventAssignedTemplate;
 import de.metafinanz.mam.backend.repository.json.JSONAppointment;
+import de.metafinanz.mam.backend.repository.util.ACS;
 import de.metafinanz.mam.backend.repository.util.Scrambler;
 
 public class AppointmentsControllerImpl implements AppointmentsController {
@@ -186,11 +189,18 @@ public class AppointmentsControllerImpl implements AppointmentsController {
 		
 		for (Appointment ap : result) {
 			ap.persist();
+			sendNotificationAboutAssignment(ap);
 		}
-		// called from service?
-		// persist here? 
-		// send notifications here?
 		return result;
+	}
+
+	private void sendNotificationAboutAssignment(Appointment ap) {
+		EventAssignedTemplate template = new EventAssignedTemplate(ap);
+		try {
+			ACS.getInstance().sendMail(template);
+		} catch (IOException e) {
+			logger.error("Failed to send email to participants of event: {}", ap.toString(), e);
+		}
 	}
 
 }

@@ -3,6 +3,7 @@
 
 package de.metafinanz.mam.backend.repository.json;
 
+import de.metafinanz.mam.backend.repository.json.JSONAppointment;
 import java.util.Date;
 
 privileged aspect JSONAppointment_Roo_JavaBean {

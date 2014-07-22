@@ -3,11 +3,10 @@
 
 package de.metafinanz.mam.backend.repository;
 
+import de.metafinanz.mam.backend.repository.User;
 import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 import org.springframework.transaction.annotation.Transactional;
 
 privileged aspect User_Roo_Jpa_ActiveRecord {
