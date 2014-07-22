@@ -107,9 +107,10 @@ public class Appointment {
 		// Appointment.class);
 		TypedQuery<Appointment> q = em
 				.createQuery(
-						"SELECT DISTINCT o FROM Appointment o JOIN o.participants p where p.id = :aParticipant AND o.rootAppointment IS NULL",
+						"SELECT DISTINCT o FROM Appointment o JOIN o.participants p where p.id = :aParticipant AND o.appointmentDate > :startDate AND o.rootAppointment IS NULL",
 						Appointment.class);
 		q.setParameter("aParticipant", aParticipant.getId());
+		q.setParameter("startDate", new Date());
 		System.out.println(q.toString());
 		return q;
 

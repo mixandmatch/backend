@@ -3,6 +3,7 @@
 
 package de.metafinanz.mam.backend.repository;
 
+import de.metafinanz.mam.backend.repository.Appointment;
 import org.springframework.beans.factory.annotation.Configurable;
 
 privileged aspect Appointment_Roo_Configurable {

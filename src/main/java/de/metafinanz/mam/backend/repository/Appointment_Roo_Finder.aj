@@ -3,8 +3,9 @@
 
 package de.metafinanz.mam.backend.repository;
 
+import de.metafinanz.mam.backend.repository.Appointment;
+import de.metafinanz.mam.backend.repository.Canteen;
 import java.util.Date;
-
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
