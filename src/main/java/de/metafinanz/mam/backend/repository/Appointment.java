@@ -18,6 +18,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 import javax.validation.constraints.NotNull;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.roo.addon.equals.RooEquals;
 import org.springframework.roo.addon.javabean.RooJavaBean;
@@ -46,7 +47,10 @@ import de.metafinanz.mam.backend.repository.json.JSONAppointment;
 @RooEquals
 @RooJson(deepSerialize = true)
 @RooJpaActiveRecord(entityName = "Appointment", 
-		finders = { "findAppointmentsByCanteen", "findAppointmentsByAppointmentDateGreaterThan", "findAppointmentsByAppointmentDate" })
+		finders = { "findAppointmentsByCanteen", 
+					"findAppointmentsByAppointmentDateGreaterThan", 
+					"findAppointmentsByAppointmentDate", 
+					"findAppointmentsByScrambledAndAppointmentDateBetween" })
 public class Appointment {
 
 	/**
@@ -70,6 +74,9 @@ public class Appointment {
      */	
 	@ManyToOne
 	private Appointment rootAppointment; 
+	
+	@JsonIgnore
+	private Boolean scrambled = false;
 
 	/**
      */

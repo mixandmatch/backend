@@ -46,6 +46,11 @@ privileged aspect AppointmentDataOnDemand_Roo_DataOnDemand {
         obj.setRootAppointment(rootAppointment);
     }
     
+    public void AppointmentDataOnDemand.setScrambled(Appointment obj, int index) {
+        Boolean scrambled = false;
+        obj.setScrambled(scrambled);
+    }
+    
     public Appointment AppointmentDataOnDemand.getSpecificAppointment(int index) {
         init();
         if (index < 0) {

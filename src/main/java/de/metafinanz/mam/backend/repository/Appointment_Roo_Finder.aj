@@ -35,6 +35,18 @@ privileged aspect Appointment_Roo_Finder {
         return ((Long) q.getSingleResult());
     }
     
+    public static Long Appointment.countFindAppointmentsByScrambledAndAppointmentDateBetween(Boolean scrambled, Date minAppointmentDate, Date maxAppointmentDate) {
+        if (scrambled == null) throw new IllegalArgumentException("The scrambled argument is required");
+        if (minAppointmentDate == null) throw new IllegalArgumentException("The minAppointmentDate argument is required");
+        if (maxAppointmentDate == null) throw new IllegalArgumentException("The maxAppointmentDate argument is required");
+        EntityManager em = Appointment.entityManager();
+        TypedQuery q = em.createQuery("SELECT COUNT(o) FROM Appointment AS o WHERE o.scrambled = :scrambled AND o.appointmentDate BETWEEN :minAppointmentDate AND :maxAppointmentDate", Long.class);
+        q.setParameter("scrambled", scrambled);
+        q.setParameter("minAppointmentDate", minAppointmentDate);
+        q.setParameter("maxAppointmentDate", maxAppointmentDate);
+        return ((Long) q.getSingleResult());
+    }
+    
     public static TypedQuery<Appointment> Appointment.findAppointmentsByAppointmentDate(Date appointmentDate) {
         if (appointmentDate == null) throw new IllegalArgumentException("The appointmentDate argument is required");
         EntityManager em = Appointment.entityManager();
@@ -93,6 +105,37 @@ privileged aspect Appointment_Roo_Finder {
         }
         TypedQuery<Appointment> q = em.createQuery(jpaQuery, Appointment.class);
         q.setParameter("canteen", canteen);
+        return q;
+    }
+    
+    public static TypedQuery<Appointment> Appointment.findAppointmentsByScrambledAndAppointmentDateBetween(Boolean scrambled, Date minAppointmentDate, Date maxAppointmentDate) {
+        if (scrambled == null) throw new IllegalArgumentException("The scrambled argument is required");
+        if (minAppointmentDate == null) throw new IllegalArgumentException("The minAppointmentDate argument is required");
+        if (maxAppointmentDate == null) throw new IllegalArgumentException("The maxAppointmentDate argument is required");
+        EntityManager em = Appointment.entityManager();
+        TypedQuery<Appointment> q = em.createQuery("SELECT o FROM Appointment AS o WHERE o.scrambled = :scrambled AND o.appointmentDate BETWEEN :minAppointmentDate AND :maxAppointmentDate", Appointment.class);
+        q.setParameter("scrambled", scrambled);
+        q.setParameter("minAppointmentDate", minAppointmentDate);
+        q.setParameter("maxAppointmentDate", maxAppointmentDate);
+        return q;
+    }
+    
+    public static TypedQuery<Appointment> Appointment.findAppointmentsByScrambledAndAppointmentDateBetween(Boolean scrambled, Date minAppointmentDate, Date maxAppointmentDate, String sortFieldName, String sortOrder) {
+        if (scrambled == null) throw new IllegalArgumentException("The scrambled argument is required");
+        if (minAppointmentDate == null) throw new IllegalArgumentException("The minAppointmentDate argument is required");
+        if (maxAppointmentDate == null) throw new IllegalArgumentException("The maxAppointmentDate argument is required");
+        EntityManager em = Appointment.entityManager();
+        String jpaQuery = "SELECT o FROM Appointment AS o WHERE o.scrambled = :scrambled AND o.appointmentDate BETWEEN :minAppointmentDate AND :maxAppointmentDate";
+        if (fieldNames4OrderClauseFilter.contains(sortFieldName)) {
+            jpaQuery = jpaQuery + " ORDER BY " + sortFieldName;
+            if ("ASC".equalsIgnoreCase(sortOrder) || "DESC".equalsIgnoreCase(sortOrder)) {
+                jpaQuery = jpaQuery + " " + sortOrder;
+            }
+        }
+        TypedQuery<Appointment> q = em.createQuery(jpaQuery, Appointment.class);
+        q.setParameter("scrambled", scrambled);
+        q.setParameter("minAppointmentDate", minAppointmentDate);
+        q.setParameter("maxAppointmentDate", maxAppointmentDate);
         return q;
     }
     

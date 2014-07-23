@@ -17,11 +17,11 @@ privileged aspect EventAssignedTemplate_Roo_Equals {
             return true;
         }
         EventAssignedTemplate rhs = (EventAssignedTemplate) obj;
-        return new EqualsBuilder().append(action, rhs.action).append(address, rhs.address).append(canteenName, rhs.canteenName).append(city, rhs.city).append(countParticipants, rhs.countParticipants).append(crontroller, rhs.crontroller).append(eventDate, rhs.eventDate).append(format, rhs.format).append(key, rhs.key).append(postalCode, rhs.postalCode).append(recipients, rhs.recipients).append(template, rhs.template).append(version, rhs.version).isEquals();
+        return new EqualsBuilder().append(action, rhs.action).append(address, rhs.address).append(canteenName, rhs.canteenName).append(city, rhs.city).append(countParticipants, rhs.countParticipants).append(crontroller, rhs.crontroller).append(eventDate, rhs.eventDate).append(eventDateObject, rhs.eventDateObject).append(format, rhs.format).append(key, rhs.key).append(postalCode, rhs.postalCode).append(recipients, rhs.recipients).append(template, rhs.template).append(version, rhs.version).isEquals();
     }
     
     public int EventAssignedTemplate.hashCode() {
-        return new HashCodeBuilder().append(action).append(address).append(canteenName).append(city).append(countParticipants).append(crontroller).append(eventDate).append(format).append(key).append(postalCode).append(recipients).append(template).append(version).toHashCode();
+        return new HashCodeBuilder().append(action).append(address).append(canteenName).append(city).append(countParticipants).append(crontroller).append(eventDate).append(eventDateObject).append(format).append(key).append(postalCode).append(recipients).append(template).append(version).toHashCode();
     }
     
 }

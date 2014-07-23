@@ -186,9 +186,11 @@ public class AppointmentsControllerImpl implements AppointmentsController {
 		Appointment anAppointment = Appointment.findAppointment(appointmentID);
 		logger.debug("Appointment from db: {}", anAppointment);
 		List<Appointment> result = Scrambler.scrambleUsersOfAppointment(anAppointment);
+		anAppointment.setScrambled(true);
+		anAppointment.merge();
 		
 		for (Appointment ap : result) {
-			ap.persist();
+			ap.merge();
 			sendNotificationAboutAssignment(ap);
 		}
 		return result;

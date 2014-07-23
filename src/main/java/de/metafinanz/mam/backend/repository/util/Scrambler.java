@@ -56,6 +56,7 @@ public class Scrambler {
 				newAppointment =  new Appointment();
 				newAppointment.setAppointmentDate(sourceAppointment.getAppointmentDate());
 				newAppointment.setCanteen(sourceAppointment.getCanteen());
+				newAppointment.setRootAppointment(sourceAppointment);
 			}
 			
 			newAppointment.getParticipants().add(participant);

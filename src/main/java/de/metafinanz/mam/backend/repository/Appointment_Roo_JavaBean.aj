@@ -35,6 +35,14 @@ privileged aspect Appointment_Roo_JavaBean {
         this.rootAppointment = rootAppointment;
     }
     
+    public Boolean Appointment.getScrambled() {
+        return this.scrambled;
+    }
+    
+    public void Appointment.setScrambled(Boolean scrambled) {
+        this.scrambled = scrambled;
+    }
+    
     public Canteen Appointment.getCanteen() {
         return this.canteen;
     }

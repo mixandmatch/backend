@@ -8,11 +8,19 @@ import java.util.Date;
 
 privileged aspect EventAssignedTemplate_Roo_JavaBean {
     
-    public Date EventAssignedTemplate.getEventDate() {
+    public Date EventAssignedTemplate.getEventDateObject() {
+        return this.eventDateObject;
+    }
+    
+    public void EventAssignedTemplate.setEventDateObject(Date eventDateObject) {
+        this.eventDateObject = eventDateObject;
+    }
+    
+    public String EventAssignedTemplate.getEventDate() {
         return this.eventDate;
     }
     
-    public void EventAssignedTemplate.setEventDate(Date eventDate) {
+    public void EventAssignedTemplate.setEventDate(String eventDate) {
         this.eventDate = eventDate;
     }
     
